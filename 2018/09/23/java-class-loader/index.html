@@ -122,10 +122,9 @@
         <time datetime="2018-09-22T16:00:00.000Z">2018-09-23</time>
     </p>
     <div class="post-content">
-        <!-- TOC -->
-<ul>
+        <ul>
 <li><a href="#类加载器详解">类加载器详解</a><ul>
-<li><a href="#一类加载器5大部分">一、类加载器5大部分</a><ul>
+<li><a href="#一、类加载器5大部分">一、类加载器5大部分</a><ul>
 <li><a href="#加载">加载</a></li>
 <li><a href="#验证">验证</a></li>
 <li><a href="#准备">准备</a></li>
@@ -133,14 +132,11 @@
 <li><a href="#初始化">初始化</a></li>
 </ul>
 </li>
-<li><a href="#二类加载器">二、类加载器</a></li>
-<li><a href="#三自定义类加载器">三、自定义类加载器</a></li>
+<li><a href="#二、类加载器">二、类加载器</a></li>
+<li><a href="#三、自定义类加载器">三、自定义类加载器</a><h1 id="类加载器详解"><a href="#类加载器详解" class="headerlink" title="类加载器详解"></a>类加载器详解</h1><h2 id="一、类加载器5大部分"><a href="#一、类加载器5大部分" class="headerlink" title="一、类加载器5大部分"></a>一、类加载器5大部分</h2>JVM类加载机制分为五个部分：加载，验证，准备，解析，初始化，下面我们就分别来看一下这五个过程。<br><img src="/2018/09/23/java-class-loader/./pic1.png" alt="加载机制" title="JVM类加载机制">  <h3 id="加载"><a href="#加载" class="headerlink" title="加载"></a>加载</h3>加载是类加载过程中的一个阶段，这个阶段会在内存中生成一个代表这个类的<code>java.lang.Class</code>对象，作为方法区这个类的各种数据的入口。注意这里不一定非得要从一个Class文件获取，这里既可以从ZIP包中读取（比如从jar包和war包中读取），也可以在运行时计算生成（动态代理），也可以由其它文件生成（比如将JSP文件转换成对应的Class类）。</li>
 </ul>
 </li>
 </ul>
-<!-- /TOC -->
-<h1 id="类加载器详解"><a href="#类加载器详解" class="headerlink" title="类加载器详解"></a>类加载器详解</h1><h2 id="一、类加载器5大部分"><a href="#一、类加载器5大部分" class="headerlink" title="一、类加载器5大部分"></a>一、类加载器5大部分</h2><p>JVM类加载机制分为五个部分：加载，验证，准备，解析，初始化，下面我们就分别来看一下这五个过程。<br><img src="/2018/09/23/java-class-loader/./pic1.png" alt="加载机制" title="JVM类加载机制">  </p>
-<h3 id="加载"><a href="#加载" class="headerlink" title="加载"></a>加载</h3><p>加载是类加载过程中的一个阶段，这个阶段会在内存中生成一个代表这个类的<code>java.lang.Class</code>对象，作为方法区这个类的各种数据的入口。注意这里不一定非得要从一个Class文件获取，这里既可以从ZIP包中读取（比如从jar包和war包中读取），也可以在运行时计算生成（动态代理），也可以由其它文件生成（比如将JSP文件转换成对应的Class类）。</p>
 <h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><p>这一阶段的主要目的是为了确保Class文件的字节流中包含的信息是否符合当前虚拟机的要求，并且不会危害虚拟机自身的安全。</p>
 <h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><p>准备阶段是正式为类变量分配内存并设置类变量的初始值阶段，即在方法区中分配这些变量所使用的内存空间。注意这里所说的初始值概念，比如一个类变量定义为：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> v = <span class="number">8080</span>;</span><br></pre></td></tr></table></figure></p>
 <p>实际上变量v在准备阶段过后的初始值为0而不是8080，将v赋值为8080的putstatic指令是程序被编译后，存放于类构造器<code>&lt;clinit&gt;</code>方法之中，这里我们后面会解释。<br>但是注意如果声明为：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> v = <span class="number">8080</span>;</span><br></pre></td></tr></table></figure></p>

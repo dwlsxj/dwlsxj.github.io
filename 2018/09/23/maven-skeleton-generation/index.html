@@ -118,11 +118,22 @@
         <h3 class="post-title"><span>一文搭建Maven骨架</span></h3>
     </header>
     <p class="post-meta text-center">
-        Jelon 发表于
+        BattleHeart 发表于
         <time datetime="2018-09-22T16:00:00.000Z">2018-09-23</time>
     </p>
     <div class="post-content">
-        <h1 id="Maven骨架介绍"><a href="#Maven骨架介绍" class="headerlink" title="Maven骨架介绍"></a>Maven骨架介绍</h1><h2 id="Maven-archetype"><a href="#Maven-archetype" class="headerlink" title="Maven archetype"></a>Maven archetype</h2><p>Archetype是一个Maven项目模板工具包，通过Archetype我们可以快速搭建Maven项目，通俗理解就是项目的基础架构，项目初始化的过程。我们在使用Idea开发工具的时候会有如下图操作：<br><img src="/2018/09/23/maven-skeleton-generation/./pic.png" alt="IDEA" title="IDEA"><br>在这里选择的Maven进行生成的项目都是利用Maven骨架来进行生成的，通过选择骨架生成项目结构的方式方便了我们手动去搭建相关项目内容。可以直接通过自带骨架或自己构建的骨架进行项目的快速搭建，节约成本。<br>我们构建一个完整的骨架整体的操作逻辑如下图所示：<br><img src="/2018/09/23/maven-skeleton-generation/./pic1.png" alt="Maven archetype" title="Maven archetype"><br>接下来将详细剖析每一步内容。  </p>
+        <ul>
+<li><a href="#Maven骨架介绍">Maven骨架介绍</a><ul>
+<li><a href="#Maven-archetype">Maven archetype</a></li>
+</ul>
+</li>
+<li><a href="#maven骨架创建过程">Maven骨架创建过程</a><ul>
+<li><a href="#使用archetype创建项目">使用archetype创建项目</a></li>
+</ul>
+</li>
+<li><a href="#使用本地Maven骨架">使用本地Maven骨架</a></li>
+</ul>
+<h1 id="Maven骨架介绍"><a href="#Maven骨架介绍" class="headerlink" title="Maven骨架介绍"></a>Maven骨架介绍</h1><h2 id="Maven-archetype"><a href="#Maven-archetype" class="headerlink" title="Maven archetype"></a>Maven archetype</h2><p>Archetype是一个Maven项目模板工具包，通过Archetype我们可以快速搭建Maven项目，通俗理解就是项目的基础架构，项目初始化的过程。我们在使用Idea开发工具的时候会有如下图操作：<br><img src="/2018/09/23/maven-skeleton-generation/./pic.png" alt="IDEA" title="IDEA"><br>在这里选择的Maven进行生成的项目都是利用Maven骨架来进行生成的，通过选择骨架生成项目结构的方式方便了我们手动去搭建相关项目内容。可以直接通过自带骨架或自己构建的骨架进行项目的快速搭建，节约成本。<br>我们构建一个完整的骨架整体的操作逻辑如下图所示：<br><img src="/2018/09/23/maven-skeleton-generation/./pic1.png" alt="Maven archetype" title="Maven archetype"><br>接下来将详细剖析每一步内容。  </p>
 <h1 id="Maven骨架创建过程"><a href="#Maven骨架创建过程" class="headerlink" title="Maven骨架创建过程"></a>Maven骨架创建过程</h1><h2 id="使用archetype创建项目"><a href="#使用archetype创建项目" class="headerlink" title="使用archetype创建项目"></a>使用archetype创建项目</h2><ol>
 <li>第一步建立Maven的项目，其实就是我们想要生成骨架的项目结构。  </li>
 <li><p>在pom.xml中添加插件maven-archetype-plugin。  </p>

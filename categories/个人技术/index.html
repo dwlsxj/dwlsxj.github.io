@@ -131,7 +131,166 @@
         <!-- 文章标题 -->
         
     <h3 class="post-title">
-    	<a href="https://www.battleheart.cn/2018/09/26/spring-cloud-tutorial-eureka/">
+    	<a href="http://localhost:4000/2018/09/27/quick-start-spring-cloud-config/">
+    		配置管理中心Spring Cloud Config快速入门
+    	</a>
+    </h3>
+
+    </header>
+    <p class="post-meta">
+        BattleHeart 发表于
+        <time datetime="2018-09-27T14:57:02.000Z">2018-09-27</time>
+        &nbsp;&nbsp;
+        <span class="post-tags">
+            标签：
+            
+    
+        <a href="/tags/SpringCloud/" title="SpringCloud">SpringCloud</a>
+    
+
+        </span>
+    </p>
+
+    <div class="post-content">
+        <div class="post-excerpt">
+            
+                Spring Cloud Ribbon是一个基于HTTP和TCP的客户端负载均衡工具，它是基于Netflix的Ribbon的实现。通过Spring Cloud的封装可以轻松的将面向服务的Rest模板请求自动转化成客户端负载均衡的服务调用。它是一个工具类框架，不能像服务注册中心、配置中心、API网关单独部署，但是可以存在每一个Spring Cloud构建的微服务和基础设施中。负载均衡模块都会维护一个可用的服务列表，通过心跳检测来剔除故障的服务端节点以保证清单中都是可以正常访问的服务端节点。客户端负载均衡和服务端负载均衡唯一的区别是客户端负载均衡中，所有客户端负载均衡都会自己维护服务清单，而这些服务清单是由服务注册中心获取得到。
+            
+            <p class="more">
+                <a href="http://localhost:4000/2018/09/27/quick-start-spring-cloud-config/">阅读剩下更多</a>
+            </p>
+        </div>
+        <div class="post-thumbnail" data-img="">
+            <a href="http://localhost:4000/2018/09/27/quick-start-spring-cloud-config/" title="配置管理中心Spring Cloud Config快速入门">
+                
+                    <!--
+                    <img src="/2018/09/27/quick-start-spring-cloud-config/pic1.jpeg" class="thumbnail">
+                    -->
+                    <img class="thumbnail" src="/img/default.png" data-echo="/2018/09/27/quick-start-spring-cloud-config/pic1.jpeg" alt="配置管理中心Spring Cloud Config快速入门" >
+                
+            </a>
+        </div>
+    </div>
+</article>
+
+    
+        <!-- 文章 -->
+<article class="post">
+    <header>
+        <!-- 标签这有且只能显示一个 -->
+        
+        <a class="cat-link" href="/categories/个人技术/">个人技术</a>
+        
+        <!-- 文章标题 -->
+        
+    <h3 class="post-title">
+    	<a href="http://localhost:4000/2018/09/27/quick-start-spring-cloud-hystrix/">
+    		服务容错保护Spring Cloud Hystrix之快速入门
+    	</a>
+    </h3>
+
+    </header>
+    <p class="post-meta">
+        BattleHeart 发表于
+        <time datetime="2018-09-27T14:15:34.000Z">2018-09-27</time>
+        &nbsp;&nbsp;
+        <span class="post-tags">
+            标签：
+            
+    
+        <a href="/tags/SpringCloud/" title="SpringCloud">SpringCloud</a>
+    
+
+        </span>
+    </p>
+
+    <div class="post-content">
+        <div class="post-excerpt">
+            
+                Spring Cloud Hystrix实现了断路器、线程隔离等一系列服务保护功能。它是基于Netflix的开源框架Hystrix实现，该框架的目标在于通过控制那些访问远程系统，服务和第三方库的节点，从而对延迟和故障提供更强大的容错能力。Hystrix具备服务降级，服务熔断、线程和信号隔离、请求缓存、请求合并以及服务监控等功能。场景描述：如果我们在微服务中进行通信时，发现其中微服务宕机了，这时候另外一个服务调用了宕机的服务，如果在没有断路器机制的前提下访问，这时候会一直等待，一直等待到服务达到超时的点，会使得线程因调用故障服务被长时间占用不能释放，通过断路器的故障监控，如果发现故障时，会向调用者返回一个错误相应，这样就不用长时间等待。
+            
+            <p class="more">
+                <a href="http://localhost:4000/2018/09/27/quick-start-spring-cloud-hystrix/">阅读剩下更多</a>
+            </p>
+        </div>
+        <div class="post-thumbnail" data-img="">
+            <a href="http://localhost:4000/2018/09/27/quick-start-spring-cloud-hystrix/" title="服务容错保护Spring Cloud Hystrix之快速入门">
+                
+                    <!--
+                    <img src="/2018/09/27/quick-start-spring-cloud-hystrix/pic1.jpeg" class="thumbnail">
+                    -->
+                    <img class="thumbnail" src="/img/default.png" data-echo="/2018/09/27/quick-start-spring-cloud-hystrix/pic1.jpeg" alt="服务容错保护Spring Cloud Hystrix之快速入门" >
+                
+            </a>
+        </div>
+    </div>
+</article>
+
+    
+        <!-- 文章 -->
+<article class="post">
+    <header>
+        <!-- 标签这有且只能显示一个 -->
+        
+        <a class="cat-link" href="/categories/个人技术/">个人技术</a>
+        
+        <!-- 文章标题 -->
+        
+    <h3 class="post-title">
+    	<a href="http://localhost:4000/2018/09/27/quick-start-spring-cloud-ribbon/">
+    		客户端负载均衡Spring Cloud Ribbon之快速入门
+    	</a>
+    </h3>
+
+    </header>
+    <p class="post-meta">
+        BattleHeart 发表于
+        <time datetime="2018-09-27T11:15:34.000Z">2018-09-27</time>
+        &nbsp;&nbsp;
+        <span class="post-tags">
+            标签：
+            
+    
+        <a href="/tags/SpringCloud/" title="SpringCloud">SpringCloud</a>
+    
+
+        </span>
+    </p>
+
+    <div class="post-content">
+        <div class="post-excerpt">
+            
+                Spring Cloud Ribbon是一个基于HTTP和TCP的客户端负载均衡工具，它是基于Netflix的Ribbon的实现。通过Spring Cloud的封装可以轻松的将面向服务的Rest模板请求自动转化成客户端负载均衡的服务调用。它是一个工具类框架，不能像服务注册中心、配置中心、API网关单独部署，但是可以存在每一个Spring Cloud构建的微服务和基础设施中。负载均衡模块都会维护一个可用的服务列表，通过心跳检测来剔除故障的服务端节点以保证清单中都是可以正常访问的服务端节点。客户端负载均衡和服务端负载均衡唯一的区别是客户端负载均衡中，所有客户端负载均衡都会自己维护服务清单，而这些服务清单是由服务注册中心获取得到。
+            
+            <p class="more">
+                <a href="http://localhost:4000/2018/09/27/quick-start-spring-cloud-ribbon/">阅读剩下更多</a>
+            </p>
+        </div>
+        <div class="post-thumbnail" data-img="">
+            <a href="http://localhost:4000/2018/09/27/quick-start-spring-cloud-ribbon/" title="客户端负载均衡Spring Cloud Ribbon之快速入门">
+                
+                    <!--
+                    <img src="/2018/09/27/quick-start-spring-cloud-ribbon/pic1.jpeg" class="thumbnail">
+                    -->
+                    <img class="thumbnail" src="/img/default.png" data-echo="/2018/09/27/quick-start-spring-cloud-ribbon/pic1.jpeg" alt="客户端负载均衡Spring Cloud Ribbon之快速入门" >
+                
+            </a>
+        </div>
+    </div>
+</article>
+
+    
+        <!-- 文章 -->
+<article class="post">
+    <header>
+        <!-- 标签这有且只能显示一个 -->
+        
+        <a class="cat-link" href="/categories/个人技术/">个人技术</a>
+        
+        <!-- 文章标题 -->
+        
+    <h3 class="post-title">
+    	<a href="http://localhost:4000/2018/09/26/spring-cloud-tutorial-eureka/">
     		服务治理-Spring Cloud Eureka
     	</a>
     </h3>
@@ -157,11 +316,11 @@
                 Eureka是Spring Cloud Netflix的微服务套件的一部分，它是基于Netflix Eureka的二次开发，主要负责完成微服务架构中的服务治理功能。而且可以与Spring boot很容易的整合进行开发，使得开发变得简单，Eureka包含了服务器端和客户端组件。服务器端，也被称作是服务注册中心，用于提供服务的注册与发现。Eureka支持高可用的配置，当集群中有分片出现故障时，Eureka就会转入自动保护模式，它允许分片故障期间继续提供服务的发现和注册，当故障分片恢复正常时，集群中其他分片会把他们的状态再次同步回来。客户端，也被称为服务消费者与服务的生产者，服务启动时向服务注册中心（服务端）进行注册自己，并通过定时心跳检测的方式告诉服务端存活状态，更新服务续约，同时也可以将服务端的服务列表缓存到本地并周期性刷新服务列表的状态。
             
             <p class="more">
-                <a href="https://www.battleheart.cn/2018/09/26/spring-cloud-tutorial-eureka/">阅读剩下更多</a>
+                <a href="http://localhost:4000/2018/09/26/spring-cloud-tutorial-eureka/">阅读剩下更多</a>
             </p>
         </div>
         <div class="post-thumbnail" data-img="">
-            <a href="https://www.battleheart.cn/2018/09/26/spring-cloud-tutorial-eureka/" title="服务治理-Spring Cloud Eureka">
+            <a href="http://localhost:4000/2018/09/26/spring-cloud-tutorial-eureka/" title="服务治理-Spring Cloud Eureka">
                 
                     <!--
                     <img src="/2018/09/26/spring-cloud-tutorial-eureka/fengmian.jpeg" class="thumbnail">
@@ -184,7 +343,7 @@
         <!-- 文章标题 -->
         
     <h3 class="post-title">
-    	<a href="https://www.battleheart.cn/2018/09/23/maven-skeleton-generation/">
+    	<a href="http://localhost:4000/2018/09/23/maven-skeleton-generation/">
     		一文搭建Maven骨架
     	</a>
     </h3>
@@ -210,11 +369,11 @@
                 Archetype是一个Maven项目模板工具包，通过Archetype我们可以快速搭建Maven项目，通俗理解就是项目的基础架构，项目初始化的过程。我们在使用Idea开发工具的时候会有如下图操作：
             
             <p class="more">
-                <a href="https://www.battleheart.cn/2018/09/23/maven-skeleton-generation/">阅读剩下更多</a>
+                <a href="http://localhost:4000/2018/09/23/maven-skeleton-generation/">阅读剩下更多</a>
             </p>
         </div>
         <div class="post-thumbnail" data-img="">
-            <a href="https://www.battleheart.cn/2018/09/23/maven-skeleton-generation/" title="一文搭建Maven骨架">
+            <a href="http://localhost:4000/2018/09/23/maven-skeleton-generation/" title="一文搭建Maven骨架">
                 
                     <!--
                     <img src="/2018/09/23/maven-skeleton-generation/pic1.png" class="thumbnail">
@@ -237,7 +396,7 @@
         <!-- 文章标题 -->
         
     <h3 class="post-title">
-    	<a href="https://www.battleheart.cn/2018/09/23/java-class-loader/">
+    	<a href="http://localhost:4000/2018/09/23/java-class-loader/">
     		Java类加载器详解
     	</a>
     </h3>
@@ -263,11 +422,11 @@
                 JVM类加载机制分为五个部分：加载，验证，准备，解析，初始化，下面我们就分别来看一下这五个过程。  加载是类加载过程中的一个阶段，这个阶段会在内存中生成一个代表这个类的`java.lang.Class`对象，作为方法区这个类的各种数据的入口。注意这里不一定非得要从一个Class文件获取，这里既可以从ZIP包中读取（比如从jar包和war包中读取），也可以在运行时计算生成（动态代理），也可以由其它文件生成（比如将JSP文件转换成对应的Class类）。
             
             <p class="more">
-                <a href="https://www.battleheart.cn/2018/09/23/java-class-loader/">阅读剩下更多</a>
+                <a href="http://localhost:4000/2018/09/23/java-class-loader/">阅读剩下更多</a>
             </p>
         </div>
         <div class="post-thumbnail" data-img="">
-            <a href="https://www.battleheart.cn/2018/09/23/java-class-loader/" title="Java类加载器详解">
+            <a href="http://localhost:4000/2018/09/23/java-class-loader/" title="Java类加载器详解">
                 
                     <!--
                     <img src="/2018/09/23/java-class-loader/pic1.png" class="thumbnail">
@@ -290,7 +449,7 @@
         <!-- 文章标题 -->
         
     <h3 class="post-title">
-    	<a href="https://www.battleheart.cn/2018/09/20/how-dynamic-agents-work/">
+    	<a href="http://localhost:4000/2018/09/20/how-dynamic-agents-work/">
     		动态代理的工作原理简要分析
     	</a>
     </h3>
@@ -316,11 +475,11 @@
                 比如说我们去租房子，需要通过中介代理来进行看房子，由于代理的手中有大量资源，有大部分房源都在代理手中掌握，所以不需要我们自己去一个一个去找寻，通过这样我们无需知道房东是谁就可以租到合适的房子，这就是代理，代理模式两个优点一是可以隐藏委托类的实现，二是可以实现客户与委托类间的解耦，在不修改委托类代码的情况下能够做一些额外的处理。
             
             <p class="more">
-                <a href="https://www.battleheart.cn/2018/09/20/how-dynamic-agents-work/">阅读剩下更多</a>
+                <a href="http://localhost:4000/2018/09/20/how-dynamic-agents-work/">阅读剩下更多</a>
             </p>
         </div>
         <div class="post-thumbnail" data-img="">
-            <a href="https://www.battleheart.cn/2018/09/20/how-dynamic-agents-work/" title="动态代理的工作原理简要分析">
+            <a href="http://localhost:4000/2018/09/20/how-dynamic-agents-work/" title="动态代理的工作原理简要分析">
                 
                     <!--
                     <img src="/2018/09/20/how-dynamic-agents-work/pic1.png" class="thumbnail">
@@ -358,7 +517,7 @@
     
     <li>
         <a href="/categories/个人技术/">个人技术</a>
-        <span class="badge">(4)</span>
+        <span class="badge">(7)</span>
     </li>
     
 </ul>
@@ -374,7 +533,7 @@
   
     <a class="tag-item" href="/tags/Maven/" title="Maven">Maven (1)</a>
   
-    <a class="tag-item" href="/tags/SpringCloud/" title="SpringCloud">SpringCloud (1)</a>
+    <a class="tag-item" href="/tags/SpringCloud/" title="SpringCloud">SpringCloud (4)</a>
   
     <a class="tag-item" href="/tags/Java/" title="Java">Java (2)</a>
   

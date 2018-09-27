@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" >
+    <meta http-equiv="X-UA-Compatible" content="IE=11,IE=10,IE=9,IE=8" >
+    <meta name="baidu-site-verification" content="dIcXMeY8Ya" />
+    
+    <title>配置管理中心Spring Cloud Config快速入门 | BattleHeart</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" >
+    <meta name="keywords" content="BattleHeart, 后端, Web, Python, Spring , Spring Cloud" >
+    <meta name="description" content="BattleHeart个人小站" >
+
+    
+    <link rel="alternative" href="/atom.xml" title="BattleHeart" type="application/atom+xml" >
+    
+    
+    <link rel="shortcut icon" href="/img/favicon.ico" >
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <!--[if lt IE 9]>
+    <script src="/js/html5.js"></script>
+    <![endif]-->
+    
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?fd459238242776d173cdc64918fb32f2";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+</head>
+
+<body class="home">
+    <!--[if lt IE 9]>
+    <div class="browsehappy">
+        当前网页 <strong>不支持</strong>
+        你正在使用的浏览器. 为了正常的访问, 请 <a href="http://browsehappy.com/">升级你的浏览器</a>.
+    </div>
+    <![endif]-->
+
+    <!-- 博客头部 -->
+    <header class="header">
+    <section class="container header-main">
+        <div class="logo">
+            <a href="/">
+                <div class="cover">
+                    <span class="name">BattleHeart</span>
+                    <span class="description">个人博客</span>
+                </div>
+            </a>
+        </div>
+        <div class="dropnav icon-paragraph-justify" id="JELON__btnDropNav"></div>
+        <ul class="menu hidden" id="JELON__menu">
+            
+            <li rel="/2018/09/27/quick-start-spring-cloud-config/index.html" class="item ">
+                <a href="/" title="首页" class="icon-home">&nbsp;首页</a>
+            </li>
+            
+            <li rel="/2018/09/27/quick-start-spring-cloud-config/index.html" class="item ">
+                <a href="/lab/" title="实验室" class="icon-lab">&nbsp;实验室</a>
+            </li>
+            
+            <li rel="/2018/09/27/quick-start-spring-cloud-config/index.html" class="item ">
+                <a href="/about/" title="关于" class="icon-about">&nbsp;关于</a>
+            </li>
+            
+            <li rel="/2018/09/27/quick-start-spring-cloud-config/index.html" class="item ">
+                <a href="/comment/" title="留言" class="icon-comment">&nbsp;留言</a>
+            </li>
+            
+        </ul>
+        <div class="profile clearfix">
+            <div class="feeds fl">
+                
+                
+                <p class="links">
+                    
+                        <a href="https://github.com/dwlsxj" target="_blank">Github</a>
+                        |
+                    
+                        <a href="https://pages.coding.me" target="_blank">Hosted by Coding Pages</a>
+                        
+                    
+                </p>
+                <p class="sns">
+                    
+                    <a href="javascript: void(0);" class="wechat">
+                        <b>■</b>
+                        公众号
+                        <span class="popover">
+                            <img src="/img/wechat_mp.jpg" width="120" height="120" alt="我的微信订阅号">
+                            <i class="arrow"></i>
+                        </span>
+                    </a>
+                </p>
+                
+            </div>
+            <div class="avatar fr">
+                <img src="/img/jelon.jpg" alt="avatar" title="Jelon" >
+            </div>
+        </div>
+    </section>
+</header>
+
+
+    <!-- 博客正文 -->
+    <div class="container body clearfix">
+        <section class="content">
+            <div class="content-main widget">
+                <!-- 文章页 -->
+<!-- 文章 -->
+<article class="post article">
+    <header class="text-center">
+        <h3 class="post-title"><span>配置管理中心Spring Cloud Config快速入门</span></h3>
+    </header>
+    <p class="post-meta text-center">
+        BattleHeart 发表于
+        <time datetime="2018-09-27T14:57:02.000Z">2018-09-27</time>
+    </p>
+    <div class="post-content">
+        <h1 id="配置管理中心-Spring-Cloud-Config"><a href="#配置管理中心-Spring-Cloud-Config" class="headerlink" title="配置管理中心-Spring Cloud Config"></a>配置管理中心-Spring Cloud Config</h1><h2 id="Spring-Cloud-Config简介"><a href="#Spring-Cloud-Config简介" class="headerlink" title="Spring Cloud Config简介"></a>Spring Cloud Config简介</h2><p>Spring Cloud Config是用为分布式系统中的基础设施和服务应用提供集中化的外部配置支持，它分为服务端和客户端两个部分。服务端是一个独立的服务，用来连接配置仓库并为客户端提供获取配置信息、加密、解密信息等访问接口，客户端则是微服务架构中的各个微服务应用或基础设施，它们通过指定的配置中心来管理应用资源与业务相关配置内容，并在启动时候从配置中心获取和加载配置信息。Spring Cloud Config默认是git仓库进行存储配置信息，同时也支持其他方式进行存储，例如数据库，文件系统等。  </p>
+<h2 id="Spring-Cloud-Config使用"><a href="#Spring-Cloud-Config使用" class="headerlink" title="Spring Cloud Config使用"></a>Spring Cloud Config使用</h2><h3 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h3><ol>
+<li><p>添加依赖项<code>spring-cloud-stater-config-server</code></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;   &lt;artifactId&gt;spring-cloud-config-server&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建Spring boot的程序主类，并添加<code>@EnableConfigServer</code>注解，开启Spring Cloud Config的服务端功能。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 配置相关信息。</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line">@EnableConfigServer    # 开启Spring Cloud Config功能。</span><br><span class="line"><span class="meta">@EnableEurekaClient</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpringCloudConfigApplication</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(SpringCloudConfigApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改配置文件信息，添加配置服务的基本信息以及git仓库相关信息。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">server:</span><br><span class="line">  port: <span class="number">8080</span></span><br><span class="line">spring:</span><br><span class="line">  cloud:</span><br><span class="line">    config:</span><br><span class="line">      server:</span><br><span class="line">        git:</span><br><span class="line">          uri: https:<span class="comment">//github.com/dwlsxj/spring-cloud-test.git  # 配置仓库地址。</span></span><br><span class="line">          search-paths: git-repo # 仓库文件夹地址。</span><br><span class="line">eureka:</span><br><span class="line">  instance:</span><br><span class="line">    prefer-ip-address: <span class="keyword">true</span></span><br><span class="line">    metadata-map:</span><br><span class="line">      user.name: $&#123;security.user.name&#125;</span><br><span class="line">      user.password: $&#123;security.user.password&#125;</span><br><span class="line">  client:</span><br><span class="line">    service-url:</span><br><span class="line">    defaultZone: http:<span class="comment">//admin:$&#123;REGISTRY_SERVER_PASSWORD:password@localhost:8761/eureka/# Eureka地址。</span></span><br><span class="line"># 安全验证。</span><br><span class="line">security:</span><br><span class="line">  user:</span><br><span class="line">    name: user</span><br><span class="line">    password: $&#123;CONFIG_SERVER_PASSWORD:password&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>其中配置信息分别如下所示：<br><code>spring.cloud.config.server.git.uri</code>：git仓库的地址。<br><code>spring.cloud.config.server.search-paths</code>：对应仓库下相对所搜的位置，可以配置多个，其实就是存储配置信息的具体位置，例如如果仓库中存放了其他的内容并不是单纯存储配置信息，可通过该参数对配置信息进行搜索，定位。<br><code>spring.cloud.config.server.git.username</code>：访问git仓库的用户名。<br><code>spring.cloud.config.server.git.password</code>：访问git仓库的密码。</p>
+<ol start="4">
+<li>配置规则详解<br>我们可以通过浏览器、postman、curl等工具直接访问配置相关信息，访问配置信息的URL与配置文件的映射关系如下所示：</li>
+</ol>
+<ul>
+<li>/{application}/{profile}[/{label}]</li>
+<li>/{application}-{profile}.yml</li>
+<li>/{label}/{application}-{profile}.yml</li>
+<li>/{application}-{profile}.properties</li>
+<li>/{label}/{application}-{profile}.properties  </li>
+</ul>
+<p>访问地址：<br><img src="/2018/09/27/quick-start-spring-cloud-config/pic2.png" alt="配置信息" title="配置信息"><br>当我们通过URL访问配置信息时，我们发现控制台出现如下内容：<br><img src="/2018/09/27/quick-start-spring-cloud-config/pic3.png" alt="本地存储信息" title="本地存储信息"></p>
+<p>配置服务实际是从Git仓库获取配置信息后，会存储一份在config-server的文件系统中，实质上config-server是通过git clone命令将配置内容复制一份在本地存储，然后读取本地内容返回给客户端，通过本地仓库暂存，可以有效的放置当git仓库出现故障而引起的无法加载的问题。  </p>
+<h2 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h2><ol>
+<li><p>添加依赖项<code>spring-cloud-starter-config</code></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;   &lt;artifactId&gt;spring-cloud-starter-config&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>对配置文件进行添加配置中心服务地址，以及安全访问的用户名密码等信息。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  application:</span><br><span class="line">    name: springclouduser</span><br><span class="line">  cloud:</span><br><span class="line">    config:</span><br><span class="line">        uri: http:<span class="comment">//localhost:8080</span></span><br><span class="line">        fail-fast: <span class="keyword">true</span></span><br><span class="line">        username: user</span><br><span class="line">        password: $&#123;CONFIG_SERVER_PASSWORD:password&#125;</span><br><span class="line">        profile: dev</span><br><span class="line">        label: master</span><br><span class="line">        retry:	  # 重试机制。</span><br><span class="line">            initial-interval: <span class="number">2000</span></span><br><span class="line">            max-interval: <span class="number">10000</span></span><br><span class="line">            multiplier: <span class="number">2</span></span><br><span class="line">            max-attempts: <span class="number">10</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>主要配置信息讲解：<br><code>spring.application.name</code>：服务名称，对应配置文件规则中的{application}部分。<br><code>spring.cloud.config.uri</code>:配置中心服务地址。<br><code>spring.cloud.config.username</code>:访问服务注册中心用户名。<br><code>spring.cloud.config.password</code>:访问注册中心密码。<br><code>spring.cloud.config.profile</code>:应用的环境信息，对应配置规则中的{profile}部分。<br><code>spring.cloud.config.label</code>:主要是分支，对应配置文件规则中的{label}部分。<br>需要注意的是这些配置信息必须配置到<code>bootstrap.yml</code>或<code>bootstrap.properties</code>文件中，因为配置信息<code>application.yml</code>和<code>bootstrap.yml</code>是有加载顺序的，首先程序启动时先加载的是<code>bootstrap.yml</code>文件，其次是<code>application.yml</code>配置信息，因为jar包之外的配置信息优先于jar包之内的配置信息，所以需要首先加载外部的配置信息。  </p>
+<ol start="3">
+<li>对配置信息的读取和使用，首先需要添加配置类，对配置信息通过EL表达式的方式进行注入。<br>读取方式有两种方式：  </li>
+</ol>
+<ul>
+<li><p>通过@Value(“${profile}”)方式绑定参数到属性中。  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 服务配置信息。</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">@RefreshScope</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ServiceConfig</span> </span>&#123;</span><br><span class="line"><span class="meta">@Value</span>(<span class="string">"$&#123;profile&#125;"</span>)</span><br><span class="line">    <span class="keyword">private</span> String profile;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>通过Environment对象来获取配置属性。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 服务配置信息。</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">@RefreshScope</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestController</span></span>&#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> Environment env;</span><br><span class="line">    <span class="meta">@GetMapping</span>(“/getProfile”)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getProfile</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> env.getProperty(“profile”,“<span class="keyword">null</span>”);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+    </div>
+    <p class="post-meta">
+        <span class="post-cat">分类：
+            <a class="cat-link" href="/categories/个人技术/">个人技术</a>
+        </span>
+        <span class="post-tags">
+            标签：
+            
+    
+        <a href="/tags/SpringCloud/" title="SpringCloud">SpringCloud</a>
+    
+
+        </span>
+    </p>
+</article>
+<!-- 分享按钮 -->
+
+  <div class="article-share clearfix text-center">
+    <div class="share-area">
+      <span class="share-txt">分享到：</span>
+      <a href="javascript: window.open('http://service.weibo.com/share/share.php?url=' + encodeURIComponent(location.href) + '&title=' + document.title + '&language=zh_cn');" class="share-icon weibo"></a>
+      <a href="javascript: alert('请复制链接到微信并发送');" class="share-icon wechat"></a>
+      <a href="javascript: window.open('http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=' + encodeURIComponent(location.href) + '&title=' + document.title);" class="share-icon qqzone"></a>
+      <a href="javascript: window.open('http://connect.qq.com/widget/shareqq/index.html?url=' + encodeURIComponent(location.href) + '&desc=Jelon个人博客&title=' + document.title + '&callback=' + encodeURIComponent(location.href));" class="share-icon qq"></a>
+      <a href="javascript: window.open('http://shuo.douban.com/!service/share?href=' + encodeURIComponent(location.href) + '&name=' + document.title + '&text=' + document.title);" class="share-icon douban"></a>
+    </div>
+  </div>
+
+
+<!-- 上一篇/下一篇 -->
+
+<div class="article-nav clearfix">
+    
+    <span class="prev fl">
+        上一篇<br >
+        <a href="javascript: void(0);">没有上一篇了</a>
+    </span>
+    
+
+    
+    <span class="next fr">
+        下一篇<br >
+        <a href="/2018/09/27/quick-start-spring-cloud-hystrix/">
+            
+                服务容错保护Spring Cloud Hystrix之快速入门
+            
+        </a>
+    </span>
+    
+</div>
+
+<!-- 文章评论 -->
+
+
+            </div>
+
+        </section>
+        <!-- 侧栏部分 -->
+<aside class="sidebar">
+    <section class="widget">
+        <h3 class="widget-hd"><strong>文章分类</strong></h3>
+        <!-- 文章分类 -->
+<ul class="widget-bd">
+    
+    <li>
+        <a href="/categories/生活杂谈/">生活杂谈</a>
+        <span class="badge">(1)</span>
+    </li>
+    
+    <li>
+        <a href="/categories/个人技术/">个人技术</a>
+        <span class="badge">(7)</span>
+    </li>
+    
+</ul>
+    </section>
+
+    
+    <section class="widget">
+        <h3 class="widget-hd"><strong>热门标签</strong></h3>
+        <!-- 文章标签 -->
+<div class="widget-bd tag-wrap">
+  
+    <a class="tag-item" href="/tags/Life/" title="Life">Life (1)</a>
+  
+    <a class="tag-item" href="/tags/Maven/" title="Maven">Maven (1)</a>
+  
+    <a class="tag-item" href="/tags/SpringCloud/" title="SpringCloud">SpringCloud (4)</a>
+  
+    <a class="tag-item" href="/tags/Java/" title="Java">Java (2)</a>
+  
+</div>
+    </section>
+    
+
+    
+
+    
+    <!-- 友情链接 -->
+    <section class="widget">
+        <h3 class="widget-hd"><strong>友情链接</strong></h3>
+        <!-- 文章分类 -->
+<ul class="widget-bd">
+    
+        <li>
+            <a href="https://www.cnblogs.com/dwlsxj/" target="_blank" title="博客园">BattleHeart博客</a>
+        </li>
+    
+</ul>
+    </section>
+    
+</aside>
+<!-- / 侧栏部分 -->
+    </div>
+
+    <!-- 博客底部 -->
+    <footer class="footer">
+    &copy;
+    
+        2016-2018
+    
+
+    <a href="/">版权归BattleHeart所有</a>
+</footer>
+<div class="back-to-top" id="JELON__backToTop" title="返回顶部">返回顶部</div>
+
+    <!--博客js脚本 -->
+    <!-- 这里放网站js脚本 -->
+<script src="/js/main.js"></script>
+</body>
+</html>

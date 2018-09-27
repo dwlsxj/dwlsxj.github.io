@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=11,IE=10,IE=9,IE=8" >
     <meta name="baidu-site-verification" content="dIcXMeY8Ya" />
     
-    <title>我的blog之旅又要开始了 | BattleHeart</title>
+    <title>客户端负载均衡Spring Cloud Ribbon之快速入门 | BattleHeart</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" >
     <meta name="keywords" content="BattleHeart, 后端, Web, Python, Spring , Spring Cloud" >
     <meta name="description" content="BattleHeart个人小站" >
@@ -56,19 +56,19 @@
         <div class="dropnav icon-paragraph-justify" id="JELON__btnDropNav"></div>
         <ul class="menu hidden" id="JELON__menu">
             
-            <li rel="/2018/09/18/hello-world/index.html" class="item ">
+            <li rel="/2018/09/27/quick-start-spring-cloud-ribbon/index.html" class="item ">
                 <a href="/" title="首页" class="icon-home">&nbsp;首页</a>
             </li>
             
-            <li rel="/2018/09/18/hello-world/index.html" class="item ">
+            <li rel="/2018/09/27/quick-start-spring-cloud-ribbon/index.html" class="item ">
                 <a href="/lab/" title="实验室" class="icon-lab">&nbsp;实验室</a>
             </li>
             
-            <li rel="/2018/09/18/hello-world/index.html" class="item ">
+            <li rel="/2018/09/27/quick-start-spring-cloud-ribbon/index.html" class="item ">
                 <a href="/about/" title="关于" class="icon-about">&nbsp;关于</a>
             </li>
             
-            <li rel="/2018/09/18/hello-world/index.html" class="item ">
+            <li rel="/2018/09/27/quick-start-spring-cloud-ribbon/index.html" class="item ">
                 <a href="/comment/" title="留言" class="icon-comment">&nbsp;留言</a>
             </li>
             
@@ -115,26 +115,42 @@
 <!-- 文章 -->
 <article class="post article">
     <header class="text-center">
-        <h3 class="post-title"><span>我的blog之旅又要开始了</span></h3>
+        <h3 class="post-title"><span>客户端负载均衡Spring Cloud Ribbon之快速入门</span></h3>
     </header>
     <p class="post-meta text-center">
         BattleHeart 发表于
-        <time datetime="2018-09-17T16:00:00.000Z">2018-09-18</time>
+        <time datetime="2018-09-27T11:15:34.000Z">2018-09-27</time>
     </p>
     <div class="post-content">
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">距离我的个人博客服务器到期到现在也有一段时间了，这段时间里面已经停止了些东西，最近要把写文章这件事慢慢的拾起来，制定写作计划。</span><br></pre></td></tr></table></figure>
-<h2 id="博客主要内容"><a href="#博客主要内容" class="headerlink" title="博客主要内容"></a>博客主要内容</h2><p>博客主要内容是针对技术的分享与交流，主要技术有spring，spring boot，spring cloud，java，mybatis等技术框架的技术分享，也业余分享python等，大数据相关技术的内容的文章。</p>
+        <h1 id="客户端负载均衡-Spring-Cloud-Ribbon"><a href="#客户端负载均衡-Spring-Cloud-Ribbon" class="headerlink" title="客户端负载均衡-Spring Cloud Ribbon"></a>客户端负载均衡-Spring Cloud Ribbon</h1><h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><a href="#客户端负载均衡-Spring-Cloud-Ribbon">客户端负载均衡-Spring Cloud Ribbon</a><ul>
+<li><a href="#Spring-Cloud-Ribbon介绍">Spring Cloud Ribbon介绍</a></li>
+<li><a href="#Spring-Cloud-Ribbon使用">Spring Cloud Ribbon使用</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="Spring-Cloud-Ribbon介绍"><a href="#Spring-Cloud-Ribbon介绍" class="headerlink" title="Spring Cloud Ribbon介绍"></a>Spring Cloud Ribbon介绍</h2><p>Spring Cloud Ribbon是一个基于HTTP和TCP的客户端负载均衡工具，它是基于Netflix的Ribbon的实现。通过Spring Cloud的封装可以轻松的将面向服务的Rest模板请求自动转化成客户端负载均衡的服务调用。它是一个工具类框架，不能像服务注册中心、配置中心、API网关单独部署，但是可以存在每一个Spring Cloud构建的微服务和基础设施中。<br>负载均衡模块都会维护一个可用的服务列表，通过心跳检测来剔除故障的服务端节点以保证清单中都是可以正常访问的服务端节点。客户端负载均衡和服务端负载均衡唯一的区别是客户端负载均衡中，所有客户端负载均衡都会自己维护服务清单，而这些服务清单是由服务注册中心获取得到。  </p>
+<h2 id="Spring-Cloud-Ribbon使用"><a href="#Spring-Cloud-Ribbon使用" class="headerlink" title="Spring Cloud Ribbon使用"></a>Spring Cloud Ribbon使用</h2><p>1．    添加依赖项<code>spring-cloud-starter-ribbon</code><br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-cloud-starter-ribbon&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
+<ol start="2">
+<li><p>添加注解对负载均衡支持<code>@LoadBalanced</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* 服务配置信息。</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ServiceConfig</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="meta">@LoadBalanced</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RestTemplate <span class="title">getRestTemplate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> RestTemplate();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>服务之间调用通过服务名称的方式进行调用而不是通过ip地址的方式。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 调用Service来获取内容。</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> 返回hello world。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"> <span class="meta">@GetMapping</span>(value = <span class="string">"getHelloWorld"</span>)</span><br><span class="line"> <span class="function"><span class="keyword">public</span> String <span class="title">getHelloWorld</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> restTemplate.getForObject(<span class="string">"http://springcloudservice/getHelloWorld"</span>, String.class);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>这里的springcloudservice是注册到Eureka的服务，服务名称为springcloudservice，可以通过加了@LoadBalanced修饰过的RestTemplate来实现面向服务的接口调用。之前调用方式如下代码所示：restTemplate.getForObject(“<a href="http://localhost:8888/getHelloWorld&quot;">http://localhost:8888/getHelloWorld&quot;</a>, String.class);</p>
 
     </div>
     <p class="post-meta">
         <span class="post-cat">分类：
-            <a class="cat-link" href="/categories/生活杂谈/">生活杂谈</a>
+            <a class="cat-link" href="/categories/个人技术/">个人技术</a>
         </span>
         <span class="post-tags">
             标签：
             
     
-        <a href="/tags/Life/" title="Life">Life</a>
+        <a href="/tags/SpringCloud/" title="SpringCloud">SpringCloud</a>
     
 
         </span>
@@ -160,9 +176,9 @@
     
     <span class="prev fl">
         上一篇<br >
-        <a href="/2018/09/20/how-dynamic-agents-work/">
+        <a href="/2018/09/27/quick-start-spring-cloud-hystrix/">
             
-                动态代理的工作原理简要分析
+                服务容错保护Spring Cloud Hystrix之快速入门
             
         </a>
     </span>
@@ -171,7 +187,11 @@
     
     <span class="next fr">
         下一篇<br >
-        <a href="javascript: void(0);">没有下一篇了</a>
+        <a href="/2018/09/26/spring-cloud-tutorial-eureka/">
+            
+                服务治理-Spring Cloud Eureka
+            
+        </a>
     </span>
     
 </div>

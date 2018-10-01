@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" >
+    <meta http-equiv="X-UA-Compatible" content="IE=11,IE=10,IE=9,IE=8" >
+    <meta name="baidu-site-verification" content="dIcXMeY8Ya" />
+    
+    <title>分布式服务跟踪之Spring Cloud Sleuth快速入门 | BattleHeart</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" >
+    <meta name="keywords" content="BattleHeart, 后端, Web, Python, Spring , Spring Cloud" >
+    <meta name="description" content="BattleHeart个人小站" >
+
+    
+    <link rel="alternative" href="/atom.xml" title="BattleHeart" type="application/atom+xml" >
+    
+    
+    <link rel="shortcut icon" href="/img/favicon.ico" >
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <!--[if lt IE 9]>
+    <script src="/js/html5.js"></script>
+    <![endif]-->
+    
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?fd459238242776d173cdc64918fb32f2";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+</head>
+
+<body class="home">
+    <!--[if lt IE 9]>
+    <div class="browsehappy">
+        当前网页 <strong>不支持</strong>
+        你正在使用的浏览器. 为了正常的访问, 请 <a href="http://browsehappy.com/">升级你的浏览器</a>.
+    </div>
+    <![endif]-->
+
+    <!-- 博客头部 -->
+    <header class="header">
+    <section class="container header-main">
+        <div class="logo">
+            <a href="/">
+                <div class="cover">
+                    <span class="name">BattleHeart</span>
+                    <span class="description">个人博客</span>
+                </div>
+            </a>
+        </div>
+        <div class="dropnav icon-paragraph-justify" id="JELON__btnDropNav"></div>
+        <ul class="menu hidden" id="JELON__menu">
+            
+            <li rel="/2018/10/01/quick-start-spring-cloud-sleuth/index.html" class="item ">
+                <a href="/" title="首页" class="icon-home">&nbsp;首页</a>
+            </li>
+            
+            <li rel="/2018/10/01/quick-start-spring-cloud-sleuth/index.html" class="item ">
+                <a href="/lab/" title="实验室" class="icon-lab">&nbsp;实验室</a>
+            </li>
+            
+            <li rel="/2018/10/01/quick-start-spring-cloud-sleuth/index.html" class="item ">
+                <a href="/about/" title="关于" class="icon-about">&nbsp;关于</a>
+            </li>
+            
+            <li rel="/2018/10/01/quick-start-spring-cloud-sleuth/index.html" class="item ">
+                <a href="/comment/" title="留言" class="icon-comment">&nbsp;留言</a>
+            </li>
+            
+        </ul>
+        <div class="profile clearfix">
+            <div class="feeds fl">
+                
+                
+                <p class="links">
+                    
+                        <a href="https://github.com/dwlsxj" target="_blank">Github</a>
+                        |
+                    
+                        <a href="https://pages.coding.me" target="_blank">Hosted by Coding Pages</a>
+                        
+                    
+                </p>
+                <p class="sns">
+                    
+                    <a href="javascript: void(0);" class="wechat">
+                        <b>■</b>
+                        公众号
+                        <span class="popover">
+                            <img src="/img/wechat_mp.jpg" width="120" height="120" alt="我的微信订阅号">
+                            <i class="arrow"></i>
+                        </span>
+                    </a>
+                </p>
+                
+            </div>
+            <div class="avatar fr">
+                <img src="/img/jelon.jpg" alt="avatar" title="Jelon" >
+            </div>
+        </div>
+    </section>
+</header>
+
+
+    <!-- 博客正文 -->
+    <div class="container body clearfix">
+        <section class="content">
+            <div class="content-main widget">
+                <!-- 文章页 -->
+<!-- 文章 -->
+<article class="post article">
+    <header class="text-center">
+        <h3 class="post-title"><span>分布式服务跟踪之Spring Cloud Sleuth快速入门</span></h3>
+    </header>
+    <p class="post-meta text-center">
+        BattleHeart 发表于
+        <time datetime="2018-10-01T08:03:53.000Z">2018-10-01</time>
+    </p>
+    <div class="post-content">
+        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>随着业务的发展，系统规模也会变得越来越大，微服务之前的关系也会变得越来越复杂，客户端发起请求后通过一些列的微服务返回的结果，则会形成一个复杂的链路，在每个链路中如果有一个以来服务出现延迟或错误都会引发请求最后的失败，这时候对于整个链路的跟踪极为重要，通过实现队请求调用的跟踪可以帮助我们快速发现错误根源以及监控分析每条请求链路上的性能瓶颈等。<br>接下来我们要使用Spring Cloud Sleuth与Zipkin进行整合。</p>
+<h1 id="Spring-Cloud-Sleuth使用。"><a href="#Spring-Cloud-Sleuth使用。" class="headerlink" title="Spring Cloud Sleuth使用。"></a>Spring Cloud Sleuth使用。</h1><ol>
+<li>需要准备两个服务，service1与service2，service1调用service2的方法。</li>
+<li>添加依赖项spring-cloud-starter-sleuth。<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-cloud-starter-sleuth&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>spring-cloud-starter-sleuth它会自动为当前应用构建起各通信通道跟踪机制。比如：</p>
+<ul>
+<li>通过诸如RabbitMQ、Kafaka（或者其他任何Spring Cloud Stream绑定器实现的消息中间件）传递的请求。</li>
+<li>通过Zuul代理传递的请求。</li>
+<li>通过RestTemplate发起的请求。</li>
+</ul>
+<p>通过上面的配置即可对链路数据的监控，当我们访问service1和service2接口时会在控制台中输出相应的信息，例如：  </p>
+<blockquote>
+<p>INFO [servce1,f410a57afd5c145,a9f2118fa201984,false]25028—call servce1<br>INFO [servce1,f410a57afd5c145,e9a377dc2268bc29,false]25028—call servce2</p>
+</blockquote>
+<p><code>中括号</code>中的元素是实现分布式服务跟踪的重要组成部分，主要是：<br>第一个值：service1代表的是应用的名称，也就是spring.application.name参数属性值。<br>第二个值：Spring Cloud Sleuth生成的一个ID，称之为Trace ID，它用来标识是一条链路。一个请求链路中包含一个Trace ID，多个Span ID。<br>第三个值：也是Spring Cloud Sleuth生成的一个ID，代表的是Span ID,他表示一个基本的工作单位，比如发送一个Http请求。<br>也就是说同一个TranceID代表是一条链路，而不同的SpanID代表不同的Http请求和业务访问操作。  </p>
+<h1 id="整合Zipkin"><a href="#整合Zipkin" class="headerlink" title="整合Zipkin"></a>整合Zipkin</h1><ol>
+<li>添加依赖项<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-cloud-sleuth-zipkin-stream&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-cloud-stream-binder-rabbit&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;io.zipkin.java&lt;/groupId&gt;    </span><br><span class="line">    &lt;artifactId&gt;zipkin-autoconfigure-ui&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>其中包括：spring-cloud-sleuth-zipkin-stream、spring-cloud-stream-binder-rabbit表示使用RabbitMQ的方式对链路进行传递请求。<br>zipkin-autoconfigure-ui依赖是通过页面的展示链路的情况。<br>客户端中需要添加对RabbitMQ注解的支持，主要是spring-cloud-stream-binder-rabbit或者spring-cloud-starter-stream-rabbit，我可以清晰的发现前后两者内容其实是一样后者内容如下：<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span>?&gt;</span><br><span class="line">&lt;project xmlns=<span class="string">"http://maven.apache.org/POM/4.0.0"</span> xmlns:xsi=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span> xsi:schemaLocation=<span class="string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span><br><span class="line">   &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</span><br><span class="line">   &lt;parent&gt;</span><br><span class="line">      &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">      &lt;artifactId&gt;spring-cloud-stream-binder-rabbit-parent&lt;/artifactId&gt;</span><br><span class="line">      &lt;version&gt;1.2.1.RELEASE&lt;/version&gt;</span><br><span class="line">   &lt;/parent&gt;</span><br><span class="line">   &lt;artifactId&gt;spring-cloud-starter-stream-rabbit&lt;/artifactId&gt;</span><br><span class="line">   &lt;description&gt;Spring Cloud Starter Stream Rabbit&lt;/description&gt;</span><br><span class="line">   &lt;url&gt;http:<span class="comment">//projects.spring.io/spring-cloud&lt;/url&gt;</span></span><br><span class="line">   &lt;organization&gt;</span><br><span class="line">      &lt;name&gt;Pivotal Software, Inc.&lt;/name&gt;</span><br><span class="line">      &lt;url&gt;http:<span class="comment">//www.spring.io&lt;/url&gt;</span></span><br><span class="line">   &lt;/organization&gt;</span><br><span class="line">   &lt;properties&gt;</span><br><span class="line">      &lt;main.basedir&gt;$&#123;basedir&#125;/../..&lt;/main.basedir&gt;</span><br><span class="line">   &lt;/properties&gt;    &lt;dependencies&gt;       &lt;dependency&gt;          &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">         &lt;artifactId&gt;spring-cloud-stream-binder-rabbit&lt;/artifactId&gt;</span><br><span class="line">      &lt;/dependency&gt;</span><br><span class="line">   &lt;/dependencies&gt;</span><br><span class="line">&lt;/project&gt;</span><br></pre></td></tr></table></figure></p>
+<ol start="2">
+<li><p>在Spring Boot主类上添加@EnableZipkinStreamServer注解开启Zipkin功能。  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableZipkinStreamServer</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpringCloudSluethZipkinApplication</span> </span>&#123;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    SpringApplication.run(SpringCloudSluethZipkinApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改配置信息</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">  application:</span><br><span class="line">    name: springcloudsluethzipkin</span><br><span class="line">rabbitmq:</span><br><span class="line">    host: localhost</span><br><span class="line">    port: <span class="number">5672</span></span><br><span class="line">    username: guest</span><br><span class="line">    password: guest</span><br><span class="line">server:</span><br><span class="line">  port: <span class="number">9411</span></span><br><span class="line">security:</span><br><span class="line">  user:</span><br><span class="line">    name: admin</span><br><span class="line">    password: $&#123;ZIPKIN_SERVER_PASSWORD:admin&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>通过RabbitMQ对消息进行传递，将链路信息传递给RabbitMQ，Zipkin对消息队列消息进行收集分析得出实际的访问链路。</p>
+
+    </div>
+    <p class="post-meta">
+        <span class="post-cat">分类：
+            <a class="cat-link" href="/categories/个人技术/">个人技术</a>
+        </span>
+        <span class="post-tags">
+            标签：
+            
+    
+        <a href="/tags/SpringCloud/" title="SpringCloud">SpringCloud</a>
+    
+
+        </span>
+    </p>
+</article>
+<!-- 分享按钮 -->
+
+  <div class="article-share clearfix text-center">
+    <div class="share-area">
+      <span class="share-txt">分享到：</span>
+      <a href="javascript: window.open('http://service.weibo.com/share/share.php?url=' + encodeURIComponent(location.href) + '&title=' + document.title + '&language=zh_cn');" class="share-icon weibo"></a>
+      <a href="javascript: alert('请复制链接到微信并发送');" class="share-icon wechat"></a>
+      <a href="javascript: window.open('http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=' + encodeURIComponent(location.href) + '&title=' + document.title);" class="share-icon qqzone"></a>
+      <a href="javascript: window.open('http://connect.qq.com/widget/shareqq/index.html?url=' + encodeURIComponent(location.href) + '&desc=Jelon个人博客&title=' + document.title + '&callback=' + encodeURIComponent(location.href));" class="share-icon qq"></a>
+      <a href="javascript: window.open('http://shuo.douban.com/!service/share?href=' + encodeURIComponent(location.href) + '&name=' + document.title + '&text=' + document.title);" class="share-icon douban"></a>
+    </div>
+  </div>
+
+
+<!-- 上一篇/下一篇 -->
+
+<div class="article-nav clearfix">
+    
+    <span class="prev fl">
+        上一篇<br >
+        <a href="javascript: void(0);">没有上一篇了</a>
+    </span>
+    
+
+    
+    <span class="next fr">
+        下一篇<br >
+        <a href="/2018/10/01/quick-start-spring-cloud-turbine-rabbitmq/">
+            
+                集群监控Spring Cloud Turbine消息队列篇
+            
+        </a>
+    </span>
+    
+</div>
+
+<!-- 文章评论 -->
+
+
+            </div>
+
+        </section>
+        <!-- 侧栏部分 -->
+<aside class="sidebar">
+    <section class="widget">
+        <h3 class="widget-hd"><strong>文章分类</strong></h3>
+        <!-- 文章分类 -->
+<ul class="widget-bd">
+    
+    <li>
+        <a href="/categories/生活杂谈/">生活杂谈</a>
+        <span class="badge">(1)</span>
+    </li>
+    
+    <li>
+        <a href="/categories/个人技术/">个人技术</a>
+        <span class="badge">(11)</span>
+    </li>
+    
+</ul>
+    </section>
+
+    
+    <section class="widget">
+        <h3 class="widget-hd"><strong>热门标签</strong></h3>
+        <!-- 文章标签 -->
+<div class="widget-bd tag-wrap">
+  
+    <a class="tag-item" href="/tags/Life/" title="Life">Life (1)</a>
+  
+    <a class="tag-item" href="/tags/Maven/" title="Maven">Maven (1)</a>
+  
+    <a class="tag-item" href="/tags/SpringCloud/" title="SpringCloud">SpringCloud (8)</a>
+  
+    <a class="tag-item" href="/tags/Java/" title="Java">Java (2)</a>
+  
+</div>
+    </section>
+    
+
+    
+
+    
+    <!-- 友情链接 -->
+    <section class="widget">
+        <h3 class="widget-hd"><strong>友情链接</strong></h3>
+        <!-- 文章分类 -->
+<ul class="widget-bd">
+    
+        <li>
+            <a href="https://www.cnblogs.com/dwlsxj/" target="_blank" title="博客园">BattleHeart博客</a>
+        </li>
+    
+</ul>
+    </section>
+    
+</aside>
+<!-- / 侧栏部分 -->
+    </div>
+
+    <!-- 博客底部 -->
+    <footer class="footer">
+    &copy;
+    
+        2016-2018
+    
+
+    <a href="/">版权归BattleHeart所有</a>
+</footer>
+<div class="back-to-top" id="JELON__backToTop" title="返回顶部">返回顶部</div>
+
+    <!--博客js脚本 -->
+    <!-- 这里放网站js脚本 -->
+<script src="/js/main.js"></script>
+</body>
+</html>

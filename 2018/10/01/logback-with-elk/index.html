@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=11,IE=10,IE=9,IE=8" >
     <meta name="baidu-site-verification" content="dIcXMeY8Ya" />
     
-    <title>logback-with-elk | BattleHeart</title>
+    <title>使用Logback输出日志到ELK | BattleHeart</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" >
     <meta name="keywords" content="BattleHeart, 后端, Web, Python, Spring , Spring Cloud" >
     <meta name="description" content="BattleHeart个人小站" >
@@ -115,22 +115,45 @@
 <!-- 文章 -->
 <article class="post article">
     <header class="text-center">
-        <h3 class="post-title"><span>logback-with-elk</span></h3>
+        <h3 class="post-title"><span>使用Logback输出日志到ELK</span></h3>
     </header>
     <p class="post-meta text-center">
-        Jelon 发表于
+        BattleHeart 发表于
         <time datetime="2018-10-01T08:34:26.000Z">2018-10-01</time>
     </p>
     <div class="post-content">
-        
+        <h1 id="使用Logback输出日志到ELK"><a href="#使用Logback输出日志到ELK" class="headerlink" title="使用Logback输出日志到ELK"></a>使用Logback输出日志到ELK</h1><h2 id="背景介绍"><a href="#背景介绍" class="headerlink" title="背景介绍"></a>背景介绍</h2><p>前两篇文章中我们介绍了windows上如何搭建ELK日志收集系统，那么问题来了，日志系统搭建完成后如何使用java代码直接输出日志到ELK系统中？</p>
+<h2 id="logback支持ELK"><a href="#logback支持ELK" class="headerlink" title="logback支持ELK"></a>logback支持ELK</h2><p>我们带着背景中的问题进行下面的开始思路整理，其实在ELK文章中我们已经说了两种方案，其实ELK中logstash支持的日志收集的方式有很多种，下面说一下logstash收集其中方法：  </p>
+<ol>
+<li>使用logstash对文件进行检测  </li>
+<li>使用TCP协议，logstash开放对TCP协议端口的监听。  </li>
+<li>使用UDP协议，logstash开放对UDP协议端口的监听。  </li>
+</ol>
+<p>我们本章节中使用的是TCP协议的方式进行日志输出，下面看一下logback的配置文件。  </p>
+<ol>
+<li><p>引入依赖项logstash-logback-encoder</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- logback和logstash结合 --&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;net.logstash.logback&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;logstash-logback-encoder&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;5.2&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改logback的配置文件信息。  </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;appender name=<span class="string">"LOGSTASH"</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">"net.logstash.logback.appender.LogstashTcpSocketAppender"</span>&gt;</span><br><span class="line">    &lt;destination&gt;192.168.1.107:9250&lt;/destination&gt;</span><br><span class="line">    &lt;!-- encoder必须配置,有多种可选 --&gt;</span><br><span class="line">    &lt;encoder charset=<span class="string">"UTF-8"</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">"net.logstash.logback.encoder.LogstashEncoder"</span>/&gt;</span><br><span class="line">&lt;/appender&gt;</span><br><span class="line">&lt;root level=<span class="string">"ERROR"</span>&gt;</span><br><span class="line">    &lt;appender-ref ref=<span class="string">"LOGSTASH"</span>/&gt;</span><br><span class="line">&lt;/root&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<blockquote>
+<p><code>appender</code>的name属性使用的是net.logstash.logback.appender.LogstashTcpSocketAppender<br><code>destination</code>属性：tcp的IP地址和端口号<br><code>encoder</code>：编码格式  </p>
+</blockquote>
+
     </div>
     <p class="post-meta">
         <span class="post-cat">分类：
-            
+            <a class="cat-link" href="/categories/个人技术/">个人技术</a>
         </span>
         <span class="post-tags">
             标签：
             
+    
+        <a href="/tags/Java/" title="Java">Java</a>
+    
+
         </span>
     </p>
 </article>
@@ -185,7 +208,7 @@
     
     <li>
         <a href="/categories/个人技术/">个人技术</a>
-        <span class="badge">(12)</span>
+        <span class="badge">(13)</span>
     </li>
     
     <li>
@@ -210,7 +233,7 @@
   
     <a class="tag-item" href="/tags/SpringCloud/" title="SpringCloud">SpringCloud (8)</a>
   
-    <a class="tag-item" href="/tags/Java/" title="Java">Java (2)</a>
+    <a class="tag-item" href="/tags/Java/" title="Java">Java (3)</a>
   
 </div>
     </section>

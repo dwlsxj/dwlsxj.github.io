@@ -155,7 +155,7 @@
     <div class="post-content">
         <div class="post-excerpt">
             
-                Spring Cloud Turbine是对集群中微服务信息的统一监控收集监控信息，我们在每个微服务中添加了对Hystrix熔断器功能的支持，可以通过/hystrix.stream对每个微服务的运行状况进行监控，如果在集群中去对每一个微服务去进行单个访问是行不通的，这时候turbine就发挥了它的优势，他可以将多个微服务的hystrix.stream聚合到一起使用turbine.stream进行聚合监控。
+                上一篇文章中我们介绍了Turbine简单的通过服务名称的方式构建监控聚合服务，这一章中我们将要讲一下使用消息队列的方式对集群信息进行收集，监控，我们可以将所有需要收集的监控信息都输出到消息代理中，然后turbine订阅消息代理中的消息，通过异步的方式读取消息，最后将读取出来的监控指标输出到Hystrix Dashboard中。
             
             <p class="more">
                 <a href="https://www.battleheart.cn/2018/10/01/quick-start-spring-cloud-turbine-rabbitmq/">阅读剩下更多</a>

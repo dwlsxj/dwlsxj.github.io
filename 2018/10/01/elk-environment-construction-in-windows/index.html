@@ -123,12 +123,18 @@
     </p>
     <div class="post-content">
         <h1 id="Windows环境下搭建ELK环境"><a href="#Windows环境下搭建ELK环境" class="headerlink" title="Windows环境下搭建ELK环境"></a>Windows环境下搭建ELK环境</h1><h2 id="搭建Elastic-Stack环境"><a href="#搭建Elastic-Stack环境" class="headerlink" title="搭建Elastic Stack环境"></a>搭建Elastic Stack环境</h2><ol>
-<li>通过官网下载相关包，网址：<a href="https://www.elastic.co/cn/downloads/elasticsearch" target="_blank" rel="noopener">https://www.elastic.co/cn/downloads/elasticsearch</a><br><img src="/2018/10/01/elk-environment-construction-in-windows/pic1.png" alt="Elastic Stack" title="Elastic Stack">  </li>
-<li>运行<code>bin/elasticsearch</code> (or <code>bin\elasticsearch.bat on Windows</code>)  </li>
-<li><p>在浏览器上访问<a href="http://localhost:9200，出现如下截图内容代表ES部署成功。" target="_blank" rel="noopener">http://localhost:9200，出现如下截图内容代表ES部署成功。</a><br><img src="/2018/10/01/elk-environment-construction-in-windows/pic2.png" alt="运行情况" title="运行情况">  </p>
-<h2 id="搭建Logstash环境"><a href="#搭建Logstash环境" class="headerlink" title="搭建Logstash环境"></a>搭建Logstash环境</h2></li>
-<li><p>下载logstash文件，网址：<a href="https://www.elastic.co/cn/downloads/logstash" target="_blank" rel="noopener">https://www.elastic.co/cn/downloads/logstash</a><br><img src="/2018/10/01/elk-environment-construction-in-windows/pic3.png" alt="logstash" title="logstash"><br>下载Zip将Zip解压到本地。  </p>
+<li>通过官网下载相关包，网址：<a href="https://www.elastic.co/cn/downloads/elasticsearch" target="_blank" rel="noopener">https://www.elastic.co/cn/downloads/elasticsearch</a></li>
+</ol>
+<p><img src="/2018/10/01/elk-environment-construction-in-windows/pic1.png" alt="Elastic Stack" title="Elastic Stack">  </p>
+<ol start="2">
+<li><p>运行<code>bin/elasticsearch</code> (or <code>bin\elasticsearch.bat on Windows</code>)  </p>
 </li>
+<li><p>在浏览器上访问<a href="http://localhost:9200，出现如下截图内容代表ES部署成功。" target="_blank" rel="noopener">http://localhost:9200，出现如下截图内容代表ES部署成功。</a>  </p>
+</li>
+</ol>
+<p><img src="/2018/10/01/elk-environment-construction-in-windows/pic2.png" alt="运行情况" title="运行情况">  </p>
+<h2 id="搭建Logstash环境"><a href="#搭建Logstash环境" class="headerlink" title="搭建Logstash环境"></a>搭建Logstash环境</h2><ol>
+<li>下载logstash文件，网址：<a href="https://www.elastic.co/cn/downloads/logstash" target="_blank" rel="noopener">https://www.elastic.co/cn/downloads/logstash</a><br><img src="/2018/10/01/elk-environment-construction-in-windows/pic3.png" alt="logstash" title="logstash"><br>下载Zip将Zip解压到本地。  </li>
 <li>新建Logstash.conf文件，将logstash.conf文件复制到bin文件夹下。  </li>
 </ol>
 <ul>

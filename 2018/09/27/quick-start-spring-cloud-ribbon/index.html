@@ -139,7 +139,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 调用Service来获取内容。</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> 返回hello world。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"> <span class="meta">@GetMapping</span>(value = <span class="string">"getHelloWorld"</span>)</span><br><span class="line"> <span class="function"><span class="keyword">public</span> String <span class="title">getHelloWorld</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> restTemplate.getForObject(<span class="string">"http://springcloudservice/getHelloWorld"</span>, String.class);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<p>这里的springcloudservice是注册到Eureka的服务，服务名称为springcloudservice，可以通过加了@LoadBalanced修饰过的RestTemplate来实现面向服务的接口调用。之前调用方式如下代码所示：restTemplate.getForObject(“<a href="http://localhost:8888/getHelloWorld&quot;">http://localhost:8888/getHelloWorld&quot;</a>, String.class);</p>
+<p>这里的springcloudservice是注册到Eureka的服务，服务名称为springcloudservice，可以通过加了@LoadBalanced修饰过的RestTemplate来实现面向服务的接口调用。之前调用方式如下代码所示：restTemplate.getForObject(“<a href="http://localhost:8888/getHelloWorld&quot;" target="_blank" rel="noopener">http://localhost:8888/getHelloWorld&quot;</a>, String.class);</p>
 
     </div>
     <p class="post-meta">
@@ -228,15 +228,15 @@
         <!-- 文章标签 -->
 <div class="widget-bd tag-wrap">
   
-    <a class="tag-item" href="/tags/ELK/" title="ELK">ELK (1)</a>
+    <a class="tag-item" href="/tags/ELK/" title="ELK">ELK (2)</a>
   
     <a class="tag-item" href="/tags/Life/" title="Life">Life (1)</a>
   
-    <a class="tag-item" href="/tags/Maven/" title="Maven">Maven (1)</a>
+    <a class="tag-item" href="/tags/Java/" title="Java">Java (3)</a>
   
     <a class="tag-item" href="/tags/SpringCloud/" title="SpringCloud">SpringCloud (8)</a>
   
-    <a class="tag-item" href="/tags/Java/" title="Java">Java (3)</a>
+    <a class="tag-item" href="/tags/Maven/" title="Maven">Maven (1)</a>
   
 </div>
     </section>

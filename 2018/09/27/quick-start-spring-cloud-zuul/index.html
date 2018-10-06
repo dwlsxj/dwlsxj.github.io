@@ -19,7 +19,7 @@
 <meta name="keywords" content="SpringCloud">
 <meta property="og:type" content="article">
 <meta property="og:title" content="API网关服务-Spring Cloud Zuul快速入门">
-<meta property="og:url" content="http://localhost:4000/2018/09/27/quick-start-spring-cloud-zuul/index.html">
+<meta property="og:url" content="https://www.battleheart.cn/2018/09/27/quick-start-spring-cloud-zuul/index.html">
 <meta property="og:site_name" content="BattleHeart">
 <meta property="og:description" content="Api网关是一个更为只能的应用服务器，他的定义类似面向对象设计模式中的Façade模式，它的存在就像是整个微服务架构系统的门面一样，所有的外部客户端访问都需要经过它来进行调度和过滤。他除了要实现请求路由、负载均衡、校验过滤等功能外，还需要更多的能力，比如与服务治理框架的结合，请求转发是的熔断机制，服务的聚合等一些列高级功能。">
 <meta property="og:locale" content="default">
@@ -340,7 +340,7 @@
 <ul>
 <li><code>zuul.ignoredServices</code>：取消路由机制的服务名称列表。</li>
 <li><code>zuul.routes.name</code>: 我们可以看到name被标记为红色字体，代表的是注册到erueka服务中的服务名称，例如上面是springclouduser服务的路由规则是通过/user进行访问该服务的所有接口信息。</li>
-<li><code>zuul.routes.xxx.path=/xxx/**</code><br><code>zuul.routes.xxx.url=http://localhost:8080/</code><br>该配置的表示所有符合/xxx/**规则的访问都将转发到<a href="http://localhost:8080">http://localhost:8080</a> 地址上，例如：访问服务中的<a href="http://localhost:8081/xxx/getUserList">http://localhost:8081/xxx/getUserList</a> 接口时，API网关服务会将该请求路由到<a href="http://localhost:8080/getUserList">http://localhost:8080/getUserList</a> 提供的服务接口上。其中红色部分为路由的名称，可以任意定义，但是一组path和url映射关系的路由名称要相同。</li>
+<li><code>zuul.routes.xxx.path=/xxx/**</code><br><code>zuul.routes.xxx.url=http://localhost:8080/</code><br>该配置的表示所有符合/xxx/**规则的访问都将转发到<a href="http://localhost:8080" target="_blank" rel="noopener">http://localhost:8080</a> 地址上，例如：访问服务中的<a href="http://localhost:8081/xxx/getUserList" target="_blank" rel="noopener">http://localhost:8081/xxx/getUserList</a> 接口时，API网关服务会将该请求路由到<a href="http://localhost:8080/getUserList" target="_blank" rel="noopener">http://localhost:8080/getUserList</a> 提供的服务接口上。其中红色部分为路由的名称，可以任意定义，但是一组path和url映射关系的路由名称要相同。</li>
 </ul>
 
       
@@ -355,8 +355,8 @@
         <p><span>发布时间:</span>2018-09-27, 23:18:38</p>
         <p><span>最后更新:</span>2018-10-01, 21:23:20</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2018/09/27/quick-start-spring-cloud-zuul/" title="API网关服务-Spring Cloud Zuul快速入门">http://localhost:4000/2018/09/27/quick-start-spring-cloud-zuul/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://localhost:4000/2018/09/27/quick-start-spring-cloud-zuul/　　作者: BattleHeart" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2018/09/27/quick-start-spring-cloud-zuul/" title="API网关服务-Spring Cloud Zuul快速入门">https://www.battleheart.cn/2018/09/27/quick-start-spring-cloud-zuul/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://www.battleheart.cn/2018/09/27/quick-start-spring-cloud-zuul/　　作者: BattleHeart" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -444,7 +444,7 @@
     <div id="disqus_thread"></div>
     <script>
         var disqus_config = function(){
-            this.page.url = 'http://localhost:4000/2018/09/27/quick-start-spring-cloud-zuul/';
+            this.page.url = 'https://www.battleheart.cn/2018/09/27/quick-start-spring-cloud-zuul/';
             this.page.identifier = '2018/09/27/quick-start-spring-cloud-zuul/';
         };
         var loadComment = function(){

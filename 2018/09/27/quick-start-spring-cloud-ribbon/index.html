@@ -19,7 +19,7 @@
 <meta name="keywords" content="SpringCloud">
 <meta property="og:type" content="article">
 <meta property="og:title" content="客户端负载均衡Spring Cloud Ribbon之快速入门">
-<meta property="og:url" content="http://localhost:4000/2018/09/27/quick-start-spring-cloud-ribbon/index.html">
+<meta property="og:url" content="https://www.battleheart.cn/2018/09/27/quick-start-spring-cloud-ribbon/index.html">
 <meta property="og:site_name" content="BattleHeart">
 <meta property="og:description" content="Spring Cloud Ribbon是一个基于HTTP和TCP的客户端负载均衡工具，它是基于Netflix的Ribbon的实现。通过Spring Cloud的封装可以轻松的将面向服务的Rest模板请求自动转化成客户端负载均衡的服务调用。它是一个工具类框架，不能像服务注册中心、配置中心、API网关单独部署，但是可以存在每一个Spring Cloud构建的微服务和基础设施中。负载均衡模块都会维护一个">
 <meta property="og:locale" content="default">
@@ -334,7 +334,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 调用Service来获取内容。</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> 返回hello world。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"> <span class="meta">@GetMapping</span>(value = <span class="string">"getHelloWorld"</span>)</span><br><span class="line"> <span class="function"><span class="keyword">public</span> String <span class="title">getHelloWorld</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> restTemplate.getForObject(<span class="string">"http://springcloudservice/getHelloWorld"</span>, String.class);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<p>这里的springcloudservice是注册到Eureka的服务，服务名称为springcloudservice，可以通过加了@LoadBalanced修饰过的RestTemplate来实现面向服务的接口调用。之前调用方式如下代码所示：restTemplate.getForObject(“<a href="http://localhost:8888/getHelloWorld&quot;">http://localhost:8888/getHelloWorld&quot;</a>, String.class);</p>
+<p>这里的springcloudservice是注册到Eureka的服务，服务名称为springcloudservice，可以通过加了@LoadBalanced修饰过的RestTemplate来实现面向服务的接口调用。之前调用方式如下代码所示：restTemplate.getForObject(“<a href="http://localhost:8888/getHelloWorld&quot;" target="_blank" rel="noopener">http://localhost:8888/getHelloWorld&quot;</a>, String.class);</p>
 
       
     </div>
@@ -348,8 +348,8 @@
         <p><span>发布时间:</span>2018-09-27, 19:15:34</p>
         <p><span>最后更新:</span>2018-10-01, 21:23:02</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2018/09/27/quick-start-spring-cloud-ribbon/" title="客户端负载均衡Spring Cloud Ribbon之快速入门">http://localhost:4000/2018/09/27/quick-start-spring-cloud-ribbon/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://localhost:4000/2018/09/27/quick-start-spring-cloud-ribbon/　　作者: BattleHeart" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2018/09/27/quick-start-spring-cloud-ribbon/" title="客户端负载均衡Spring Cloud Ribbon之快速入门">https://www.battleheart.cn/2018/09/27/quick-start-spring-cloud-ribbon/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://www.battleheart.cn/2018/09/27/quick-start-spring-cloud-ribbon/　　作者: BattleHeart" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -437,7 +437,7 @@
     <div id="disqus_thread"></div>
     <script>
         var disqus_config = function(){
-            this.page.url = 'http://localhost:4000/2018/09/27/quick-start-spring-cloud-ribbon/';
+            this.page.url = 'https://www.battleheart.cn/2018/09/27/quick-start-spring-cloud-ribbon/';
             this.page.identifier = '2018/09/27/quick-start-spring-cloud-ribbon/';
         };
         var loadComment = function(){

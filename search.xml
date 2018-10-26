@@ -3,6 +3,29 @@
   
     
     <entry>
+      <title>带你走进git-基础配置</title>
+      <link href="/2018/10/26/git-config/"/>
+      <url>/2018/10/26/git-config/</url>
+      
+        <content type="html"><![CDATA[<h1 id="github的简单配置"><a href="#github的简单配置" class="headerlink" title="github的简单配置"></a>github的简单配置</h1><p>配置提交代码的信息，例如是谁提交的代码之类的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config  –global user.name BattleHeaert 这里是设置提交代码的人的名称</span><br><span class="line">git config  –global user.email github@126.com 这里是设置提交代码的人的邮箱</span><br></pre></td></tr></table></figure></p><p>查看当前的用户名<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  config  user.name</span><br></pre></td></tr></table></figure></p><p>或者<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  config   –get  user.name</span><br></pre></td></tr></table></figure></p><p>这时候会显示BattleHeart这个用户名，但是如果我们再添加一个用户的名称的时候这时候就会显示最后一个添加的用户名<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  config  –global  –add  user.name  BH</span><br></pre></td></tr></table></figure></p><p>当我们再次使用git  config  user.name时这时候显得是就是BH如下图所示<br><img src="/2018/10/26/git-config/1.png" alt="图片1" title="图片1"><br>我们可以使用如下指令来列出基本的信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  config  –global  –list</span><br></pre></td></tr></table></figure></p><p>基本信息如下图所示（这里其实是有两个user.name的结果，只不过使用的是最后一个值）<br><img src="/2018/10/26/git-config/2.png" alt="图片2" title="图片1"><br>那么我们来取消一个user.name使用以下指令来进行操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  config  –global  –unset  user.name  BH</span><br></pre></td></tr></table></figure></p><p>这里user.name后面必须添加上取消的name的名称否则它是找不到你要取消那个名称的，会提示警告user.name有多个值。</p><p>如果只有一个键值对的时候就可以不用带后面name的名称直接使用如下方式即可<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  config  –global  –unset  user.name</span><br></pre></td></tr></table></figure></p><p>修改一个键值对的内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  config  –global  user.name  BH</span><br></pre></td></tr></table></figure></p><p>修改后的结果如下图<br><img src="/2018/10/26/git-config/3.png" alt="图片3" title="图片3">  </p><h1 id="给git子命令的参数起别名"><a href="#给git子命令的参数起别名" class="headerlink" title="给git子命令的参数起别名"></a>给git子命令的参数起别名</h1><p>例如给checkout起别名叫co<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  config  –global  alias.co  checkout</span><br></pre></td></tr></table></figure></p><p>设置带参数的命令别名给log  –online起别名如下所示<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  config  –global  alias.lol  “log  –online”</span><br></pre></td></tr></table></figure></p><h1 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h1><p>献给所有新学Git的系列，这是文章的开篇，后续会陆陆续续将文章发布出来。如果文章用有不正确的地方请给我大神指点，小丁在此谢过了。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 个人技术 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Git </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
       <title>Spring Boot Admin监控系统搭建</title>
       <link href="/2018/10/01/spring-boot-admin-monitor/"/>
       <url>/2018/10/01/spring-boot-admin-monitor/</url>

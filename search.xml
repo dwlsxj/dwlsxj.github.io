@@ -3,6 +3,29 @@
   
     
     <entry>
+      <title>使用Hexo搭建博客</title>
+      <link href="/2018/10/26/use-hexo-to-build-a-blog/"/>
+      <url>/2018/10/26/use-hexo-to-build-a-blog/</url>
+      
+        <content type="html"><![CDATA[<h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><p>需要安装的内容如下：</p><ol><li>git 仓库（<a href="https://git-scm.com/" target="_blank" rel="noopener">Git官网</a>）下载并安装</li><li>node.js（<a href="https://nodejs.org/en/download/" target="_blank" rel="noopener">Node官网</a>）下载并安装</li><li>hexo安装</li></ol><p>输入以下命令安装hexo:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo</span><br></pre></td></tr></table></figure></p><p>安装成功后，新建一个喜欢的文件夹，进入文件夹中执行如下命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo init</span><br><span class="line">npm install（用于安装依赖包）</span><br></pre></td></tr></table></figure></p><p>执行完成后，输入以下命令，然后通过访问:<a href="http://localhost:4000，来访问，一个本地博客就搭建完了。" target="_blank" rel="noopener">http://localhost:4000，来访问，一个本地博客就搭建完了。</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure></p><h2 id="常用命令如下"><a href="#常用命令如下" class="headerlink" title="常用命令如下"></a>常用命令如下</h2><blockquote><p>hexo g #完整命令为hexo generate,生成静态文件<br>hexo s #完整命令为hexo server,启动服务器,本地可以测试<br>hexo d #完整命令为hexo deploy,将本地编译好的静态文件发布到github上<br>hexo n #完整命令为hexo new,新建一篇文章<br>hexo clean #清除当前项目的静态文件  </p></blockquote><h1 id="主题切换"><a href="#主题切换" class="headerlink" title="主题切换"></a>主题切换</h1><p>博主可根据自己的需求去<a href="https://hexo.io/themes/" target="_blank" rel="noopener">hexo主题</a>中找寻自己喜欢的主题，并且将主题的仓库内容复制到themes目录下。例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone xxx.git  themes/xxx</span><br></pre></td></tr></table></figure></p><p>我们到themes目录下查看后可清楚看到我们download下的xxx文件夹内的主题信息，修改根目录的_config.yml（注意不是主题下的config.yml，而是hexo根目录下的配置文件）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># Extensions</span><br><span class="line">## Plugins: https://hexo.io/plugins/</span><br><span class="line">## Themes: https://hexo.io/themes/</span><br><span class="line">theme: yilia</span><br></pre></td></tr></table></figure></p><h1 id="SSH配置"><a href="#SSH配置" class="headerlink" title="SSH配置"></a>SSH配置</h1><ol><li>github仓库中新建一个git仓库，仓库的名字叫做<code>github账户名.github.io</code>(必须这样起名字)，例如我的账户名为dwlsxj，则仓库的名称是<code>dwlsxj.github.io</code></li><li>接下来配置SSH，自己的邮箱地址， 在git bash 中执行命令，连续回车三次不需要输入任何内容。</li></ol><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;xxxx@126.com&quot;</span><br></pre></td></tr></table></figure><p><img src="/2018/10/26/use-hexo-to-build-a-blog/1.jpg" alt="图片1" title="图片1"></p><p>从图中我们可以清晰的看到生成到了C盘Users/BattleHeart/.ssh/下，打开id_rsa.pub文件，copy文件中的内容。</p><ol start="3"><li>将复制的key设置到github中，用户-&gt;setting-SSH and GPG keys   </li></ol><p><img src="/2018/10/26/use-hexo-to-build-a-blog/2.png" alt="图片2" title="图片2"></p><ol start="4"><li>打开hexo目录下的_config.yml,找到deploy，添加git地址，保存后使用deploy d进行上传私服。</li></ol><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  #repository: https://github.com:xxxx/xxxx.github.io.git</span><br><span class="line">  repo:</span><br><span class="line">    github: git@github.com:xxx/xxxx.github.io.git,master</span><br></pre></td></tr></table></figure><h1 id="个人域名绑定"><a href="#个人域名绑定" class="headerlink" title="个人域名绑定"></a>个人域名绑定</h1><ol><li>在source文件下新建一个CNAME文件（）没有后缀</li><li>将个人域名<code>www.battleheart.cn</code>添加到CNAME文件中</li><li>修改域名解析，添加两天CNAME的解析，解析到<code>dwlsxj.github.io</code>,也就是自己的仓库下。  </li></ol><p><img src="/2018/10/26/use-hexo-to-build-a-blog/3.png" alt="图片3" title="图片3"></p><ol start="4"><li>将CNAME文件deploy到github仓库中即可访问。</li></ol>]]></content>
+      
+      
+      <categories>
+          
+          <category> 个人技术 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Hexo </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
       <title>Spring Boot Admin监控系统搭建</title>
       <link href="/2018/10/01/spring-boot-admin-monitor/"/>
       <url>/2018/10/01/spring-boot-admin-monitor/</url>

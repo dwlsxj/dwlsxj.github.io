@@ -15,18 +15,22 @@
 
 
 
-<meta name="description" content="前两篇文章中我们介绍了windows上如何搭建ELK日志收集系统，那么问题来了，日志系统搭建完成后如何使用java代码直接输出日志到ELK系统中？">
-<meta name="keywords" content="ELK,Java">
+<meta name="description" content="使用Hexo搭建博客，并将博客部署到github仓库中，进行域名绑定。">
+<meta name="keywords" content="Hexo">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用Logback输出日志到ELK">
-<meta property="og:url" content="https://www.battleheart.cn/2018/10/01/logback-with-elk/index.html">
+<meta property="og:title" content="使用Hexo搭建博客">
+<meta property="og:url" content="https://www.battleheart.cn/2018/10/26/use-hexo-to-build-a-blog/index.html">
 <meta property="og:site_name" content="BattleHeart">
-<meta property="og:description" content="前两篇文章中我们介绍了windows上如何搭建ELK日志收集系统，那么问题来了，日志系统搭建完成后如何使用java代码直接输出日志到ELK系统中？">
+<meta property="og:description" content="使用Hexo搭建博客，并将博客部署到github仓库中，进行域名绑定。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-10-01T13:22:38.763Z">
+<meta property="og:image" content="https://www.battleheart.cn/2018/10/26/use-hexo-to-build-a-blog/1.jpg">
+<meta property="og:image" content="https://www.battleheart.cn/2018/10/26/use-hexo-to-build-a-blog/2.png">
+<meta property="og:image" content="https://www.battleheart.cn/2018/10/26/use-hexo-to-build-a-blog/3.png">
+<meta property="og:updated_time" content="2018-10-26T07:43:36.024Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="使用Logback输出日志到ELK">
-<meta name="twitter:description" content="前两篇文章中我们介绍了windows上如何搭建ELK日志收集系统，那么问题来了，日志系统搭建完成后如何使用java代码直接输出日志到ELK系统中？">
+<meta name="twitter:title" content="使用Hexo搭建博客">
+<meta name="twitter:description" content="使用Hexo搭建博客，并将博客部署到github仓库中，进行域名绑定。">
+<meta name="twitter:image" content="https://www.battleheart.cn/2018/10/26/use-hexo-to-build-a-blog/1.jpg">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -58,7 +62,7 @@
 <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>使用Logback输出日志到ELK | BattleHeart</title>
+<title>使用Hexo搭建博客 | BattleHeart</title>
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -273,11 +277,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
-      <div class="body-wrap"><article id="post-logback-with-elk" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-use-hexo-to-build-a-blog" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/10/01/logback-with-elk/" class="article-date">
-      <time datetime="2018-10-01T08:34:26.000Z" itemprop="datePublished">2018-10-01</time>
+      <a href="/2018/10/26/use-hexo-to-build-a-blog/" class="article-date">
+      <time datetime="2018-10-26T07:41:38.000Z" itemprop="datePublished">2018-10-26</time>
 </a>
 
 
@@ -292,7 +296,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      使用Logback输出日志到ELK
+      使用Hexo搭建博客
     </h1>
   
 
@@ -307,7 +311,7 @@
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ELK/">ELK</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hexo/">Hexo</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -317,25 +321,44 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h1 id="使用Logback输出日志到ELK"><a href="#使用Logback输出日志到ELK" class="headerlink" title="使用Logback输出日志到ELK"></a>使用Logback输出日志到ELK</h1><h2 id="背景介绍"><a href="#背景介绍" class="headerlink" title="背景介绍"></a>背景介绍</h2><p>前两篇文章中我们介绍了windows上如何搭建ELK日志收集系统，那么问题来了，日志系统搭建完成后如何使用java代码直接输出日志到ELK系统中？</p>
-<h2 id="logback支持ELK"><a href="#logback支持ELK" class="headerlink" title="logback支持ELK"></a>logback支持ELK</h2><p>我们带着背景中的问题进行下面的开始思路整理，其实在ELK文章中我们已经说了两种方案，其实ELK中logstash支持的日志收集的方式有很多种，下面说一下logstash收集其中方法：  </p>
+        <h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><p>需要安装的内容如下：</p>
 <ol>
-<li>使用logstash对文件进行检测  </li>
-<li>使用TCP协议，logstash开放对TCP协议端口的监听。  </li>
-<li>使用UDP协议，logstash开放对UDP协议端口的监听。  </li>
+<li>git 仓库（<a href="https://git-scm.com/" target="_blank" rel="noopener">Git官网</a>）下载并安装</li>
+<li>node.js（<a href="https://nodejs.org/en/download/" target="_blank" rel="noopener">Node官网</a>）下载并安装</li>
+<li>hexo安装</li>
 </ol>
-<p>我们本章节中使用的是TCP协议的方式进行日志输出，下面看一下logback的配置文件。  </p>
-<ol>
-<li><p>引入依赖项logstash-logback-encoder</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- logback和logstash结合 --&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;net.logstash.logback&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;logstash-logback-encoder&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;5.2&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>修改logback的配置文件信息。  </p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;appender name=<span class="string">"LOGSTASH"</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">"net.logstash.logback.appender.LogstashTcpSocketAppender"</span>&gt;</span><br><span class="line">    &lt;destination&gt;192.168.1.107:9250&lt;/destination&gt;</span><br><span class="line">    &lt;!-- encoder必须配置,有多种可选 --&gt;</span><br><span class="line">    &lt;encoder charset=<span class="string">"UTF-8"</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">"net.logstash.logback.encoder.LogstashEncoder"</span>/&gt;</span><br><span class="line">&lt;/appender&gt;</span><br><span class="line">&lt;root level=<span class="string">"ERROR"</span>&gt;</span><br><span class="line">    &lt;appender-ref ref=<span class="string">"LOGSTASH"</span>/&gt;</span><br><span class="line">&lt;/root&gt;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<blockquote>
-<p><code>appender</code>的name属性使用的是net.logstash.logback.appender.LogstashTcpSocketAppender<br><code>destination</code>属性：tcp的IP地址和端口号<br><code>encoder</code>：编码格式  </p>
+<p>输入以下命令安装hexo:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo</span><br></pre></td></tr></table></figure></p>
+<p>安装成功后，新建一个喜欢的文件夹，进入文件夹中执行如下命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo init</span><br><span class="line">npm install（用于安装依赖包）</span><br></pre></td></tr></table></figure></p>
+<p>执行完成后，输入以下命令，然后通过访问:<a href="http://localhost:4000，来访问，一个本地博客就搭建完了。" target="_blank" rel="noopener">http://localhost:4000，来访问，一个本地博客就搭建完了。</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure></p>
+<h2 id="常用命令如下"><a href="#常用命令如下" class="headerlink" title="常用命令如下"></a>常用命令如下</h2><blockquote>
+<p>hexo g #完整命令为hexo generate,生成静态文件<br>hexo s #完整命令为hexo server,启动服务器,本地可以测试<br>hexo d #完整命令为hexo deploy,将本地编译好的静态文件发布到github上<br>hexo n #完整命令为hexo new,新建一篇文章<br>hexo clean #清除当前项目的静态文件  </p>
 </blockquote>
+<h1 id="主题切换"><a href="#主题切换" class="headerlink" title="主题切换"></a>主题切换</h1><p>博主可根据自己的需求去<a href="https://hexo.io/themes/" target="_blank" rel="noopener">hexo主题</a>中找寻自己喜欢的主题，并且将主题的仓库内容复制到themes目录下。例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone xxx.git  themes/xxx</span><br></pre></td></tr></table></figure></p>
+<p>我们到themes目录下查看后可清楚看到我们download下的xxx文件夹内的主题信息，修改根目录的_config.yml（注意不是主题下的config.yml，而是hexo根目录下的配置文件）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># Extensions</span><br><span class="line">## Plugins: https://hexo.io/plugins/</span><br><span class="line">## Themes: https://hexo.io/themes/</span><br><span class="line">theme: yilia</span><br></pre></td></tr></table></figure></p>
+<h1 id="SSH配置"><a href="#SSH配置" class="headerlink" title="SSH配置"></a>SSH配置</h1><ol>
+<li>github仓库中新建一个git仓库，仓库的名字叫做<code>github账户名.github.io</code>(必须这样起名字)，例如我的账户名为dwlsxj，则仓库的名称是<code>dwlsxj.github.io</code></li>
+<li>接下来配置SSH，自己的邮箱地址， 在git bash 中执行命令，连续回车三次不需要输入任何内容。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;xxxx@126.com&quot;</span><br></pre></td></tr></table></figure>
+<p><img src="/2018/10/26/use-hexo-to-build-a-blog/1.jpg" alt="图片1" title="图片1"></p>
+<p>从图中我们可以清晰的看到生成到了C盘Users/BattleHeart/.ssh/下，打开id_rsa.pub文件，copy文件中的内容。</p>
+<ol start="3">
+<li>将复制的key设置到github中，用户-&gt;setting-SSH and GPG keys   </li>
+</ol>
+<p><img src="/2018/10/26/use-hexo-to-build-a-blog/2.png" alt="图片2" title="图片2"></p>
+<ol start="4">
+<li>打开hexo目录下的_config.yml,找到deploy，添加git地址，保存后使用deploy d进行上传私服。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  #repository: https://github.com:xxxx/xxxx.github.io.git</span><br><span class="line">  repo:</span><br><span class="line">    github: git@github.com:xxx/xxxx.github.io.git,master</span><br></pre></td></tr></table></figure>
+<h1 id="个人域名绑定"><a href="#个人域名绑定" class="headerlink" title="个人域名绑定"></a>个人域名绑定</h1><ol>
+<li>在source文件下新建一个CNAME文件（）没有后缀</li>
+<li>将个人域名<code>www.battleheart.cn</code>添加到CNAME文件中</li>
+<li>修改域名解析，添加两天CNAME的解析，解析到<code>dwlsxj.github.io</code>,也就是自己的仓库下。  </li>
+</ol>
+<p><img src="/2018/10/26/use-hexo-to-build-a-blog/3.png" alt="图片3" title="图片3"></p>
+<ol start="4">
+<li>将CNAME文件deploy到github仓库中即可访问。</li>
+</ol>
 
       
     </div>
@@ -344,13 +367,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2018/10/01/logback-with-elk/">使用Logback输出日志到ELK</a></p>
+        <p><span>本文标题:</span><a href="/2018/10/26/use-hexo-to-build-a-blog/">使用Hexo搭建博客</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">BattleHeart</a></p>
-        <p><span>发布时间:</span>2018-10-01, 16:34:26</p>
-        <p><span>最后更新:</span>2018-10-01, 21:22:38</p>
+        <p><span>发布时间:</span>2018-10-26, 15:41:38</p>
+        <p><span>最后更新:</span>2018-10-26, 15:43:36</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2018/10/01/logback-with-elk/" title="使用Logback输出日志到ELK">https://www.battleheart.cn/2018/10/01/logback-with-elk/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://www.battleheart.cn/2018/10/01/logback-with-elk/　　作者: BattleHeart" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2018/10/26/use-hexo-to-build-a-blog/" title="使用Hexo搭建博客">https://www.battleheart.cn/2018/10/26/use-hexo-to-build-a-blog/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://www.battleheart.cn/2018/10/26/use-hexo-to-build-a-blog/　　作者: BattleHeart" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -362,16 +385,10 @@
 
     <nav id="article-nav">
         
-            <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2018/10/01/spring-boot-admin-monitor/">
-                    Spring Boot Admin监控系统搭建
-                </a>
-            </div>
-        
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2018/10/01/elk-environment-construction-in-windows/">
-                    Windows环境下搭建ELK环境
+                <a href="/2018/10/01/spring-boot-admin-monitor/">
+                    Spring Boot Admin监控系统搭建
                 </a>
             </div>
         
@@ -383,7 +400,7 @@
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#使用Logback输出日志到ELK"><span class="toc-number">1.</span> <span class="toc-text">使用Logback输出日志到ELK</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#背景介绍"><span class="toc-number">1.1.</span> <span class="toc-text">背景介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#logback支持ELK"><span class="toc-number">1.2.</span> <span class="toc-text">logback支持ELK</span></a></li></ol></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#环境搭建"><span class="toc-number">1.</span> <span class="toc-text">环境搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#常用命令如下"><span class="toc-number">1.1.</span> <span class="toc-text">常用命令如下</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#主题切换"><span class="toc-number">2.</span> <span class="toc-text">主题切换</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SSH配置"><span class="toc-number">3.</span> <span class="toc-text">SSH配置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#个人域名绑定"><span class="toc-number">4.</span> <span class="toc-text">个人域名绑定</span></a></li></ol>
         
     </div>
     <style>
@@ -419,7 +436,7 @@
         </div>
         <script>
             window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"使用Logback输出日志到ELK　| BattleHeart　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+                "common":{"bdSnsKey":{},"bdText":"使用Hexo搭建博客　| BattleHeart　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
         </script>
     
 
@@ -439,15 +456,13 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2018/10/01/spring-boot-admin-monitor/" title="上一篇: Spring Boot Admin监控系统搭建">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
 
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2018/10/01/elk-environment-construction-in-windows/" title="下一篇: Windows环境下搭建ELK环境">
+            <a href="/2018/10/01/spring-boot-admin-monitor/" title="下一篇: Spring Boot Admin监控系统搭建">
                 <i class="fa fa-angle-right"></i>
             </a>
         

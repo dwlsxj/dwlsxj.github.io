@@ -308,7 +308,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              添加依赖thymeleaf-extras-shiro，然后对html属性中添加xmlns:shiro="http://www.pollix.at/thymeleaf/shiro，添加Bean对象ShiroDialect
+              通过观察这些@Enable*的源码，我们发现所有注解都有一个@Import注解，@Import是用来导入配置类的，这就意味着这些自动开启的实现其实是导入一些自动配置的Bean
           
       
     </div>

@@ -15,20 +15,20 @@
 
 
 
-<meta name="description" content="Eureka是Spring Cloud Netflix的微服务套件的一部分，它是基于Netflix Eureka的二次开发，主要负责完成微服务架构中的服务治理功能。而且可以与Spring boot很容易的整合进行开发，使得开发变得简单，Eureka包含了服务器端和客户端组件。服务器端，也被称作是服务注册中心，用于提供服务的注册与发现。Eureka支持高可用的配置，当集群中有分片出现故障时，Eure">
-<meta name="keywords" content="SpringCloud">
+<meta name="description" content="添加依赖thymeleaf-extras-shiro，然后对html属性中添加xmlns:shiro=&quot;http://www.pollix.at/thymeleaf/shiro，添加Bean对象ShiroDialect">
+<meta name="keywords" content="Spring Boot">
 <meta property="og:type" content="article">
-<meta property="og:title" content="服务治理-Spring Cloud Eureka">
-<meta property="og:url" content="https://www.battleheart.cn/2018/09/26/spring-cloud-tutorial-eureka/index.html">
+<meta property="og:title" content="SpringBoot自动装配详解">
+<meta property="og:url" content="https://www.battleheart.cn/2019/01/24/spring-boot-autoconfiguration-fashion/index.html">
 <meta property="og:site_name" content="BattleHeart">
-<meta property="og:description" content="Eureka是Spring Cloud Netflix的微服务套件的一部分，它是基于Netflix Eureka的二次开发，主要负责完成微服务架构中的服务治理功能。而且可以与Spring boot很容易的整合进行开发，使得开发变得简单，Eureka包含了服务器端和客户端组件。服务器端，也被称作是服务注册中心，用于提供服务的注册与发现。Eureka支持高可用的配置，当集群中有分片出现故障时，Eure">
+<meta property="og:description" content="添加依赖thymeleaf-extras-shiro，然后对html属性中添加xmlns:shiro=&quot;http://www.pollix.at/thymeleaf/shiro，添加Bean对象ShiroDialect">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://www.battleheart.cn/2018/09/26/spring-cloud-tutorial-eureka/pic1.png">
-<meta property="og:updated_time" content="2018-10-01T13:23:11.311Z">
+<meta property="og:image" content="https://www.battleheart.cn/2019/01/24/spring-boot-autoconfiguration-fashion/1.png">
+<meta property="og:updated_time" content="2019-01-24T15:05:35.582Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="服务治理-Spring Cloud Eureka">
-<meta name="twitter:description" content="Eureka是Spring Cloud Netflix的微服务套件的一部分，它是基于Netflix Eureka的二次开发，主要负责完成微服务架构中的服务治理功能。而且可以与Spring boot很容易的整合进行开发，使得开发变得简单，Eureka包含了服务器端和客户端组件。服务器端，也被称作是服务注册中心，用于提供服务的注册与发现。Eureka支持高可用的配置，当集群中有分片出现故障时，Eure">
-<meta name="twitter:image" content="https://www.battleheart.cn/2018/09/26/spring-cloud-tutorial-eureka/pic1.png">
+<meta name="twitter:title" content="SpringBoot自动装配详解">
+<meta name="twitter:description" content="添加依赖thymeleaf-extras-shiro，然后对html属性中添加xmlns:shiro=&quot;http://www.pollix.at/thymeleaf/shiro，添加Bean对象ShiroDialect">
+<meta name="twitter:image" content="https://www.battleheart.cn/2019/01/24/spring-boot-autoconfiguration-fashion/1.png">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -60,7 +60,7 @@
 <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>服务治理-Spring Cloud Eureka | BattleHeart</title>
+<title>SpringBoot自动装配详解 | BattleHeart</title>
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -275,11 +275,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
-      <div class="body-wrap"><article id="post-spring-cloud-tutorial-eureka" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-spring-boot-autoconfiguration-fashion" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/09/26/spring-cloud-tutorial-eureka/" class="article-date">
-      <time datetime="2018-09-26T08:01:31.000Z" itemprop="datePublished">2018-09-26</time>
+      <a href="/2019/01/24/spring-boot-autoconfiguration-fashion/" class="article-date">
+      <time datetime="2019-01-24T06:25:08.000Z" itemprop="datePublished">2019-01-24</time>
 </a>
 
 
@@ -294,7 +294,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      服务治理-Spring Cloud Eureka
+      SpringBoot自动装配详解
     </h1>
   
 
@@ -309,7 +309,7 @@
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringCloud/">SpringCloud</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -319,35 +319,38 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h1 id="Eureka介绍"><a href="#Eureka介绍" class="headerlink" title="Eureka介绍"></a>Eureka介绍</h1><p>Eureka是Spring Cloud Netflix的微服务套件的一部分，它是基于Netflix Eureka的二次开发，主要负责完成微服务架构中的服务治理功能。而且可以与Spring boot很容易的整合进行开发，使得开发变得简单，Eureka包含了服务器端和客户端组件。服务器端，也被称作是服务注册中心，用于提供服务的注册与发现。Eureka支持高可用的配置，当集群中有分片出现故障时，Eureka就会转入自动保护模式，它允许分片故障期间继续提供服务的发现和注册，当故障分片恢复正常时，集群中其他分片会把他们的状态再次同步回来。客户端，也被称为服务消费者与服务的生产者，服务启动时向服务注册中心（服务端）进行注册自己，并通过定时心跳检测的方式告诉服务端存活状态，更新服务续约，同时也可以将服务端的服务列表缓存到本地并周期性刷新服务列表的状态。</p>
-<h1 id="Eureka的使用"><a href="#Eureka的使用" class="headerlink" title="Eureka的使用"></a>Eureka的使用</h1><p>服务端</p>
-<ol>
-<li>在pom文件中添加依赖项。<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt; </span><br><span class="line">    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt; </span><br><span class="line">    &lt;artifactId&gt;spring-cloud-starter-eureka-server&lt;/artifactId&gt; </span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;!- - 处于安全考虑 - -&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-security&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+        <h1 id="Spring-Boot自动装配"><a href="#Spring-Boot自动装配" class="headerlink" title="Spring Boot自动装配"></a>Spring Boot自动装配</h1><h2 id="Enable-模块驱动-Spring注解驱动"><a href="#Enable-模块驱动-Spring注解驱动" class="headerlink" title="@Enable 模块驱动,Spring注解驱动"></a>@Enable 模块驱动,Spring注解驱动</h2><p>通过观察这些@Enable*的源码，我们发现所有注解都有一个@Import注解，@Import是用来导入配置类的，这就意味着这些自动开启的实现其实是导入一些自动配置的Bean</p>
+<ul>
+<li>直接导入配置类<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@Target(ElementType.TYPE)</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Import(SchedulingConfiguration.class)</span><br><span class="line">@Documented</span><br><span class="line">public @interface EnableScheduling &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
-</ol>
-<p>需要添加对Spring Cloud版本的控制，这里我们使用的事Dalston.SR4版本，要求Spring boot版本号低于2.0版本。<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencyManagement&gt;</span><br><span class="line">    &lt;dependencies&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-cloud-dependencies&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt; Dalston.SR4&lt;/version&gt;</span><br><span class="line">            &lt;type&gt;pom&lt;/type&gt;</span><br><span class="line">            &lt;scope&gt;import&lt;/scope&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">    &lt;/dependencies&gt;</span><br><span class="line">&lt;/dependencyManagement&gt;</span><br></pre></td></tr></table></figure></p>
-<ol start="2">
-<li><p>添加配置信息，在application.yml或application.properties中添加如下内容  </p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">    application:</span><br><span class="line">        name: springcloudeurekaserver   # 注册到微服务中的服务名称。</span><br><span class="line">server:</span><br><span class="line">    port: 8761  # 端口号</span><br><span class="line">eureka:</span><br><span class="line">    instance:</span><br><span class="line">        prefer-ip-address: <span class="keyword">true</span></span><br><span class="line">    client:</span><br><span class="line">        registerWithEureka: false # 是否注册自己，不注册</span><br><span class="line">        fetchRegistry: false   # 禁止检测服务</span><br><span class="line">        service-url:</span><br><span class="line">            defaultZone: http:<span class="comment">//$&#123;security.user.name&#125;:$&#123;security.user.password&#125;@localhost:$&#123;server.port&#125;/eureka/   		#Eureka服务地址。</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 处于安全考虑需要对用户进行登录。</span><br><span class="line">security:</span><br><span class="line">    user:</span><br><span class="line">        name: admin</span><br><span class="line">        password: $&#123;REGISTRY_SERVER_PASSWORD:password&#125;</span><br></pre></td></tr></table></figure>
+</ul>
+<p>直接导入配置类SchedulingConfiguration，这个类注解了@Configuration注解，且注册了一个scheduledAnnotationProcessor的Bean，源码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@Configuration</span><br><span class="line">@Role(BeanDefinition.ROLE_INFRASTRUCTURE)</span><br><span class="line">public class SchedulingConfiguration &#123;</span><br><span class="line">    @Bean(name = TaskManagementConfigUtils.SCHEDULED_ANNOTATION_PROCESSOR_BEAN_NAME)</span><br><span class="line">    @Role(BeanDefinition.ROLE_INFRASTRUCTURE)</span><br><span class="line">    public ScheduledAnnotationBeanPostProcessor scheduledAnnotationProcessor() &#123;</span><br><span class="line">        return new ScheduledAnnotationBeanPostProcessor();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>ImportSelector接口，实现该接口<br>根据条件选择配置类，通过选择的方式进行选择配置类。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@Target(ElementType.TYPE)</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Documented</span><br><span class="line">@Import(AsyncConfigurationSelector.class)</span><br><span class="line">public @interface EnableAsync &#123;</span><br><span class="line">    Class&lt;? extends Annotation&gt; annotation() default Annotation.class;</span><br><span class="line">    boolean proxyTargetClass() default false;</span><br><span class="line">    AdviceMode mode() default AdviceMode.PROXY;</span><br><span class="line">    int order() default Ordered.LOWEST_PRECEDENCE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>添加@EnableEurekaServer注解，开启对Eureka服务的支持。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableEurekaServer</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpringCloudEruekaApplication</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">       SpringApplication.run(SpringCloudEruekaApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</ul>
+<p>AsyncConfigurationSelector通过条件来选择需要导入的配置类，AsyncConfigurationSelector实现了ImportSelector，这个借口需要重写selectImports方法，在此方法内进行事先条件判断。此例中，若adviceMode为PROXY，则返回ProxyAsyncConfiguration这个配置类；若为ASPECTJ则返回AspectJAsyncConfiguration配置类。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public class AsyncConfigurationSelector extends AdviceModeImportSelector&lt;EnableAsync&gt; &#123;</span><br><span class="line"></span><br><span class="line">    private static final String ASYNC_EXECUTION_ASPECT_CONFIGURATION_CLASS_NAME =</span><br><span class="line">            &quot;org.springframework.scheduling.aspectj.AspectJAsyncConfiguration&quot;;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    @Nullable</span><br><span class="line">    public String[] selectImports(AdviceMode adviceMode) &#123;</span><br><span class="line">        switch (adviceMode) &#123;</span><br><span class="line">            case PROXY:</span><br><span class="line">                return new String[] &#123;ProxyAsyncConfiguration.class.getName()&#125;;</span><br><span class="line">            case ASPECTJ:</span><br><span class="line">                return new String[] &#123;ASYNC_EXECUTION_ASPECT_CONFIGURATION_CLASS_NAME&#125;;</span><br><span class="line">            default:</span><br><span class="line">                return null;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>ImportBeanDefinitionRegistrar接口,动态注册Bean<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@Target(ElementType.TYPE)</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Documented</span><br><span class="line">@Import(AspectJAutoProxyRegistrar.class)</span><br><span class="line">public @interface EnableAspectJAutoProxy &#123;</span><br><span class="line">    boolean proxyTargetClass() default false;</span><br><span class="line">    boolean exposeProxy() default false;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>运行Eureka服务，通过访问<a href="http://localhost:8761/eureka/进行访问Eureka注册中心，查看Eureka有哪些服务注册上，下图是Eureka主界面展示：" target="_blank" rel="noopener">http://localhost:8761/eureka/进行访问Eureka注册中心，查看Eureka有哪些服务注册上，下图是Eureka主界面展示：</a><br><img src="/2018/09/26/spring-cloud-tutorial-eureka/pic1.png" alt="Eureka服务" title="Eureka服务"></p>
-<h2 id="页面描述"><a href="#页面描述" class="headerlink" title="页面描述"></a>页面描述</h2></li>
-<li>nstances currently registered with Eureka：服务注册列表信息。</li>
-<li>DS Replicas代表的集群部署时，server地址。<h1 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h1></li>
-<li><p>在pom文件中添加依赖项。</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt; </span><br><span class="line">    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt; </span><br><span class="line">    &lt;artifactId&gt;spring-cloud-starter-eureka&lt;/artifactId&gt; </span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;!- - 处于安全考虑 - -&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-boot-starter-security&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"># 需要添加对Spring Cloud版本的控制，这里我们使用的事Dalston.SR4版本，要求Spring boot版本号低于2.0版本。</span><br><span class="line">&lt;dependencyManagement&gt;</span><br><span class="line">    &lt;dependencies&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-cloud-dependencies&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt; Dalston.SR4&lt;/version&gt;</span><br><span class="line">            &lt;type&gt;pom&lt;/type&gt;</span><br><span class="line">            &lt;scope&gt;import&lt;/scope&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">    &lt;/dependencies&gt;</span><br><span class="line">&lt;/dependencyManagement&gt;</span><br></pre></td></tr></table></figure>
+</ul>
+<p>AspectJAutoProxyRegistrar实现了ImportBeanDefinitionRegistrar接口，ImportBeanDefinitionRegistrar接口的作用是在运行时自动添加Bean到已有的配置类，通过重写方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">public void registerBeanDefinitions(</span><br><span class="line">			AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry)</span><br></pre></td></tr></table></figure></p>
+<p>其中，AnnotationMetadata参数用来获取当前配置类上的注解，BeanDefinitionRegister参数用来注册Bean。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">class AspectJAutoProxyRegistrar implements ImportBeanDefinitionRegistrar &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void registerBeanDefinitions(</span><br><span class="line">            AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) &#123;</span><br><span class="line"></span><br><span class="line">        AopConfigUtils.registerAspectJAnnotationAutoProxyCreatorIfNecessary(registry);</span><br><span class="line"></span><br><span class="line">        AnnotationAttributes enableAspectJAutoProxy =</span><br><span class="line">                AnnotationConfigUtils.attributesFor(importingClassMetadata, EnableAspectJAutoProxy.class);</span><br><span class="line">        if (enableAspectJAutoProxy != null) &#123;</span><br><span class="line">            if (enableAspectJAutoProxy.getBoolean(&quot;proxyTargetClass&quot;)) &#123;</span><br><span class="line">                AopConfigUtils.forceAutoProxyCreatorToUseClassProxying(registry);</span><br><span class="line">            &#125;</span><br><span class="line">            if (enableAspectJAutoProxy.getBoolean(&quot;exposeProxy&quot;)) &#123;</span><br><span class="line">                AopConfigUtils.forceAutoProxyCreatorToExposeProxy(registry);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="Spring-Boot条件注解讲解"><a href="#Spring-Boot条件注解讲解" class="headerlink" title="Spring Boot条件注解讲解"></a>Spring Boot条件注解讲解</h2><ul>
+<li><p>常用相关条件注解</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@ConditionalOnBean              配置了某个特定Bean</span><br><span class="line">@ConditionalOnMissingBean       没有配置特定Bean</span><br><span class="line">@ConditionalOnClass             classpath有指定类</span><br><span class="line">@ConditionalOnMissingClass      classpath没有指定类</span><br><span class="line">@ConditionalOnExpression        给定的Spring Expression Language（SpEL）表达式计算结果为true</span><br><span class="line">@ConditionalOnJava              Java的版本匹配特定值或某一个范围值</span><br><span class="line">@ConditionalOnJndi              参数中给定的JNDI位置必须存在一个，如果没有给参数，则要有JNDI InitialContext</span><br><span class="line">@ConditionalOnProperty          指定的配置属性要有一个明确的值</span><br><span class="line">@ConditionalOnResource          Classpath里有指定资源</span><br><span class="line">@ConditionalOnWebApplication    这是个Web应用程序</span><br><span class="line">@ConditionalOnNotWebApplication 这不是个Web应用程序</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>添加配置信息，在application.yml或application.properties中添加如下内容</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">spring:</span><br><span class="line">    application:</span><br><span class="line">        name: springclouduser   # 注册到微服务中的服务名称。</span><br><span class="line">server:</span><br><span class="line">    port: <span class="number">8889</span></span><br><span class="line">eureka:</span><br><span class="line">    instance:</span><br><span class="line">        prefer-ip-address: <span class="keyword">true</span></span><br><span class="line">    client:</span><br><span class="line">        service-url:</span><br><span class="line">            defaultZone: http:<span class="comment">//admin:$&#123;REGISTRY_SERVER_PASSWORD:password&#125;@$&#123;eureka.instance.hostname&#125;:8761/eureka/		#Eureka服务地址。</span></span><br></pre></td></tr></table></figure>
+<li><p>条件注解@Conditional<br>@Conditional是Spring4新提供的注解，它的作用是按照一定的条件进行判断，满足条件给容器注册bean。通过一个源码我可以清晰的看到上面Spring Boot的源码都是采用条件注解。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@Target(&#123; ElementType.TYPE, ElementType.METHOD &#125;)</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Documented</span><br><span class="line">@Conditional(OnBeanCondition.class)</span><br><span class="line">public @interface ConditionalOnBean &#123;</span><br><span class="line">    Class&lt;?&gt;[] value() default &#123;&#125;;</span><br><span class="line">    String[] type() default &#123;&#125;;</span><br><span class="line">    Class&lt;? extends Annotation&gt;[] annotation() default &#123;&#125;;</span><br><span class="line">    String[] name() default &#123;&#125;;</span><br><span class="line">    SearchStrategy search() default SearchStrategy.ALL;</span><br><span class="line">    Class&lt;?&gt;[] parameterizedContainer() default &#123;&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>添加@EnableEurekaClient注解或@ EnableDiscoveryClient，开启对Eureka客户端的支持。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableEurekaServer</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpringCloudEruekaApplication</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(SpringCloudEruekaApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</ul>
+<p>@Conditional中有一个OnBeanCondition的条件类，条件类最终继承关系如下图所示：<br><img src="/2019/01/24/spring-boot-autoconfiguration-fashion/1.png" alt="OnBeanCondition继承关系" title="OnBeanCondition继承关系"><br>可以清晰的看到他最后继承自Condition接口<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@FunctionalInterface</span><br><span class="line">public interface Condition &#123;</span><br><span class="line">    boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>接口中包含一个matches方法，有两个参数一个是ConditionContext包含了获取环境变量信息，Bean信息，类加载器的贵相关信息，AnnotatedTypeMetadata获取注解的信息。通过该方法返回true和false来表明是否加载当前Bean信息，Spring Boot添加了很多注解，主要分类有<code>Class条件，Bean条件，Property条件，Resource条件，Web应用程序条件，SpEL表达式条件</code>这六大类。</p>
+<h1 id="自动化配置"><a href="#自动化配置" class="headerlink" title="自动化配置"></a>自动化配置</h1><ul>
+<li><p>resource下添加META-INF文件，文件下添加spring.factories文件</p>
 </li>
-</ol>
-<p>这样三步骤就讲微服务注册到服务中心中，可以看到服务中心已经获取到当前服务信息。</p>
+<li></li>
+</ul>
 
       
     </div>
@@ -356,13 +359,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2018/09/26/spring-cloud-tutorial-eureka/">服务治理-Spring Cloud Eureka</a></p>
+        <p><span>本文标题:</span><a href="/2019/01/24/spring-boot-autoconfiguration-fashion/">SpringBoot自动装配详解</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">BattleHeart</a></p>
-        <p><span>发布时间:</span>2018-09-26, 16:01:31</p>
-        <p><span>最后更新:</span>2018-10-01, 21:23:11</p>
+        <p><span>发布时间:</span>2019-01-24, 14:25:08</p>
+        <p><span>最后更新:</span>2019-01-24, 23:05:35</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2018/09/26/spring-cloud-tutorial-eureka/" title="服务治理-Spring Cloud Eureka">https://www.battleheart.cn/2018/09/26/spring-cloud-tutorial-eureka/</a>
-            <span class="copy-path" data-clipboard-text="原文: https://www.battleheart.cn/2018/09/26/spring-cloud-tutorial-eureka/　　作者: BattleHeart" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2019/01/24/spring-boot-autoconfiguration-fashion/" title="SpringBoot自动装配详解">https://www.battleheart.cn/2019/01/24/spring-boot-autoconfiguration-fashion/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://www.battleheart.cn/2019/01/24/spring-boot-autoconfiguration-fashion/　　作者: BattleHeart" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -374,16 +377,10 @@
 
     <nav id="article-nav">
         
-            <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2018/09/27/quick-start-spring-cloud-ribbon/">
-                    客户端负载均衡Spring Cloud Ribbon之快速入门
-                </a>
-            </div>
-        
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2018/09/23/maven-skeleton-generation/">
-                    一文搭建Maven骨架
+                <a href="/2019/01/24/spring-boot-thymeleaf-and-shiro/">
+                    spring-boot与thymeleaf模板整合shiro标签内容
                 </a>
             </div>
         
@@ -395,7 +392,7 @@
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Eureka介绍"><span class="toc-number">1.</span> <span class="toc-text">Eureka介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Eureka的使用"><span class="toc-number">2.</span> <span class="toc-text">Eureka的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#页面描述"><span class="toc-number">2.1.</span> <span class="toc-text">页面描述</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#客户端"><span class="toc-number">3.</span> <span class="toc-text">客户端</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Spring-Boot自动装配"><span class="toc-number">1.</span> <span class="toc-text">Spring Boot自动装配</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Enable-模块驱动-Spring注解驱动"><span class="toc-number">1.1.</span> <span class="toc-text">@Enable 模块驱动,Spring注解驱动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring-Boot条件注解讲解"><span class="toc-number">1.2.</span> <span class="toc-text">Spring Boot条件注解讲解</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#自动化配置"><span class="toc-number">2.</span> <span class="toc-text">自动化配置</span></a></li></ol>
         
     </div>
     <style>
@@ -431,7 +428,7 @@
         </div>
         <script>
             window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"服务治理-Spring Cloud Eureka　| BattleHeart　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+                "common":{"bdSnsKey":{},"bdText":"SpringBoot自动装配详解　| BattleHeart　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
         </script>
     
 
@@ -451,15 +448,13 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2018/09/27/quick-start-spring-cloud-ribbon/" title="上一篇: 客户端负载均衡Spring Cloud Ribbon之快速入门">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
 
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2018/09/23/maven-skeleton-generation/" title="下一篇: 一文搭建Maven骨架">
+            <a href="/2019/01/24/spring-boot-thymeleaf-and-shiro/" title="下一篇: spring-boot与thymeleaf模板整合shiro标签内容">
                 <i class="fa fa-angle-right"></i>
             </a>
         

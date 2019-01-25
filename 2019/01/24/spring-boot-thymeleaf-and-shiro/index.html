@@ -23,7 +23,7 @@
 <meta property="og:site_name" content="BattleHeart">
 <meta property="og:description" content="添加依赖thymeleaf-extras-shiro，然后对html属性中添加xmlns:shiro=&quot;http://www.pollix.at/thymeleaf/shiro，添加Bean对象ShiroDialect">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-01-24T03:31:27.732Z">
+<meta property="og:updated_time" content="2019-01-25T08:39:05.522Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="spring-boot与thymeleaf模板整合shiro标签内容">
 <meta name="twitter:description" content="添加依赖thymeleaf-extras-shiro，然后对html属性中添加xmlns:shiro=&quot;http://www.pollix.at/thymeleaf/shiro，添加Bean对象ShiroDialect">
@@ -320,7 +320,14 @@
         <h2 id="添加依赖项"><a href="#添加依赖项" class="headerlink" title="添加依赖项"></a>添加依赖项</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;com.github.theborakompanioni&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;thymeleaf-extras-shiro&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;2.0.0&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
 <h2 id="添加Bean对象"><a href="#添加Bean对象" class="headerlink" title="添加Bean对象"></a>添加Bean对象</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * shiro 标签的Bean。</span><br><span class="line"> *</span><br><span class="line"> * @return</span><br><span class="line"> */</span><br><span class="line">@Bean</span><br><span class="line">public ShiroDialect shiroDialect() &#123;</span><br><span class="line">    return new ShiroDialect();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="页面添加对标签的引用，添加方式如下："><a href="#页面添加对标签的引用，添加方式如下：" class="headerlink" title="页面添加对标签的引用，添加方式如下："></a>页面添加对标签的引用，添加方式如下：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;html lang=&quot;zh_CN&quot; xmlns:th=&quot;http://www.thymeleaf.org&quot; xmlns:shiro=&quot;http://www.pollix.at/thymeleaf/shiro&quot;&gt;</span><br></pre></td></tr></table></figure>
-<h2 id="上述配置成功后即可使用shiro相关的标签"><a href="#上述配置成功后即可使用shiro相关的标签" class="headerlink" title="上述配置成功后即可使用shiro相关的标签"></a>上述配置成功后即可使用shiro相关的标签</h2>   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;shiro:hasPermission name=&quot;P0101&quot;&gt;</span><br><span class="line">  &lt;li&gt;</span><br><span class="line">      &lt;a data-href=&quot;/ticket/spot/view/list&quot; data-title=&quot;景点&quot; href=&quot;javascript:void(0)&quot;&gt;景点&lt;/a&gt;</span><br><span class="line">  &lt;/li&gt;</span><br><span class="line">&lt;/shiro:hasPermission&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="上述配置成功后即可使用shiro相关的标签"><a href="#上述配置成功后即可使用shiro相关的标签" class="headerlink" title="上述配置成功后即可使用shiro相关的标签"></a>上述配置成功后即可使用shiro相关的标签</h2><ul>
+<li><p>直接对代码块进行控制</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;shiro:hasPermission name=&quot;P0101&quot;&gt;</span><br><span class="line">  &lt;li&gt;</span><br><span class="line">      &lt;a data-href=&quot;/ticket/spot/view/list&quot; data-title=&quot;景点&quot; href=&quot;javascript:void(0)&quot;&gt;景点&lt;/a&gt;</span><br><span class="line">  &lt;/li&gt;</span><br><span class="line">&lt;/shiro:hasPermission&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>通过html属性方式进行控制</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;a data-href=&quot;/ticket/spot/view/list&quot; data-title=&quot;景点&quot; href=&quot;javascript:void(0)&quot; shiro:hasPermission name=&quot;P0101&quot;&gt;景点&lt;/a&gt;</span><br></pre></td></tr></table></figure></li>
+</ul>
+
       
     </div>
     
@@ -331,7 +338,7 @@
         <p><span>本文标题:</span><a href="/2019/01/24/spring-boot-thymeleaf-and-shiro/">spring-boot与thymeleaf模板整合shiro标签内容</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">BattleHeart</a></p>
         <p><span>发布时间:</span>2019-01-24, 10:49:45</p>
-        <p><span>最后更新:</span>2019-01-24, 11:31:27</p>
+        <p><span>最后更新:</span>2019-01-25, 16:39:05</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2019/01/24/spring-boot-thymeleaf-and-shiro/" title="spring-boot与thymeleaf模板整合shiro标签内容">https://www.battleheart.cn/2019/01/24/spring-boot-thymeleaf-and-shiro/</a>
             <span class="copy-path" data-clipboard-text="原文: https://www.battleheart.cn/2019/01/24/spring-boot-thymeleaf-and-shiro/　　作者: BattleHeart" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -345,6 +352,12 @@
 
 
     <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2019/01/24/spring-boot-autoconfiguration-fashion/">
+                    SpringBoot自动装配详解
+                </a>
+            </div>
         
         
             <div id="article-nav-older" class="article-nav-title">
@@ -417,7 +430,9 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+            <a href="/2019/01/24/spring-boot-autoconfiguration-fashion/" title="上一篇: SpringBoot自动装配详解">
+                <i class="fa fa-angle-left"></i>
+            </a>
         
 
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
@@ -429,7 +444,7 @@
         
     </div>
 
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/01/24/spring-boot-thymeleaf-and-shiro/">spring-boot与thymeleaf模板整合shiro标签内容</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/26/use-hexo-to-build-a-blog/">使用Hexo搭建博客</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/spring-boot-admin-monitor/">Spring Boot Admin监控系统搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/logback-with-elk/">使用Logback输出日志到ELK</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/elk-environment-construction-in-windows/">Windows环境下搭建ELK环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/quick-start-spring-cloud-sleuth/">分布式服务跟踪之Spring Cloud Sleuth快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/quick-start-spring-cloud-turbine-rabbitmq/">集群监控Spring Cloud Turbine消息队列篇</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/quick-start-spring-cloud-turbine/">集群监控之Spring Cloud Turbine快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/27/quick-start-spring-cloud-zuul/">API网关服务-Spring Cloud Zuul快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/27/quick-start-spring-cloud-config/">配置管理中心Spring Cloud Config快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/27/quick-start-spring-cloud-hystrix/">服务容错保护Spring Cloud Hystrix之快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/27/quick-start-spring-cloud-ribbon/">客户端负载均衡Spring Cloud Ribbon之快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/26/spring-cloud-tutorial-eureka/">服务治理-Spring Cloud Eureka</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/23/maven-skeleton-generation/">一文搭建Maven骨架</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/23/java-class-loader/">Java类加载器详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/20/how-dynamic-agents-work/">动态代理的工作原理简要分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/18/hello-world/">我的blog之旅又要开始了</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/13/git-study-2/">带你走进git-工作区、暂存区、分支</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/13/git-config/">带你走进git-基础配置</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/01/24/spring-boot-autoconfiguration-fashion/">SpringBoot自动装配详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/24/spring-boot-thymeleaf-and-shiro/">spring-boot与thymeleaf模板整合shiro标签内容</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/26/use-hexo-to-build-a-blog/">使用Hexo搭建博客</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/spring-boot-admin-monitor/">Spring Boot Admin监控系统搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/logback-with-elk/">使用Logback输出日志到ELK</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/elk-environment-construction-in-windows/">Windows环境下搭建ELK环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/quick-start-spring-cloud-sleuth/">分布式服务跟踪之Spring Cloud Sleuth快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/quick-start-spring-cloud-turbine-rabbitmq/">集群监控Spring Cloud Turbine消息队列篇</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/quick-start-spring-cloud-turbine/">集群监控之Spring Cloud Turbine快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/27/quick-start-spring-cloud-zuul/">API网关服务-Spring Cloud Zuul快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/27/quick-start-spring-cloud-config/">配置管理中心Spring Cloud Config快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/27/quick-start-spring-cloud-hystrix/">服务容错保护Spring Cloud Hystrix之快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/27/quick-start-spring-cloud-ribbon/">客户端负载均衡Spring Cloud Ribbon之快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/26/spring-cloud-tutorial-eureka/">服务治理-Spring Cloud Eureka</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/23/maven-skeleton-generation/">一文搭建Maven骨架</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/23/java-class-loader/">Java类加载器详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/20/how-dynamic-agents-work/">动态代理的工作原理简要分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/18/hello-world/">我的blog之旅又要开始了</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/13/git-study-2/">带你走进git-工作区、暂存区、分支</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/13/git-config/">带你走进git-基础配置</a></li></ul>
 
 
 

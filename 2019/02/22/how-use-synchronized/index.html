@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html >
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="BattleHeart" />
+
+
+
+<meta name="description" content="synchronized是java的关键字，用于修饰方法、代码块，能够保证同一时刻最多只有一个线程执行这段代码，通过上述描述可以清晰告诉我们synchronized的作用，也就是同步操作，同步是围绕称为*内部锁*或*监视器锁*的内部实体构建的。内部锁在同步的两个方面都发挥作用：强制对对象状态进行独占访问，并建立对可见性至关重要的先发生关系。">
+<meta name="keywords" content="Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入理解synchronized">
+<meta property="og:url" content="https://www.battleheart.cn/2019/02/22/how-use-synchronized/index.html">
+<meta property="og:site_name" content="BattleHeart">
+<meta property="og:description" content="synchronized是java的关键字，用于修饰方法、代码块，能够保证同一时刻最多只有一个线程执行这段代码，通过上述描述可以清晰告诉我们synchronized的作用，也就是同步操作，同步是围绕称为*内部锁*或*监视器锁*的内部实体构建的。内部锁在同步的两个方面都发挥作用：强制对对象状态进行独占访问，并建立对可见性至关重要的先发生关系。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://www.battleheart.cn/2019/02/22/how-use-synchronized/lock.png">
+<meta property="og:updated_time" content="2019-02-22T08:50:41.785Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深入理解synchronized">
+<meta name="twitter:description" content="synchronized是java的关键字，用于修饰方法、代码块，能够保证同一时刻最多只有一个线程执行这段代码，通过上述描述可以清晰告诉我们synchronized的作用，也就是同步操作，同步是围绕称为*内部锁*或*监视器锁*的内部实体构建的。内部锁在同步的两个方面都发挥作用：强制对对象状态进行独占访问，并建立对可见性至关重要的先发生关系。">
+<meta name="twitter:image" content="https://www.battleheart.cn/2019/02/22/how-use-synchronized/lock.png">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="BattleHeart" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/orange/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>深入理解synchronized | BattleHeart</title>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdnjs.cloudflare.com/ajax/libs/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js", "//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">BattleHeart</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">个人博客</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="dwlsxj:@126.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/dwlsxj" title="GitHub"></a>
+                            
+                                <a class="fa 博客园" href="https://www.cnblogs.com/dwlsxj/" title="博客园"></a>
+                            
+                                <a class="fa 网易云音乐" href="https://music.163.com/#/user/home?id=31908845" title="网易云音乐"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ELK/">ELK</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Life/">Life</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Maven/">Maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shiro/">Shiro</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringCloud/">SpringCloud</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://www.cnblogs.com/dwlsxj/">BalleHeart</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://www.80iter.com/">80ITer</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">专注于后端开发</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">BattleHeart</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">BattleHeart</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">个人博客</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="dwlsxj:@126.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/dwlsxj" title="GitHub"></a>
+                            
+                                <a class="fa 博客园" target="_blank" href="https://www.cnblogs.com/dwlsxj/" title="博客园"></a>
+                            
+                                <a class="fa 网易云音乐" target="_blank" href="https://music.163.com/#/user/home?id=31908845" title="网易云音乐"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-how-use-synchronized" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/02/22/how-use-synchronized/" class="article-date">
+      <time datetime="2019-02-22T08:46:37.000Z" itemprop="datePublished">2019-02-22</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      深入理解synchronized
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/个人技术/">个人技术</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="深入理解synchronized"><a href="#深入理解synchronized" class="headerlink" title="深入理解synchronized"></a>深入理解synchronized</h1><h2 id="synchronized介绍"><a href="#synchronized介绍" class="headerlink" title="synchronized介绍"></a>synchronized介绍</h2><p>synchronized是java的关键字，用于修饰方法、代码块，能够保证同一时刻最多只有一个线程执行这段代码，通过上述描述可以清晰告诉我们synchronized的作用，也就是同步操作，同步是围绕称为<em>内部锁</em>或<em>监视器锁</em>的内部实体构建的。内部锁在同步的两个方面都发挥作用：强制对对象状态进行独占访问，并建立对可见性至关重要的先发生关系。</p>
+<h2 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h2><h3 id="代码段"><a href="#代码段" class="headerlink" title="代码段"></a>代码段</h3><p>在方法内部使用synchronized来进行代码块的同步操作。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">synchronized</span>(<span class="keyword">this</span>) &#123;</span><br><span class="line">        lastName = name;</span><br><span class="line">        nameCount++;</span><br><span class="line">    &#125;</span><br><span class="line">    nameList.add(name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><p>直接在方法上使用synchronized进行修饰即可。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SynchronizedCounter</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> c = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">increment</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        c++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">decrement</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        c--;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">int</span> <span class="title">value</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> c;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当线程调用synchronized方法时，它会自动获取该方法对象的内部锁，并在方法返回时释放它。即使返回是由未捕获的异常引起的，也会发生锁定释放，可能想知道在调用静态同步方法时会发生什么，因为静态方法与类关联，而不是与对象关联。在这种情况下，线程获取<code>Class</code>与类关联的对象的内部锁。因此，对类的静态字段的访问由与该类的任何实例的锁不同的锁控制。</p>
+<h2 id="内部锁或监视器锁"><a href="#内部锁或监视器锁" class="headerlink" title="内部锁或监视器锁"></a>内部锁或监视器锁</h2><p>同步是围绕称为<em>内部锁</em>或<em>监视器锁</em>的内部实体构建的。内部锁在同步的两个方面都发挥作用：强制对对象状态进行独占访问，并建立对可见性至关重要的先发生关系。每个对象都有一个与之关联的内在锁，按照惯例，需要对对象字段进行独占和一致访问的线程必须在访问对象之前<em>获取</em>对象的内部锁，然后在完成它们时<em>释放</em>内部锁。据说一个线程在获得锁定和释放锁定之间<em>拥有</em>内在锁定。只要一个<code>线程</code>拥有一个内部锁，没有<code>其他线程</code>可以获得相同的锁。另一个线程在尝试获取锁时将阻塞。当线程释放内部锁时，在该操作与同一锁的任何后续获取之间建立先发生关系。</p>
+<ol>
+<li><p>当使用synchronized修饰非静态方法是，内置锁就是对象本身（this）</p>
+</li>
+<li><p>当使用synchronized修饰静态方法是，内置锁就是该方法的所在的<strong>类对象</strong>的内置锁</p>
+</li>
+</ol>
+<p>通过一张图来描述一下synchronized的运行过程：</p>
+<p><img src="/2019/02/22/how-use-synchronized/lock.png" alt="Synchronized运行"></p>
+<ol>
+<li><p>当线程1获取到拥有一个内部锁，没有其他线程可以获得相同的锁。</p>
+</li>
+<li><p>线程2只能等到线程1释放内部锁，线程2处于Blocked阻塞状态，被阻塞的线程将等待。</p>
+</li>
+<li><p>当线程1方法执行完释放内部锁之后，线程2获取内部锁，执行相应的方法。</p>
+</li>
+</ol>
+<h2 id="内部锁可重入"><a href="#内部锁可重入" class="headerlink" title="内部锁可重入"></a>内部锁可重入</h2><p><strong>重入性</strong>指的是同一线程中，线程不需要再次获取同一把锁，内部锁是基于<code>每个线程</code>而不是基于每个方法的调用获取的。一旦线程获得了锁，它就可以在内部调用其他方法而无需重新获取锁。只有在使用entry方法调用完成线程时才会释放Lock。</p>
+<p>下面结合例子进行分析锁的重入性：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ReentrantDemo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span> <span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        ReentrantDemo demo = <span class="keyword">new</span> ReentrantDemo();</span><br><span class="line">        Thread thread1 = <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            System.out.println(<span class="string">"线程1调用前 "</span>+ LocalDateTime.now());</span><br><span class="line">            demo.syncMethod1(<span class="string">"执行线程1的方法"</span>);</span><br><span class="line">            System.out.println(<span class="string">"线程1调用后 "</span>+LocalDateTime.now());</span><br><span class="line">        &#125;);</span><br><span class="line">        Thread thread2 = <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            System.out.println(<span class="string">"线程2调用前 "</span>+LocalDateTime.now());</span><br><span class="line">            demo.syncMethod2(<span class="string">"执行线程2的方法"</span>);</span><br><span class="line">            System.out.println(<span class="string">"线程2调用后 "</span>+LocalDateTime.now());</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        thread1.start();</span><br><span class="line">        thread2.start();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">syncMethod1</span> <span class="params">(String msg)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"进入同步方法1syncMethod1 "</span>+msg+<span class="string">" "</span>+LocalDateTime.now());</span><br><span class="line">        syncMethod2(<span class="string">"重入同步方法syncMethod2"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">syncMethod2</span> <span class="params">(String msg)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"进入到同步方法2syncMethod2 "</span>+msg+<span class="string">" "</span>+LocalDateTime.now());</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            TimeUnit.SECONDS.sleep(<span class="number">3</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">线程2调用前 2019-02-22T15:33:43.963</span><br><span class="line">进入同步方法1syncMethod1 执行线程1的方法 2019-02-22T15:33:43.964</span><br><span class="line">进入到同步方法2syncMethod2 重入同步方法syncMethod2 2019-02-22T15:33:43.964</span><br><span class="line">线程1调用后 2019-02-22T15:33:46.969</span><br><span class="line">进入到同步方法2syncMethod2 执行线程2的方法 2019-02-22T15:33:46.969</span><br><span class="line">线程2调用后 2019-02-22T15:33:49.973</span><br></pre></td></tr></table></figure>
+<p>代码解析：</p>
+<ol>
+<li><code>syncMethod1</code>和<code>syncMethod2</code>都用synchronized进行修饰。</li>
+<li><code>syncMethod1</code>调用了<code>syncMethod2</code>方法，这时候会产生重入的问题</li>
+<li>线程1当调用<code>syncMethod1</code>时，获取当前对象的内部锁</li>
+<li>线程1调用<code>syncMethod2</code>时，发现当前线程拥有当前对象的内部锁，直接重入<code>syncMethod2</code>中</li>
+<li>每个对象拥有一个计数器，当线程获取该对象锁后，计数器就会加一，释放锁后就会将计数器减一</li>
+</ol>
+<h2 id="核心原理"><a href="#核心原理" class="headerlink" title="核心原理"></a>核心原理</h2><p>我们当使用synchronized修饰代码块或者方法时内部实现了什么操作？我们通过下面例子来进行揭露真面目</p>
+<p>实例代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">syncMethod</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"testing"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Test test = <span class="keyword">new</span> Test();</span><br><span class="line">        test.syncMethod();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过javap -v Test.class查看字节码文件:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">  public com.example.demo.Test();</span><br><span class="line">    descriptor: ()V</span><br><span class="line">    flags: ACC_PUBLIC</span><br><span class="line">    Code:</span><br><span class="line">      stack=1, locals=1, args_size=1</span><br><span class="line">         0: aload_0</span><br><span class="line">         1: invokespecial #1                  // Method java/lang/Object.&quot;&lt;init&gt;&quot;:()V</span><br><span class="line">         4: return</span><br><span class="line">      LineNumberTable:</span><br><span class="line">        line 3: 0</span><br><span class="line">      LocalVariableTable:</span><br><span class="line">        Start  Length  Slot  Name   Signature</span><br><span class="line">            0       5     0  this   Lcom/example/demo/Test;</span><br><span class="line">  public synchronized void syncMethod();</span><br><span class="line">    descriptor: ()V</span><br><span class="line">    flags: ACC_PUBLIC, ACC_SYNCHRONIZED</span><br><span class="line">    Code:</span><br><span class="line">      stack=2, locals=1, args_size=1</span><br><span class="line">         0: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;</span><br><span class="line">         3: ldc           #3                  // String testing</span><br><span class="line">         5: invokevirtual #4                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V</span><br><span class="line">         8: return</span><br><span class="line">      LineNumberTable:</span><br><span class="line">        line 6: 0</span><br><span class="line">        line 7: 8</span><br><span class="line">      LocalVariableTable:</span><br><span class="line">        Start  Length  Slot  Name   Signature</span><br><span class="line">            0       9     0  this   Lcom/example/demo/Test;</span><br><span class="line"></span><br><span class="line">  public static void main(java.lang.String[]);</span><br><span class="line">    descriptor: ([Ljava/lang/String;)V</span><br><span class="line">    flags: ACC_PUBLIC, ACC_STATIC</span><br><span class="line">    Code:</span><br><span class="line">      stack=2, locals=2, args_size=1</span><br><span class="line">         0: new           #5                  // class com/example/demo/Test</span><br><span class="line">         3: dup</span><br><span class="line">         4: invokespecial #6                  // Method &quot;&lt;init&gt;&quot;:()V</span><br><span class="line">         7: astore_1</span><br><span class="line">         8: aload_1</span><br><span class="line">         9: invokevirtual #7                  // Method syncMethod:()V</span><br><span class="line">        12: return</span><br><span class="line">      LineNumberTable:</span><br><span class="line">        line 10: 0</span><br><span class="line">        line 11: 8</span><br><span class="line">        line 12: 12</span><br><span class="line">      LocalVariableTable:</span><br><span class="line">        Start  Length  Slot  Name   Signature</span><br><span class="line">            0      13     0  args   [Ljava/lang/String;</span><br><span class="line">            8       5     1  test   Lcom/example/demo/Test;</span><br><span class="line">    MethodParameters:</span><br><span class="line">      Name                           Flags</span><br><span class="line">      args</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li><code>syncMethod</code>的synchronized修饰在方法上</li>
+<li><code>syncMethod</code>的flag中存在ACC_SYNCHRONIZED进行修饰，标识是否为synchronized</li>
+</ol>
+<p>实例二：</p>
+<p>通过synchronized方法修饰代码块</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> battleheart</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">syncMethod</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"testing"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">synchronized</span> (Test.class) &#123;</span><br><span class="line">            syncMethod();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过javap -v Test.class查看字节码文件:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  public com.example.demo.Test();</span><br><span class="line">    descriptor: ()V</span><br><span class="line">    flags: ACC_PUBLIC</span><br><span class="line">    Code:</span><br><span class="line">      stack=1, locals=1, args_size=1</span><br><span class="line">         0: aload_0</span><br><span class="line">         1: invokespecial #1                  // Method java/lang/Object.&quot;&lt;init&gt;&quot;:()V</span><br><span class="line">         4: return</span><br><span class="line">      LineNumberTable:</span><br><span class="line">        line 3: 0</span><br><span class="line">      LocalVariableTable:</span><br><span class="line">        Start  Length  Slot  Name   Signature</span><br><span class="line">            0       5     0  this   Lcom/example/demo/Test;</span><br><span class="line"></span><br><span class="line">  public static void syncMethod();</span><br><span class="line">    descriptor: ()V</span><br><span class="line">    flags: ACC_PUBLIC, ACC_STATIC</span><br><span class="line">    Code:</span><br><span class="line">      stack=2, locals=0, args_size=0</span><br><span class="line">         0: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;</span><br><span class="line">         3: ldc           #3                  // String testing</span><br><span class="line">         5: invokevirtual #4                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V</span><br><span class="line">         8: return</span><br><span class="line">      LineNumberTable:</span><br><span class="line">        line 6: 0</span><br><span class="line">        line 7: 8</span><br><span class="line"></span><br><span class="line">  public static void main(java.lang.String[]) throws java.lang.Exception;</span><br><span class="line">    descriptor: ([Ljava/lang/String;)V</span><br><span class="line">    flags: ACC_PUBLIC, ACC_STATIC</span><br><span class="line">    Code:</span><br><span class="line">      stack=2, locals=3, args_size=1</span><br><span class="line">         0: ldc           #5                  // class com/example/demo/Test</span><br><span class="line">         2: dup</span><br><span class="line">         3: astore_1</span><br><span class="line">         4: monitorenter</span><br><span class="line">         5: invokestatic  #6                  // Method syncMethod:()V</span><br><span class="line">         8: aload_1</span><br><span class="line">         9: monitorexit</span><br><span class="line">        10: goto          18</span><br><span class="line">        13: astore_2</span><br><span class="line">        14: aload_1</span><br><span class="line">        15: monitorexit</span><br><span class="line">        16: aload_2</span><br><span class="line">        17: athrow</span><br><span class="line">        18: return</span><br><span class="line">      Exception table:</span><br><span class="line">         from    to  target type</span><br><span class="line">             5    10    13   any</span><br><span class="line">            13    16    13   any</span><br><span class="line">      LineNumberTable:</span><br><span class="line">        line 11: 0</span><br><span class="line">        line 12: 5</span><br><span class="line">        line 13: 8</span><br><span class="line">        line 14: 18</span><br><span class="line">      LocalVariableTable:</span><br><span class="line">        Start  Length  Slot  Name   Signature</span><br><span class="line">            0      19     0  args   [Ljava/lang/String;</span><br><span class="line">      StackMapTable: number_of_entries = 2</span><br><span class="line">        frame_type = 255 /* full_frame */</span><br><span class="line">          offset_delta = 13</span><br><span class="line">          locals = [ class &quot;[Ljava/lang/String;&quot;, class java/lang/Object ]</span><br><span class="line">          stack = [ class java/lang/Throwable ]</span><br><span class="line">        frame_type = 250 /* chop */</span><br><span class="line">          offset_delta = 4</span><br><span class="line">    Exceptions:</span><br><span class="line">      throws java.lang.Exception</span><br><span class="line">    MethodParameters:</span><br><span class="line">      Name                           Flags</span><br><span class="line">      args</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>执行同步代码块首先执行<strong>monitorenter</strong>指令，退出时候执行<strong>monitorexit</strong>指令</li>
+<li>同步时必须要获取对象的监视器monitor，获取monitor后才能执行下面逻辑，否则只能等待。</li>
+<li>经过<strong>monitorenter</strong>指令和<strong>monitorexit</strong>指令修饰的部分代码是互斥的，仅有一个线程持有内部锁。</li>
+</ol>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2019/02/22/how-use-synchronized/">深入理解synchronized</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">BattleHeart</a></p>
+        <p><span>发布时间:</span>2019-02-22, 16:46:37</p>
+        <p><span>最后更新:</span>2019-02-22, 16:50:41</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2019/02/22/how-use-synchronized/" title="深入理解synchronized">https://www.battleheart.cn/2019/02/22/how-use-synchronized/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://www.battleheart.cn/2019/02/22/how-use-synchronized/　　作者: BattleHeart" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2019/01/24/spring-boot-autoconfiguration-fashion/">
+                    SpringBoot自动装配详解
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#深入理解synchronized"><span class="toc-number">1.</span> <span class="toc-text">深入理解synchronized</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#synchronized介绍"><span class="toc-number">1.1.</span> <span class="toc-text">synchronized介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基本用法"><span class="toc-number">1.2.</span> <span class="toc-text">基本用法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#代码段"><span class="toc-number">1.2.1.</span> <span class="toc-text">代码段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法"><span class="toc-number">1.2.2.</span> <span class="toc-text">方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内部锁或监视器锁"><span class="toc-number">1.3.</span> <span class="toc-text">内部锁或监视器锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内部锁可重入"><span class="toc-number">1.4.</span> <span class="toc-text">内部锁可重入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#核心原理"><span class="toc-number">1.5.</span> <span class="toc-text">核心原理</span></a></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"深入理解synchronized　| BattleHeart　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2019/01/24/spring-boot-autoconfiguration-fashion/" title="下一篇: SpringBoot自动装配详解">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/02/22/how-use-synchronized/">深入理解synchronized</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/24/spring-boot-autoconfiguration-fashion/">SpringBoot自动装配详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/24/spring-boot-thymeleaf-and-shiro/">spring-boot与thymeleaf模板整合shiro标签内容</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/26/use-hexo-to-build-a-blog/">使用Hexo搭建博客</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/spring-boot-admin-monitor/">Spring Boot Admin监控系统搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/logback-with-elk/">使用Logback输出日志到ELK</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/elk-environment-construction-in-windows/">Windows环境下搭建ELK环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/quick-start-spring-cloud-sleuth/">分布式服务跟踪之Spring Cloud Sleuth快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/quick-start-spring-cloud-turbine-rabbitmq/">集群监控Spring Cloud Turbine消息队列篇</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/quick-start-spring-cloud-turbine/">集群监控之Spring Cloud Turbine快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/27/quick-start-spring-cloud-zuul/">API网关服务-Spring Cloud Zuul快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/27/quick-start-spring-cloud-config/">配置管理中心Spring Cloud Config快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/27/quick-start-spring-cloud-hystrix/">服务容错保护Spring Cloud Hystrix之快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/27/quick-start-spring-cloud-ribbon/">客户端负载均衡Spring Cloud Ribbon之快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/26/spring-cloud-tutorial-eureka/">服务治理-Spring Cloud Eureka</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/23/maven-skeleton-generation/">一文搭建Maven骨架</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/23/java-class-loader/">Java类加载器详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/20/how-dynamic-agents-work/">动态代理的工作原理简要分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/18/hello-world/">我的blog之旅又要开始了</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/13/git-study-2/">带你走进git-工作区、暂存区、分支</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/13/git-config/">带你走进git-基础配置</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2018-2019 BattleHeart
+            </div>
+            <div class="footer-right">
+                <a href="http://battleHeart.cn/" target="_blank" title="快速、简洁且高效的博客框架">BattleHeart</a>  Blog 
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

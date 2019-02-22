@@ -15,19 +15,19 @@
 
 
 
-<meta name="description" content="synchronized是java的关键字，用于修饰方法、代码块，能够保证同一时刻最多只有一个线程执行这段代码，通过上述描述可以清晰告诉我们synchronized的作用，也就是同步操作，同步是围绕称为*内部锁*或*监视器锁*的内部实体构建的。内部锁在同步的两个方面都发挥作用：强制对对象状态进行独占访问，并建立对可见性至关重要的先发生关系。">
+<meta name="description" content="synchronized是java的关键字，用于修饰方法、代码块，能够保证同一时刻最多只有一个线程执行这段代码，通过上述描述可以清晰告诉我们synchronized的作用，也就是同步操作，同步是围绕称为内部锁或监视器锁的内部实体构建的。内部锁在同步的两个方面都发挥作用：强制对对象状态进行独占访问，并建立对可见性至关重要的先发生关系。">
 <meta name="keywords" content="Java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="深入理解synchronized">
 <meta property="og:url" content="https://www.battleheart.cn/2019/02/22/how-use-synchronized/index.html">
 <meta property="og:site_name" content="BattleHeart">
-<meta property="og:description" content="synchronized是java的关键字，用于修饰方法、代码块，能够保证同一时刻最多只有一个线程执行这段代码，通过上述描述可以清晰告诉我们synchronized的作用，也就是同步操作，同步是围绕称为*内部锁*或*监视器锁*的内部实体构建的。内部锁在同步的两个方面都发挥作用：强制对对象状态进行独占访问，并建立对可见性至关重要的先发生关系。">
+<meta property="og:description" content="synchronized是java的关键字，用于修饰方法、代码块，能够保证同一时刻最多只有一个线程执行这段代码，通过上述描述可以清晰告诉我们synchronized的作用，也就是同步操作，同步是围绕称为内部锁或监视器锁的内部实体构建的。内部锁在同步的两个方面都发挥作用：强制对对象状态进行独占访问，并建立对可见性至关重要的先发生关系。">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://www.battleheart.cn/2019/02/22/how-use-synchronized/lock.png">
-<meta property="og:updated_time" content="2019-02-22T08:50:41.785Z">
+<meta property="og:updated_time" content="2019-02-22T08:52:43.172Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深入理解synchronized">
-<meta name="twitter:description" content="synchronized是java的关键字，用于修饰方法、代码块，能够保证同一时刻最多只有一个线程执行这段代码，通过上述描述可以清晰告诉我们synchronized的作用，也就是同步操作，同步是围绕称为*内部锁*或*监视器锁*的内部实体构建的。内部锁在同步的两个方面都发挥作用：强制对对象状态进行独占访问，并建立对可见性至关重要的先发生关系。">
+<meta name="twitter:description" content="synchronized是java的关键字，用于修饰方法、代码块，能够保证同一时刻最多只有一个线程执行这段代码，通过上述描述可以清晰告诉我们synchronized的作用，也就是同步操作，同步是围绕称为内部锁或监视器锁的内部实体构建的。内部锁在同步的两个方面都发挥作用：强制对对象状态进行独占访问，并建立对可见性至关重要的先发生关系。">
 <meta name="twitter:image" content="https://www.battleheart.cn/2019/02/22/how-use-synchronized/lock.png">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
@@ -384,7 +384,7 @@
         <p><span>本文标题:</span><a href="/2019/02/22/how-use-synchronized/">深入理解synchronized</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">BattleHeart</a></p>
         <p><span>发布时间:</span>2019-02-22, 16:46:37</p>
-        <p><span>最后更新:</span>2019-02-22, 16:50:41</p>
+        <p><span>最后更新:</span>2019-02-22, 16:52:43</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2019/02/22/how-use-synchronized/" title="深入理解synchronized">https://www.battleheart.cn/2019/02/22/how-use-synchronized/</a>
             <span class="copy-path" data-clipboard-text="原文: https://www.battleheart.cn/2019/02/22/how-use-synchronized/　　作者: BattleHeart" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>

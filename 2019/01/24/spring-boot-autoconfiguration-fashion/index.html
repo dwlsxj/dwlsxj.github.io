@@ -28,7 +28,7 @@
 <meta property="og:image" content="https://www.battleheart.cn/2019/01/24/spring-boot-autoconfiguration-fashion/4.png">
 <meta property="og:image" content="https://www.battleheart.cn/2019/01/24/spring-boot-autoconfiguration-fashion/3.jpg">
 <meta property="og:image" content="https://www.battleheart.cn/2019/01/24/spring-boot-autoconfiguration-fashion/5.png">
-<meta property="og:updated_time" content="2019-02-22T05:57:49.426Z">
+<meta property="og:updated_time" content="2019-02-22T06:02:30.793Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SpringBoot自动装配详解">
 <meta name="twitter:description" content="通过观察这些@Enable*的源码，我们发现所有注解都有一个@Import注解，@Import是用来导入配置类的，这就意味着这些自动开启的实现其实是导入一些自动配置的Bean">
@@ -406,7 +406,7 @@
 <li><code>Web应用程序条件</code></li>
 <li><code>SpEL表达式条件</code> </li>
 </ol>
-<h1 id="自动化配置"><a href="#自动化配置" class="headerlink" title="自动化配置"></a>自动化配置</h1><ol>
+<h2 id="自动化配置"><a href="#自动化配置" class="headerlink" title="自动化配置"></a>自动化配置</h2><ol>
 <li><p>resource下添加META-INF文件，文件下添加spring.factories文件，如下图所示：  </p>
 <p><img src="/2019/01/24/spring-boot-autoconfiguration-fashion/2.png" alt="spring.factories" title="spring.factories">   </p>
 <p>以Mybatis自动配置为主进行讲解，里面内容如下所示：</p>
@@ -451,8 +451,7 @@
 <p>到上面最后一步其实就是已经到了我们上面源码分析的内容位置。</p>
 <p>整体流程图大致如下图所示：</p>
 <p><img src="/2019/01/24/spring-boot-autoconfiguration-fashion/5.png" alt="处理流程"></p>
-<p>#参考内容</p>
-<p><code>JavaEE开发的颠覆者: Spring Boot实战</code>书籍,其中@Enable*驱动的三种方式摘抄本书</p>
+<h2 id="参考内容"><a href="#参考内容" class="headerlink" title="参考内容"></a>参考内容</h2><p><code>JavaEE开发的颠覆者: Spring Boot实战</code>书籍,其中@Enable*驱动的三种方式摘抄本书</p>
 
       
     </div>
@@ -464,7 +463,7 @@
         <p><span>本文标题:</span><a href="/2019/01/24/spring-boot-autoconfiguration-fashion/">SpringBoot自动装配详解</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">BattleHeart</a></p>
         <p><span>发布时间:</span>2019-01-24, 14:25:08</p>
-        <p><span>最后更新:</span>2019-02-22, 13:57:49</p>
+        <p><span>最后更新:</span>2019-02-22, 14:02:30</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2019/01/24/spring-boot-autoconfiguration-fashion/" title="SpringBoot自动装配详解">https://www.battleheart.cn/2019/01/24/spring-boot-autoconfiguration-fashion/</a>
             <span class="copy-path" data-clipboard-text="原文: https://www.battleheart.cn/2019/01/24/spring-boot-autoconfiguration-fashion/　　作者: BattleHeart" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -494,7 +493,7 @@
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Spring-Boot自动装配"><span class="toc-number">1.</span> <span class="toc-text">Spring Boot自动装配</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#开篇"><span class="toc-number">1.1.</span> <span class="toc-text">开篇</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引用例子抛出问题"><span class="toc-number">1.2.</span> <span class="toc-text">引用例子抛出问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Enable-模块驱动"><span class="toc-number">1.3.</span> <span class="toc-text">@Enable 模块驱动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring-Boot条件注解讲解"><span class="toc-number">1.4.</span> <span class="toc-text">Spring Boot条件注解讲解</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#自动化配置"><span class="toc-number">2.</span> <span class="toc-text">自动化配置</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Spring-Boot自动装配"><span class="toc-number">1.</span> <span class="toc-text">Spring Boot自动装配</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#开篇"><span class="toc-number">1.1.</span> <span class="toc-text">开篇</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引用例子抛出问题"><span class="toc-number">1.2.</span> <span class="toc-text">引用例子抛出问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Enable-模块驱动"><span class="toc-number">1.3.</span> <span class="toc-text">@Enable 模块驱动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring-Boot条件注解讲解"><span class="toc-number">1.4.</span> <span class="toc-text">Spring Boot条件注解讲解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自动化配置"><span class="toc-number">1.5.</span> <span class="toc-text">自动化配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考内容"><span class="toc-number">1.6.</span> <span class="toc-text">参考内容</span></a></li></ol></li></ol>
         
     </div>
     <style>
@@ -562,7 +561,7 @@
         
     </div>
 
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/01/24/spring-boot-autoconfiguration-fashion/">SpringBoot自动装配详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/24/spring-boot-thymeleaf-and-shiro/">spring-boot与thymeleaf模板整合shiro标签内容</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/26/use-hexo-to-build-a-blog/">使用Hexo搭建博客</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/spring-boot-admin-monitor/">Spring Boot Admin监控系统搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/logback-with-elk/">使用Logback输出日志到ELK</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/elk-environment-construction-in-windows/">Windows环境下搭建ELK环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/quick-start-spring-cloud-sleuth/">分布式服务跟踪之Spring Cloud Sleuth快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/quick-start-spring-cloud-turbine-rabbitmq/">集群监控Spring Cloud Turbine消息队列篇</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/quick-start-spring-cloud-turbine/">集群监控之Spring Cloud Turbine快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/27/quick-start-spring-cloud-zuul/">API网关服务-Spring Cloud Zuul快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/27/quick-start-spring-cloud-config/">配置管理中心Spring Cloud Config快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/27/quick-start-spring-cloud-hystrix/">服务容错保护Spring Cloud Hystrix之快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/27/quick-start-spring-cloud-ribbon/">客户端负载均衡Spring Cloud Ribbon之快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/26/spring-cloud-tutorial-eureka/">服务治理-Spring Cloud Eureka</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/23/java-class-loader/">Java类加载器详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/23/maven-skeleton-generation/">一文搭建Maven骨架</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/20/how-dynamic-agents-work/">动态代理的工作原理简要分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/18/hello-world/">我的blog之旅又要开始了</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/13/git-study-2/">带你走进git-工作区、暂存区、分支</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/13/git-config/">带你走进git-基础配置</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/01/24/spring-boot-autoconfiguration-fashion/">SpringBoot自动装配详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/24/spring-boot-thymeleaf-and-shiro/">spring-boot与thymeleaf模板整合shiro标签内容</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/26/use-hexo-to-build-a-blog/">使用Hexo搭建博客</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/spring-boot-admin-monitor/">Spring Boot Admin监控系统搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/logback-with-elk/">使用Logback输出日志到ELK</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/elk-environment-construction-in-windows/">Windows环境下搭建ELK环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/quick-start-spring-cloud-sleuth/">分布式服务跟踪之Spring Cloud Sleuth快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/quick-start-spring-cloud-turbine-rabbitmq/">集群监控Spring Cloud Turbine消息队列篇</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/quick-start-spring-cloud-turbine/">集群监控之Spring Cloud Turbine快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/27/quick-start-spring-cloud-zuul/">API网关服务-Spring Cloud Zuul快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/27/quick-start-spring-cloud-config/">配置管理中心Spring Cloud Config快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/27/quick-start-spring-cloud-hystrix/">服务容错保护Spring Cloud Hystrix之快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/27/quick-start-spring-cloud-ribbon/">客户端负载均衡Spring Cloud Ribbon之快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/26/spring-cloud-tutorial-eureka/">服务治理-Spring Cloud Eureka</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/23/maven-skeleton-generation/">一文搭建Maven骨架</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/23/java-class-loader/">Java类加载器详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/20/how-dynamic-agents-work/">动态代理的工作原理简要分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/18/hello-world/">我的blog之旅又要开始了</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/13/git-study-2/">带你走进git-工作区、暂存区、分支</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/13/git-config/">带你走进git-基础配置</a></li></ul>
 
 
 

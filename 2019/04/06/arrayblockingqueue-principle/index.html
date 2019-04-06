@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html >
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="BattleHeart" />
+
+
+
+<meta name="description" content="ArrayBlockingQueue是基于数组实现的共享通道，为什么说是共享通道，假说线程A希望给线程B发一个消息，用什么方式来告知线程B是比较合适的呢？可以使用BlockingQueue来实现。">
+<meta name="keywords" content="并发编程,多线程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ArrayBlockingQueue原理详解">
+<meta property="og:url" content="https://www.battleheart.cn/2019/04/06/arrayblockingqueue-principle/index.html">
+<meta property="og:site_name" content="BattleHeart">
+<meta property="og:description" content="ArrayBlockingQueue是基于数组实现的共享通道，为什么说是共享通道，假说线程A希望给线程B发一个消息，用什么方式来告知线程B是比较合适的呢？可以使用BlockingQueue来实现。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://www.battleheart.cn/2019/04/06/arrayblockingqueue-principle/1554447867621.jpg">
+<meta property="og:image" content="https://www.battleheart.cn/2019/04/06/arrayblockingqueue-principle/2.png">
+<meta property="og:image" content="https://www.battleheart.cn/2019/04/06/arrayblockingqueue-principle/1.png">
+<meta property="og:image" content="https://www.battleheart.cn/2019/04/06/arrayblockingqueue-principle/3.png">
+<meta property="og:image" content="https://www.battleheart.cn/2019/04/06/arrayblockingqueue-principle/4.png">
+<meta property="og:image" content="https://www.battleheart.cn/2019/04/06/arrayblockingqueue-principle/5.png">
+<meta property="og:image" content="https://www.battleheart.cn/2019/04/06/arrayblockingqueue-principle/6.png">
+<meta property="og:updated_time" content="2019-04-06T06:18:42.069Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ArrayBlockingQueue原理详解">
+<meta name="twitter:description" content="ArrayBlockingQueue是基于数组实现的共享通道，为什么说是共享通道，假说线程A希望给线程B发一个消息，用什么方式来告知线程B是比较合适的呢？可以使用BlockingQueue来实现。">
+<meta name="twitter:image" content="https://www.battleheart.cn/2019/04/06/arrayblockingqueue-principle/1554447867621.jpg">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="BattleHeart" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/orange/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>ArrayBlockingQueue原理详解 | BattleHeart</title>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdnjs.cloudflare.com/ajax/libs/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js", "//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">BattleHeart</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">个人博客</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="dwlsxj:@126.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/dwlsxj" title="GitHub"></a>
+                            
+                                <a class="fa 博客园" href="https://www.cnblogs.com/dwlsxj/" title="博客园"></a>
+                            
+                                <a class="fa 网易云音乐" href="https://music.163.com/#/user/home?id=31908845" title="网易云音乐"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ELK/">ELK</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Life/">Life</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Maven/">Maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shiro/">Shiro</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringCloud/">SpringCloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dubbo/">dubbo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多线程/">多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/并发编程/">并发编程</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://www.cnblogs.com/dwlsxj/">BalleHeart</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://www.80iter.com/">80ITer</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">专注于后端开发</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">BattleHeart</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">BattleHeart</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">个人博客</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="dwlsxj:@126.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/dwlsxj" title="GitHub"></a>
+                            
+                                <a class="fa 博客园" target="_blank" href="https://www.cnblogs.com/dwlsxj/" title="博客园"></a>
+                            
+                                <a class="fa 网易云音乐" target="_blank" href="https://music.163.com/#/user/home?id=31908845" title="网易云音乐"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-arrayblockingqueue-principle" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/04/06/arrayblockingqueue-principle/" class="article-date">
+      <time datetime="2019-04-06T06:16:31.000Z" itemprop="datePublished">2019-04-06</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ArrayBlockingQueue原理详解
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/个人技术/">个人技术</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/多线程/">多线程</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/并发编程/">并发编程</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h1 id="ArrayBlockingQueue原理详解"><a href="#ArrayBlockingQueue原理详解" class="headerlink" title="ArrayBlockingQueue原理详解"></a>ArrayBlockingQueue原理详解</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>ArrayBlockingQueue是基于数组实现的共享通道，为什么说是共享通道，假说线程A希望给线程B发一个消息，用什么方式来告知线程B是比较合适的呢？可以使用BlockingQueue来实现。</p>
+<p><img src="/2019/04/06/arrayblockingqueue-principle/1554447867621.jpg" alt=""></p>
+<p>通过上图中的继承关系我们可以清晰的发现ArrayBlockingQueue是BlockingQueue接口的实现，通过名称可以得出它是基于数组实现的，所以更适合做有界的队列。</p>
+<p>​    刚才也提到过它是作为数据共享来进行的线程间数据的传递，那么问题来了，当队列中为空的时候消费队列的线程如何知道队列中有新的元素添加进去，队列满的时候又如何进行处理？我们带着上面的疑问来进行下面的分析。</p>
+<p>主要的队列的入队、出队操作如下表所示：</p>
+<h3 id="插入队列方法"><a href="#插入队列方法" class="headerlink" title="插入队列方法"></a>插入队列方法</h3><table>
+<thead>
+<tr>
+<th>方法名称</th>
+<th>参数描述</th>
+<th>返回值</th>
+<th>异常信息</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>add</td>
+<td>插入对象</td>
+<td>ture代表插入成功，如果队列已满，抛出异常</td>
+<td>IllegalStateException(“Queue full”)异常——AbstractQueue</td>
+</tr>
+<tr>
+<td>offer</td>
+<td>插入对象</td>
+<td>true代表插入成功，队列已满直接返回false</td>
+<td>无</td>
+</tr>
+<tr>
+<td>offer</td>
+<td>插入对象，等待时间</td>
+<td>true代表插入成功，队列已满等待一段时间后仍没有空间则返回false</td>
+<td>无</td>
+</tr>
+<tr>
+<td>put</td>
+<td>插入对象</td>
+<td>true代表插入成功，如果队列已满则阻塞线程等待队列为空的时候插入</td>
+</tr>
+</tbody>
+</table>
+<h3 id="获取队列内容"><a href="#获取队列内容" class="headerlink" title="获取队列内容"></a>获取队列内容</h3><table>
+<thead>
+<tr>
+<th>方法名称</th>
+<th>参数描述</th>
+<th>返回值</th>
+<th>异常信息</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>remove</td>
+<td>无</td>
+<td>返回队首数据并移除，队列已空则抛出异常信息</td>
+<td>NoSuchElementException()异常——AbstractQueue</td>
+</tr>
+<tr>
+<td>poll</td>
+<td>无</td>
+<td>列不为空时返回队首值并移除；队列为空时返回null。非阻塞立即返回。</td>
+<td></td>
+</tr>
+<tr>
+<td>poll</td>
+<td>等待时间</td>
+<td>设定等待的时间，如果在指定时间内队列还未孔则返回null，不为空则返回队首值</td>
+<td></td>
+</tr>
+<tr>
+<td>take</td>
+<td>无</td>
+<td>队列不为空返回队首值并移除；当队列为空时会阻塞等待，一直等到队列不为空时再返回队首值。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="简单实例"><a href="#简单实例" class="headerlink" title="简单实例"></a>简单实例</h2><p>上面的方法中重点的内容在于put和take方法，我们以一个实例来看一下这个队列的作用。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * ArrayBlockingQueue内容测试demo</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> &lt;a href="mailto:dwlsxj@126.com"&gt;battleheart&lt;/a&gt;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BlockQueueDemo</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> ArrayBlockingQueue&lt;Integer&gt; arr = <span class="keyword">new</span> ArrayBlockingQueue&lt;&gt;(<span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        Thread thread1 = <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">20</span>; i++) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    System.out.println(i + <span class="string">"预备入队"</span>);</span><br><span class="line">                    Thread.sleep(<span class="number">100</span>);</span><br><span class="line">                    arr.put(i);</span><br><span class="line">                    System.out.println(i + <span class="string">"入队成功"</span>);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        thread1.start();</span><br><span class="line">        Thread thread = <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">for</span> (; ; ) &#123;</span><br><span class="line">                    System.out.println(<span class="string">"进入消费队列"</span>);</span><br><span class="line">                    System.out.println(arr.take());</span><br><span class="line">                    Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException ex) &#123;</span><br><span class="line">                ex.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        thread.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>开启了两个线程，一个是提供数据的线程，一个是消费数据的线程</li>
+<li>入队操作之前进行了睡眠，目的是先让消费线程进行消费队列，然后队列数据提供线程再往线程中提供数据。</li>
+<li>出队的操作中添加了sleep方法，目的是为了能让入队的内容多一些。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line">进入消费队列</span><br><span class="line"><span class="number">0</span>预备入队</span><br><span class="line"><span class="number">0</span>入队成功</span><br><span class="line"><span class="number">1</span>预备入队</span><br><span class="line"><span class="number">1</span>入队成功</span><br><span class="line"><span class="number">2</span>预备入队</span><br><span class="line"><span class="number">0</span></span><br><span class="line"><span class="number">2</span>入队成功</span><br><span class="line"><span class="number">3</span>预备入队</span><br><span class="line"><span class="number">3</span>入队成功</span><br><span class="line"><span class="number">4</span>预备入队</span><br><span class="line"><span class="number">4</span>入队成功</span><br><span class="line"><span class="number">5</span>预备入队</span><br><span class="line"><span class="number">5</span>入队成功</span><br><span class="line"><span class="number">6</span>预备入队</span><br><span class="line"><span class="number">6</span>入队成功</span><br><span class="line"><span class="number">7</span>预备入队</span><br><span class="line"><span class="number">7</span>入队成功</span><br><span class="line"><span class="number">8</span>预备入队</span><br><span class="line"><span class="number">8</span>入队成功</span><br><span class="line"><span class="number">9</span>预备入队</span><br><span class="line"><span class="number">9</span>入队成功</span><br><span class="line"><span class="number">10</span>预备入队</span><br><span class="line"><span class="number">10</span>入队成功</span><br><span class="line"><span class="number">11</span>预备入队</span><br><span class="line">进入消费队列</span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">11</span>入队成功</span><br><span class="line"><span class="number">12</span>预备入队</span><br><span class="line">进入消费队列</span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="number">12</span>入队成功</span><br><span class="line"><span class="number">13</span>预备入队</span><br><span class="line">进入消费队列</span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="number">13</span>入队成功</span><br><span class="line"><span class="number">14</span>预备入队</span><br><span class="line">进入消费队列</span><br><span class="line"><span class="number">4</span></span><br><span class="line"><span class="number">14</span>入队成功</span><br><span class="line"><span class="number">15</span>预备入队</span><br><span class="line">进入消费队列</span><br><span class="line"><span class="number">5</span></span><br><span class="line"><span class="number">15</span>入队成功</span><br><span class="line"><span class="number">16</span>预备入队</span><br><span class="line">进入消费队列</span><br><span class="line"><span class="number">6</span></span><br><span class="line"><span class="number">16</span>入队成功</span><br><span class="line"><span class="number">17</span>预备入队</span><br><span class="line">进入消费队列</span><br><span class="line"><span class="number">7</span></span><br><span class="line"><span class="number">17</span>入队成功</span><br><span class="line"><span class="number">18</span>预备入队</span><br><span class="line">进入消费队列</span><br><span class="line"><span class="number">8</span></span><br><span class="line"><span class="number">18</span>入队成功</span><br><span class="line"><span class="number">19</span>预备入队</span><br><span class="line">进入消费队列</span><br><span class="line"><span class="number">9</span></span><br><span class="line"><span class="number">19</span>入队成功</span><br><span class="line">进入消费队列</span><br><span class="line"><span class="number">10</span></span><br><span class="line">进入消费队列</span><br><span class="line"><span class="number">11</span></span><br><span class="line">进入消费队列</span><br><span class="line"><span class="number">12</span></span><br><span class="line">进入消费队列</span><br><span class="line"><span class="number">13</span></span><br><span class="line">进入消费队列</span><br><span class="line"><span class="number">14</span></span><br><span class="line">进入消费队列</span><br><span class="line"><span class="number">15</span></span><br><span class="line">进入消费队列</span><br><span class="line"><span class="number">16</span></span><br><span class="line">进入消费队列</span><br><span class="line"><span class="number">17</span></span><br><span class="line">进入消费队列</span><br><span class="line"><span class="number">18</span></span><br><span class="line">进入消费队列</span><br><span class="line"><span class="number">19</span></span><br><span class="line">进入消费队列</span><br></pre></td></tr></table></figure>
+<p>分析上述输出内容：</p>
+<p><code>进入消费队列</code>文字输出出来说明数据提供者线程在休眠状态，而消费者线程在执行任务，在等待100ms后，<code>0</code>入队成功，<code>1</code>入队成功，当<code>2</code>准备入队时，这时候消费者线程获得了锁，消费了队列中的<code>0</code>,以此类推，最有一个<code>进入消费队列</code>说明队列为空等待队列不为空时，take方法进行消费。</p>
+<p>通过输出结果可以得出以下内容：</p>
+<ol>
+<li>消费线程先进入，但是并没有执行完，也就是说消费线程一直等待的状态。</li>
+<li>入队和出队只能同步进行一项，也就是入队操作会阻止出队操作，出队操作也会阻止入队操作。</li>
+</ol>
+<h2 id="内部原理解析"><a href="#内部原理解析" class="headerlink" title="内部原理解析"></a>内部原理解析</h2><p>ArrayBlockingQueue内部定义了以下的字段信息：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** 队列元素数组 */</span></span><br><span class="line"><span class="keyword">final</span> Object[] items;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** 下一个被take，poll，peek，remove的元素位置 */</span></span><br><span class="line"><span class="keyword">int</span> takeIndex;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** 插入位置包含put，offer，add */</span></span><br><span class="line"><span class="keyword">int</span> putIndex;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** 队列元素的数量 */</span></span><br><span class="line"><span class="keyword">int</span> count;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** 重入锁 */</span></span><br><span class="line"><span class="keyword">final</span> ReentrantLock lock;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** 队列不为空的条件 */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> Condition notEmpty;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** 队列满时的条件 */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> Condition notFull;</span><br></pre></td></tr></table></figure>
+<p>当执行take()操作的时候，如果队列为空，则在notEmpty出等待，同时也会进行notFull的通知，通知notFull队列已经有位置可以进行入队操作了。新元素入队时，调用put方法时，如果队列满了，则当前线程暂停在notFull上，同时会进行一次notEmpty的通知，通知notEmpty队列已经有内容可，可以进行下面的内容了。</p>
+<p>put方法源码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 将元素插入到队尾, 并且当队列中满的进行等待操作。</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@throws</span> InterruptedException &#123;<span class="doctag">@inheritDoc</span>&#125;</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@throws</span> NullPointerException &#123;<span class="doctag">@inheritDoc</span>&#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">put</span><span class="params">(E e)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    checkNotNull(e);</span><br><span class="line">  	<span class="comment">//获得重入锁。</span></span><br><span class="line">    <span class="keyword">final</span> ReentrantLock lock = <span class="keyword">this</span>.lock;</span><br><span class="line">  	<span class="comment">//这里可以相应中断操作。</span></span><br><span class="line">    lock.lockInterruptibly();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      	<span class="comment">//判断队列是否已经满了。</span></span><br><span class="line">        <span class="keyword">while</span> (count == items.length)</span><br><span class="line">          	<span class="comment">//如果满了就在这里等待，等待通知队列为空时，进行相应。</span></span><br><span class="line">            notFull.await();</span><br><span class="line">      	<span class="comment">//入队操作。</span></span><br><span class="line">        enqueue(e);</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        lock.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过上面源代码可以得到以下内容：</p>
+<ol>
+<li>获得重入锁进行入队同步操作，这也说明入队和出队只能同时进行一种操作的原因。</li>
+<li>判断队列元素是否已经达到了队列的长度，也就是队列是否已经装满，如果装满则进行等待队列中有空余位置为止。</li>
+<li>入队操作。</li>
+</ol>
+<p>接下来详细看一下入队操作是如何进行的,enqueue源码如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 在当前putIndex位置插入元素, 并且通知notEmpty队列已经有内容.</span></span><br><span class="line"><span class="comment"> * 只有在获得锁的情况下执行.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">enqueue</span><span class="params">(E x)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// assert lock.getHoldCount() == 1;</span></span><br><span class="line">    <span class="comment">// assert items[putIndex] == null;</span></span><br><span class="line">  	<span class="comment">// 队列数组。</span></span><br><span class="line">    <span class="keyword">final</span> Object[] items = <span class="keyword">this</span>.items;</span><br><span class="line">  	<span class="comment">// 在putIndex的位置插入x。</span></span><br><span class="line">    items[putIndex] = x;</span><br><span class="line">  	<span class="comment">// 进行循环操作，如果putIndex到了队尾则将putIndex索引指向队头。</span></span><br><span class="line">    <span class="keyword">if</span> (++putIndex == items.length)</span><br><span class="line">        putIndex = <span class="number">0</span>;</span><br><span class="line">  	<span class="comment">// 队列数量加1</span></span><br><span class="line">    count++;</span><br><span class="line">  	<span class="comment">// 通知notEmpty队列已经有内容可以进行消费。</span></span><br><span class="line">    notEmpty.signal();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来看一下take方法的源码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * take方法从队列中获取元素，并且如果队列为空时进行notEmpty等待。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> E <span class="title">take</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    <span class="comment">// 获得重入锁。</span></span><br><span class="line">    <span class="keyword">final</span> ReentrantLock lock = <span class="keyword">this</span>.lock;</span><br><span class="line">  	<span class="comment">// 响应中断请求。</span></span><br><span class="line">    lock.lockInterruptibly();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      	<span class="comment">// 如果队列为空，则进行notEmpty等待。</span></span><br><span class="line">        <span class="keyword">while</span> (count == <span class="number">0</span>)</span><br><span class="line">            notEmpty.await();</span><br><span class="line">      	<span class="comment">// 出队操作。</span></span><br><span class="line">        <span class="keyword">return</span> dequeue();</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        lock.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过上面源码我们也可以看到如下内容：</p>
+<ol>
+<li>出队前必须先获得锁，才能进行操作。</li>
+<li>队列为空时，进行notEmpty等待。</li>
+</ol>
+<p>dequeue方法源码如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 出takeIndex元素信息,并且通知notFull队列已经有空余位置。</span></span><br><span class="line"><span class="comment"> * 执行必须先获得锁。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> E <span class="title">dequeue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// assert lock.getHoldCount() == 1;</span></span><br><span class="line">    <span class="comment">// assert items[takeIndex] != null;</span></span><br><span class="line">  	<span class="comment">// 队列元素。</span></span><br><span class="line">    <span class="keyword">final</span> Object[] items = <span class="keyword">this</span>.items;</span><br><span class="line">    <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</span><br><span class="line">  	<span class="comment">// 获取takeIndex索引信息。</span></span><br><span class="line">    E x = (E) items[takeIndex];</span><br><span class="line">  	<span class="comment">// 将takeIndex标记为null，方便GC进行回收。</span></span><br><span class="line">    items[takeIndex] = <span class="keyword">null</span>;</span><br><span class="line">  	<span class="comment">// 循环进行操作。</span></span><br><span class="line">    <span class="keyword">if</span> (++takeIndex == items.length)</span><br><span class="line">        takeIndex = <span class="number">0</span>;</span><br><span class="line">  	<span class="comment">// 队列元素数量减1</span></span><br><span class="line">    count--;</span><br><span class="line">  	<span class="comment">// 迭代器进行take</span></span><br><span class="line">    <span class="keyword">if</span> (itrs != <span class="keyword">null</span>)</span><br><span class="line">        itrs.elementDequeued();</span><br><span class="line">  	<span class="comment">// 通知notFull队列已经不再满，可进行put操作。</span></span><br><span class="line">    notFull.signal();</span><br><span class="line">    <span class="keyword">return</span> x;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过对源码put和take 的分析总结一下几点：</p>
+<ol>
+<li>ArrayBlockingQueue是采用数组进行实现队列，通过putIndex和takeIndex来控制队列的队头和队尾。</li>
+<li>内部使用ReentrantLock进行同步操作，并配合Condition处理等待操作。</li>
+<li>总结成下面的图片内容：</li>
+</ol>
+<p><img src="/2019/04/06/arrayblockingqueue-principle/2.png" alt=""></p>
+<p>下面来用图示法讲解下ArrayBlockingQueue的工作原理</p>
+<p>首先将元素1进行入队操作，如下图所示：</p>
+<p><img src="/2019/04/06/arrayblockingqueue-principle/1.png" alt=""></p>
+<p>putIndex和takeIndex在同一个位置，因为他只有一个元素，当再依次入队8个元素后内容如下所示</p>
+<p><img src="/2019/04/06/arrayblockingqueue-principle/3.png" alt=""></p>
+<p>此时putIndex就到了最后一个数组的元素的索引上，当再向数组元素中添加元素时，就会进行notFull的等待操作</p>
+<p><img src="/2019/04/06/arrayblockingqueue-principle/4.png" alt=""></p>
+<p>当调用take方法后，队列中出现了空余位置，并且通知了notFull，嘿，伙计你可以将你的东西添加到队列中了。</p>
+<p><img src="/2019/04/06/arrayblockingqueue-principle/5.png" alt=""></p>
+<p>可以清晰的看到putIndex变到了数组索引0的位置，就是下面的代码导致的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (++putIndex == items.length)</span><br><span class="line">    putIndex = <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+<p>并且此时的takeIndex便到了数组索引1的位置，持续进行take方法，队列内容全部出队列：</p>
+<p><img src="/2019/04/06/arrayblockingqueue-principle/6.png" alt=""></p>
+<p>当take方法走到数组的末尾时，它会将takeIndex值设置为0，进行从新开始take。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (++takeIndex == items.length)</span><br><span class="line">    takeIndex = <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+<p>并且当队列为空时，会进行notEmpty等待，等待队列中存在元素，当调用put方法后，它会通知notEmpty，兄弟你可以取队列消息了。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2019/04/06/arrayblockingqueue-principle/">ArrayBlockingQueue原理详解</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">BattleHeart</a></p>
+        <p><span>发布时间:</span>2019-04-06, 14:16:31</p>
+        <p><span>最后更新:</span>2019-04-06, 14:18:42</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2019/04/06/arrayblockingqueue-principle/" title="ArrayBlockingQueue原理详解">https://www.battleheart.cn/2019/04/06/arrayblockingqueue-principle/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://www.battleheart.cn/2019/04/06/arrayblockingqueue-principle/　　作者: BattleHeart" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2019/03/28/block-and-lock-free/">
+                    阻塞算法和非阻塞算法
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ArrayBlockingQueue原理详解"><span class="toc-number">1.</span> <span class="toc-text">ArrayBlockingQueue原理详解</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#介绍"><span class="toc-number">1.1.</span> <span class="toc-text">介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#插入队列方法"><span class="toc-number">1.1.1.</span> <span class="toc-text">插入队列方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#获取队列内容"><span class="toc-number">1.1.2.</span> <span class="toc-text">获取队列内容</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#简单实例"><span class="toc-number">1.2.</span> <span class="toc-text">简单实例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内部原理解析"><span class="toc-number">1.3.</span> <span class="toc-text">内部原理解析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">1.4.</span> <span class="toc-text">总结</span></a></li></ol></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"ArrayBlockingQueue原理详解　| BattleHeart　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2019/03/28/block-and-lock-free/" title="下一篇: 阻塞算法和非阻塞算法">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/04/06/arrayblockingqueue-principle/">ArrayBlockingQueue原理详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/28/block-and-lock-free/">阻塞算法和非阻塞算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/28/you-have-to-know-the-concept-of-multithreading/">你必须知道的多线程几个概念</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/25/spring-boot-and-dubbo-starter/">SpringBoot快速整合dubbo</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/22/how-use-synchronized/">深入理解synchronized</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/24/spring-boot-autoconfiguration-fashion/">SpringBoot自动装配详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/24/spring-boot-thymeleaf-and-shiro/">spring-boot与thymeleaf模板整合shiro标签内容</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/26/use-hexo-to-build-a-blog/">使用Hexo搭建博客</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/spring-boot-admin-monitor/">Spring Boot Admin监控系统搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/logback-with-elk/">使用Logback输出日志到ELK</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/elk-environment-construction-in-windows/">Windows环境下搭建ELK环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/quick-start-spring-cloud-sleuth/">分布式服务跟踪之Spring Cloud Sleuth快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/quick-start-spring-cloud-turbine-rabbitmq/">集群监控Spring Cloud Turbine消息队列篇</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/quick-start-spring-cloud-turbine/">集群监控之Spring Cloud Turbine快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/27/quick-start-spring-cloud-zuul/">API网关服务-Spring Cloud Zuul快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/27/quick-start-spring-cloud-config/">配置管理中心Spring Cloud Config快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/27/quick-start-spring-cloud-hystrix/">服务容错保护Spring Cloud Hystrix之快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/27/quick-start-spring-cloud-ribbon/">客户端负载均衡Spring Cloud Ribbon之快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/26/spring-cloud-tutorial-eureka/">服务治理-Spring Cloud Eureka</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/23/java-class-loader/">Java类加载器详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/23/maven-skeleton-generation/">一文搭建Maven骨架</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/20/how-dynamic-agents-work/">动态代理的工作原理简要分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/18/hello-world/">我的blog之旅又要开始了</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/13/git-study-2/">带你走进git-工作区、暂存区、分支</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/13/git-config/">带你走进git-基础配置</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2018-2019 BattleHeart
+            </div>
+            <div class="footer-right">
+                <a href="http://battleHeart.cn/" target="_blank" title="快速、简洁且高效的博客框架">BattleHeart</a>  Blog 
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

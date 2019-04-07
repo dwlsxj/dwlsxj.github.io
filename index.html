@@ -279,6 +279,74 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-LinkedBlockingQueue-Principle" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/04/07/LinkedBlockingQueue-Principle/" class="article-date">
+      <time datetime="2019-04-07T08:30:49.000Z" itemprop="datePublished">2019-04-07</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/07/LinkedBlockingQueue-Principle/">LinkedBlockingQueue原理解析</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              通过上面的UML可以看到，他也是BlockingQueue的实现，也就是他的核心在于Blocking（阻塞）这个上面，在讲解ArrayBlockingQueue的时候，可以清晰的得出ArrayBlockingQueue是使用了独占锁的方式，要求两个操作进行时获得当先队列的独占锁，那么take()和put()操作就不可能真正的并发。它们会彼此等待对方释放资源，在这种情况下所竞争会比较激励，从而会影响到高并发的效率，而LinkedBlockingQueue为了解决这一问题，采用`锁分离`的方式进行实现，take()函数和put()函数分别实现了从队列中取得数据和往队列天价收的功能，换句话说就会说take()方法有专门的锁进行控制，而put()方法也有专门的锁进行控制，由于take()方法是操作队尾，put()方法操作队首，又因为LinkedBlockingQueue是基于链表的方式实现，因此两个操作不受影响。
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/个人技术/">个人技术</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/多线程/">多线程</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/并发编程/">并发编程</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2019/04/07/LinkedBlockingQueue-Principle/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-arrayblockingqueue-principle" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -873,74 +941,6 @@
       
         <p class="article-more-link">
           <a href="/2018/10/01/spring-boot-admin-monitor/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-logback-with-elk" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/10/01/logback-with-elk/" class="article-date">
-      <time datetime="2018-10-01T08:34:26.000Z" itemprop="datePublished">2018-10-01</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/01/logback-with-elk/">使用Logback输出日志到ELK</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              前两篇文章中我们介绍了windows上如何搭建ELK日志收集系统，那么问题来了，日志系统搭建完成后如何使用java代码直接输出日志到ELK系统中？
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/个人技术/">个人技术</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ELK/">ELK</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a href="/2018/10/01/logback-with-elk/#more">more >></a>
         </p>
       
       <div class="clearfix"></div>

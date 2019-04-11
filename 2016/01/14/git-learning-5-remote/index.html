@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html >
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="BattleHeart" />
+
+
+
+<meta name="description" content="首先讲一下远程仓库和本地仓库在文件上面的区别，首先我们来看下对比图（当然这里说的区别是在于.git文件下面的文件内容，至于里面内容我们不会关注）這裡我们进行了相同的操作就是本地仓库里面新建了version.txt内容也是一样的v1.0">
+<meta name="keywords" content="Git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="带你走进git-远程仓库">
+<meta property="og:url" content="https://www.battleheart.cn/2016/01/14/git-learning-5-remote/index.html">
+<meta property="og:site_name" content="BattleHeart">
+<meta property="og:description" content="首先讲一下远程仓库和本地仓库在文件上面的区别，首先我们来看下对比图（当然这里说的区别是在于.git文件下面的文件内容，至于里面内容我们不会关注）這裡我们进行了相同的操作就是本地仓库里面新建了version.txt内容也是一样的v1.0">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://www.battleheart.cn/2016/01/14/git-learning-5-remote/1.png">
+<meta property="og:image" content="https://www.battleheart.cn/2016/01/14/git-learning-5-remote/2.png">
+<meta property="og:image" content="https://www.battleheart.cn/2016/01/14/git-learning-5-remote/3.png">
+<meta property="og:image" content="https://www.battleheart.cn/2016/01/14/git-learning-5-remote/4.png">
+<meta property="og:image" content="https://www.battleheart.cn/2016/01/14/git-learning-5-remote/5.png">
+<meta property="og:image" content="https://www.battleheart.cn/2016/01/14/git-learning-5-remote/6.png">
+<meta property="og:image" content="https://www.battleheart.cn/2016/01/14/git-learning-5-remote/7.png">
+<meta property="og:image" content="https://www.battleheart.cn/2016/01/14/git-learning-5-remote/8.png">
+<meta property="og:image" content="https://www.battleheart.cn/2016/01/14/git-learning-5-remote/9.png">
+<meta property="og:image" content="https://www.battleheart.cn/2016/01/14/git-learning-5-remote/10.png">
+<meta property="og:image" content="https://www.battleheart.cn/2016/01/14/git-learning-5-remote/11.png">
+<meta property="og:image" content="https://www.battleheart.cn/2016/01/14/git-learning-5-remote/12.png">
+<meta property="og:image" content="https://www.battleheart.cn/2016/01/14/git-learning-5-remote/13.png">
+<meta property="og:image" content="https://www.battleheart.cn/2016/01/14/git-learning-5-remote/14.png">
+<meta property="og:updated_time" content="2019-04-11T08:13:51.353Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="带你走进git-远程仓库">
+<meta name="twitter:description" content="首先讲一下远程仓库和本地仓库在文件上面的区别，首先我们来看下对比图（当然这里说的区别是在于.git文件下面的文件内容，至于里面内容我们不会关注）這裡我们进行了相同的操作就是本地仓库里面新建了version.txt内容也是一样的v1.0">
+<meta name="twitter:image" content="https://www.battleheart.cn/2016/01/14/git-learning-5-remote/1.png">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="BattleHeart" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/orange/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>带你走进git-远程仓库 | BattleHeart</title>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdnjs.cloudflare.com/ajax/libs/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js", "//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">BattleHeart</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">个人博客</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="dwlsxj:@126.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/dwlsxj" title="GitHub"></a>
+                            
+                                <a class="fa 博客园" href="https://www.cnblogs.com/dwlsxj/" title="博客园"></a>
+                            
+                                <a class="fa 网易云音乐" href="https://music.163.com/#/user/home?id=31908845" title="网易云音乐"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/ELK/">ELK</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Life/">Life</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Maven/">Maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shiro/">Shiro</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringCloud/">SpringCloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dubbo/">dubbo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多线程/">多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/并发编程/">并发编程</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://www.cnblogs.com/dwlsxj/">BalleHeart</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://www.80iter.com/">80ITer</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">专注于后端开发</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">BattleHeart</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">BattleHeart</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">个人博客</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="dwlsxj:@126.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/dwlsxj" title="GitHub"></a>
+                            
+                                <a class="fa 博客园" target="_blank" href="https://www.cnblogs.com/dwlsxj/" title="博客园"></a>
+                            
+                                <a class="fa 网易云音乐" target="_blank" href="https://music.163.com/#/user/home?id=31908845" title="网易云音乐"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-git-learning-5-remote" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/01/14/git-learning-5-remote/" class="article-date">
+      <time datetime="2016-01-14T13:22:19.000Z" itemprop="datePublished">2016-01-14</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      带你走进git-远程仓库
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/个人技术/">个人技术</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Git/">Git</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="一、文件，指令讲解"><a href="#一、文件，指令讲解" class="headerlink" title="一、文件，指令讲解"></a><strong>一、文件，指令讲解</strong></h2><p>首先讲一下远程仓库和本地仓库在文件上面的区别，首先我们来看下对比图（当然这里说的区别是在于.git文件下面的文件内容，至于里面内容我们不会关注）這裡我们进行了相同的操作就是本地仓库里面新建了version.txt内容也是一样的v1.0：</p>
+<p><img src="/2016/01/14/git-learning-5-remote/1.png" alt="图1"></p>
+<p><img src="/2016/01/14/git-learning-5-remote/2.png" alt="图2"></p>
+<p>图一为本地仓库，图二为克隆的远程仓库，首先我们应该看一下config里面的区别：</p>
+<p><img src="/2016/01/14/git-learning-5-remote/3.png" alt="图3"></p>
+<p><img src="/2016/01/14/git-learning-5-remote/4.png" alt="图4"></p>
+<p>很容易看到了区别就是图四为远程仓库内容。</p>
+<p>从这个文件中我们可以了解到：</p>
+<ol>
+<li><p>本地库的当前分支为master，其关联的远程库名称为origin（不同的名称可以指向同一个远程库，参见git remote命令）</p>
+</li>
+<li><p>远程库origin所在的位置为(URL)：<a href="https://github.com/dwlsxj/BattleHeart.git" target="_blank" rel="noopener">https://github.com/dwlsxj/BattleHeart.git</a><br>然后进行了version.txt的编辑和提交。这是我们刚才新建version.txt（远程）以及再添加内容为“v1.0”，在添加到暂存区，提交到本地提交中，最后提交到远程服务器，下面是我们生成的commit对象和git对象还有就是tree对象内容：</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ find .git/objects/ -type f</span><br><span class="line">.git/objects/18/6c4629f6de8c956548570a113fa181d9b22692   commit对象</span><br><span class="line">.git/objects/90/e34626d7993cf8d6c5e3e458744df4a9a31594   tree对象</span><br><span class="line">.git/objects/c6/94c68edd99aeefa053f25308cd71ecca922036   blob对象</span><br></pre></td></tr></table></figure>
+<p>接下来我们就来看一下这个commit对象和tree对象下面的树分支和commit的指向内容。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">$ git cat-file -t 186c46</span><br><span class="line">commit</span><br><span class="line"></span><br><span class="line">$ git cat-file -t 90e346</span><br><span class="line">tree</span><br><span class="line"></span><br><span class="line">$ git cat-file -t c694c6</span><br><span class="line">blob</span><br><span class="line"></span><br><span class="line">$ git cat-file -p 186c46</span><br><span class="line">tree 90e34626d7993cf8d6c5e3e458744df4a9a31594</span><br><span class="line">author BattleHeart &lt;dwlsxj@126.com&gt; 1452303321 +0800</span><br><span class="line">committer BattleHeart &lt;dwlsxj@126.com&gt; 1452303321 +0800</span><br><span class="line">inital commit</span><br><span class="line"></span><br><span class="line">$ git cat-file -p 90e346</span><br><span class="line">100644 blob c694c68edd99aeefa053f25308cd71ecca922036    version.txt</span><br><span class="line"></span><br><span class="line">$ git cat-file -p c694c6</span><br><span class="line">V1.0</span><br></pre></td></tr></table></figure>
+<p>当我们git  push origin master（命令格式：git push [remote-name] [branch-name]）时候会生成一个我们会发现.git/refs/文件夹下多了一个remote文件夹</p>
+<p><img src="/2016/01/14/git-learning-5-remote/5.png" alt="图5"></p>
+<p>我们跟进去看一下会有一个默认origin服务器名称，下面会有一个master分支，也就是这个代表的是远程服务器的master分支并不代表我们本地的master分支。看一下这个master分支内容和本地分支的内容是否一致，因为我们刚才将提交的内容提交到origin服务器上，应该两个分支引用指向的commit记录是一样的。</p>
+<p><img src="/2016/01/14/git-learning-5-remote/6.png" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ find .git/objects/  -type f</span><br><span class="line">.git/objects/18/6c4629f6de8c956548570a113fa181d9b22692</span><br><span class="line">.git/objects/90/e34626d7993cf8d6c5e3e458744df4a9a31594</span><br><span class="line">.git/objects/9f/aadaec6f7c8657372544e6f414f9b0b6910279</span><br><span class="line">.git/objects/c6/94c68edd99aeefa053f25308cd71ecca922036</span><br></pre></td></tr></table></figure>
+<p>提交到本地版本控制中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git commit -m &apos;second commit version.txt&apos;</span><br><span class="line">[master 5777c82] second commit version.txt</span><br><span class="line">1 file changed, 1 insertion(+)</span><br></pre></td></tr></table></figure>
+<p>提交之后产生的commit对象和新的tree对象内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ find .git/objects/ -type f</span><br><span class="line">.git/objects/18/6c4629f6de8c956548570a113fa181d9b22692</span><br><span class="line">.git/objects/57/77c8270e24ff7417fa6f8d27f73c068acd42b0</span><br><span class="line">.git/objects/90/e34626d7993cf8d6c5e3e458744df4a9a31594</span><br><span class="line">.git/objects/9f/aadaec6f7c8657372544e6f414f9b0b6910279</span><br><span class="line">.git/objects/a4/3a49679a6ecd3cbcdd889aeb9906b8620e7976</span><br><span class="line">.git/objects/c6/94c68edd99aeefa053f25308cd71ecca922036</span><br></pre></td></tr></table></figure>
+<p>看一下了两个master分支内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ cat .git/refs/heads/master</span><br><span class="line">5777c8270e24ff7417fa6f8d27f73c068acd42b0</span><br><span class="line"></span><br><span class="line">$ cat .git/refs/remotes/origin/master</span><br><span class="line">186c4629f6de8c956548570a113fa181d9b22692</span><br></pre></td></tr></table></figure>
+<p>啊哈，果然不出我们所料，这就是说明本地提交的记录还没有提交的远程服务器上面所以说这个远程服务器的master分支还是指向了原来的commit对象。<br>当我们使用的了git   fetch  [remote-name]从服务器里面拉去数据的时候会产生一个FETCH_HEAD指针。这个命令会访问远程仓库，从中拉取所有你还没有的数据。 执行完成后，你将会拥有那个远程仓库中所有分支的引用，可以随时合并或查看。这时候我们会发现有一个FETCH_HEAD指针是一个指向远程最后一次获取的指针位置。首先我们看一下这个FETCH_HEAD指针的主要作用：</p>
+<p><img src="/2016/01/14/git-learning-5-remote/7.png" alt=""></p>
+<p>也就是说我们每次获取的本地没有的文件后都会有一个fetch_HEAD，这个指针和本地的HEAD指针有着区别，这样我们现在还看不出来因为本地和服务器上的记录都是一样的。这时候我们来在服务器上面添加一个readme文件提交上去，再在本地获取。<br>添加readme文件这里是在服务器上直接提交的记录，所以跟本地数据没有任何关系。</p>
+<p><img src="/2016/01/14/git-learning-5-remote/8.png" alt=""></p>
+<p>当我们使用git  fetch  origin命令的之后，我们来看一下.git/objects在服务器上产生的新的commit记录和tree对象还有git对象内容。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ find    .git/objects/ -type f</span><br><span class="line">.git/objects/18/6c4629f6de8c956548570a113fa181d9b22692</span><br><span class="line">.git/objects/50/204399d2b99a020ac03dbca151570a959b7523</span><br><span class="line">.git/objects/56/f565ecbaa66b236c42914bfd7e93a5eb0844f7</span><br><span class="line">.git/objects/57/77c8270e24ff7417fa6f8d27f73c068acd42b0</span><br><span class="line">.git/objects/90/e34626d7993cf8d6c5e3e458744df4a9a31594</span><br><span class="line">.git/objects/9f/aadaec6f7c8657372544e6f414f9b0b6910279</span><br><span class="line">.git/objects/a4/3a49679a6ecd3cbcdd889aeb9906b8620e7976</span><br><span class="line">.git/objects/c6/94c68edd99aeefa053f25308cd71ecca922036</span><br><span class="line">.git/objects/e0/26393257f8b7519ac7c378c6ff470ca737fe10</span><br></pre></td></tr></table></figure>
+<p>这里面有三个对象是git  fetch后新增加的就是如下几个，然后我们通过查看其类型以及其中的内容就能看到确实是从服务器上拉取出来的数据。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">$ git cat-file -t 502043</span><br><span class="line">commit</span><br><span class="line"></span><br><span class="line">$ git cat-file -p 502043</span><br><span class="line">tree e026393257f8b7519ac7c378c6ff470ca737fe10</span><br><span class="line">parent 186c4629f6de8c956548570a113fa181d9b22692</span><br><span class="line">author BattleHeart &lt;dwlsxj2013@hotmail.com&gt; 1452324317 +0800</span><br><span class="line">committer BattleHeart &lt;dwlsxj2013@hotmail.com&gt; 1452324317 +0800</span><br><span class="line"></span><br><span class="line">Create commit Readme</span><br><span class="line"></span><br><span class="line">Create commit Readme</span><br><span class="line"></span><br><span class="line">$ git cat-file -t 56f565</span><br><span class="line">blob</span><br><span class="line"></span><br><span class="line">$ git cat-file -p 56f565</span><br><span class="line"># BattleHeart</span><br><span class="line">README</span><br><span class="line"></span><br><span class="line">$ git cat-file -t e02639</span><br><span class="line">tree</span><br><span class="line"></span><br><span class="line">$ git cat-file -p e02639</span><br><span class="line">100644 blob 56f565ecbaa66b236c42914bfd7e93a5eb0844f7    README.md</span><br><span class="line">100644 blob c694c68edd99aeefa053f25308cd71ecca922036    version.txt</span><br></pre></td></tr></table></figure>
+<p>其实这时候我们来看一下git的历史记录图。</p>
+<p><img src="/2016/01/14/git-learning-5-remote/9.png" alt=""></p>
+<p>这里的lol命令是我取的别名log  –oneline  –decorate  –graph  –all。可以看到这个命令分了两个，就是说origin/master是服务器的master分支。我们来看一下master分支。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ cat .git/refs/heads/master                       本地分支引用</span><br><span class="line">5777c8270e24ff7417fa6f8d27f73c068acd42b0</span><br><span class="line"></span><br><span class="line">$ cat .git/refs/remotes/origin/master     服务器master分支引用</span><br><span class="line">50204399d2b99a020ac03dbca151570a959b7523</span><br></pre></td></tr></table></figure>
+<p>也就是说本地分支引用是没有变化的，变化的是服务器master分支引用的地址从186c46变化到了最新的502043这个commit提交记录上面了。其实这之后FETCH_HEAD也会将最新的commit记录在里面（这里不是指向master分支上而是指向了commit记录上面），也就是说FETCH_HEAD指的是: 某个branch在服务器上的最新状态。其中每一行对应于远程服务器的一个分支.当前分支指向FETCH_HEAD, 就是这个文件第一行对应的那个分支。这里服务器里面只有一个master分支是默认的分支。</p>
+<p><img src="/2016/01/14/git-learning-5-remote/10.png" alt=""></p>
+<p>虽然说拉去出来的数据但是并不是我们想要的，拉去的数据并没有放在本地仓库指向的内容里面而是服务器分支指向的内容里面。这时候我们是用git merge来进行合并。也就是说这个FETCH_HEAD里面存在的是服务器上每一个分支上面最后一个提交记录内容，当然我们也可以使用git  merge  FETCH_HEAD这个命令来合并分支，但是多条分支记录的时候他只会取出第一条merge记录。这时候我们就需要使用服务器的分支来进行合并了，比如origin/test指针就可以git  merge  origin/test。这与后面要讲的git  pull的区别就是从服务器上面获取下来的内容分支之类的不会直接合并到本地，而是自己去合并但是git pull是git pull = git fetch + git merge的操作。</p>
+<p>git  pull命令：<br>接下来我们就来演示下git pull内容，首先我们在服务上面新建了一个空的仓库，把这个空的仓库拉到本地来，新建一个文件a，在文件a里面添加一条记录this is file a on local master，把他提交到本地仓库里面，我们看一下如下操作：<br>新建一个文件a并赋值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ echo &apos;this is file a on local master&apos; &gt; a</span><br></pre></td></tr></table></figure>
+<p>看一下文件内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cat a</span><br><span class="line">this is file a on local master</span><br></pre></td></tr></table></figure>
+<p>添加到暂存区内将添加的文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git add .</span><br></pre></td></tr></table></figure>
+<p>将文件添加版本记录中去。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ git commit -m &apos;local first commit&apos;</span><br><span class="line">[master (root-commit) 7358cc0] local first commit</span><br><span class="line">warning: LF will be replaced by CRLF in a.</span><br><span class="line">The file will have its original line endings in your working directory.</span><br><span class="line">1 file changed, 1 insertion(+)</span><br><span class="line"></span><br><span class="line">create mode 100644 a</span><br></pre></td></tr></table></figure>
+<p>这时候看一下产生的对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ find .git/objects/ -type f</span><br><span class="line">.git/objects/34/da50374fa7eaa9d2ea609198237ed8af97c7e9</span><br><span class="line">.git/objects/73/58cc0797e6bf72393ab54c543c6261784c27dc</span><br><span class="line">.git/objects/7e/8f2d0c90cdd5dffd9bfb5f32604f74199725e4</span><br></pre></td></tr></table></figure>
+<p>分别查看一下这些对象的类型以及对象的内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$ git cat-file -t 34da50</span><br><span class="line">tree</span><br><span class="line"></span><br><span class="line">$ git cat-file -p 34da50</span><br><span class="line">100644 blob 7e8f2d0c90cdd5dffd9bfb5f32604f74199725e4    a</span><br><span class="line"></span><br><span class="line">$ git cat-file -p 7e8f2d</span><br><span class="line">this is file a on local master</span><br><span class="line"></span><br><span class="line">$ git cat-file -p 7358cc</span><br><span class="line">tree 34da50374fa7eaa9d2ea609198237ed8af97c7e9</span><br><span class="line">author BattleHeart &lt;dwlsxj@126.com&gt; 1452330539 +0800</span><br><span class="line">committer BattleHeart &lt;dwlsxj@126.com&gt; 1452330539 +0800</span><br><span class="line"></span><br><span class="line">local first commit</span><br></pre></td></tr></table></figure>
+<p>这时候我们将新的文件提交到服务器上面。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ git push origin master</span><br><span class="line">Counting objects: 3, done.</span><br><span class="line">Writing objects: 100% (3/3), 235 bytes | 0 bytes/s, done.</span><br><span class="line">Total 3 (delta 0), reused 0 (delta 0)</span><br><span class="line">To https://github.com/dwlsxj/test.git</span><br><span class="line">* [new branch]      master -&gt; master</span><br></pre></td></tr></table></figure>
+<p>OK提交成功了，这时候.git/refs就会生成一个remote文件文件里面有默认服务器名称origin文件夹，该文件夹下面保存了服务器上最新的master分支指向的内容。让我们来看一下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ cat .git/refs/remotes/origin/master               服务器master分支</span><br><span class="line">7358cc0797e6bf72393ab54c543c6261784c27dc</span><br><span class="line"></span><br><span class="line">$ cat .git/refs/heads/master                              本地master分支</span><br><span class="line">7358cc0797e6bf72393ab54c543c6261784c27dc</span><br></pre></td></tr></table></figure>
+<p>这时候是一样的，因为服务器分支和本地分支是一样的。接下来我们在服务器分支上面修改下a文件如下图所示：</p>
+<p><img src="/2016/01/14/git-learning-5-remote/11.png" alt=""></p>
+<p>这时候我们会想到服务器上面会产生commit记录这时候服务器的master分支的指向就不再是本地这个指向了。<br>这时候我们也来修改下本地的a文件。添加文本内容为this is file a on local master second edit。提交到版本控制中。看一下所有的操作内容:<br>编辑文件a</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim a</span><br></pre></td></tr></table></figure>
+<p>将a文件添加到暂存区内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git add .</span><br><span class="line">warning: LF will be replaced by CRLF in a.</span><br><span class="line">The file will have its original line endings in your working directory.</span><br></pre></td></tr></table></figure>
+<p>看一下新生成的git对象内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ find .git/objects/ -type f</span><br><span class="line">.git/objects/34/da50374fa7eaa9d2ea609198237ed8af97c7e9</span><br><span class="line">.git/objects/73/58cc0797e6bf72393ab54c543c6261784c27dc</span><br><span class="line">.git/objects/7e/8f2d0c90cdd5dffd9bfb5f32604f74199725e4</span><br><span class="line">.git/objects/af/cc87af98402de78840dc0737700a62345abff4</span><br></pre></td></tr></table></figure>
+<p>将修改的a文件提交到记录里面。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ git commit -m &apos;local second commit on master&apos;</span><br><span class="line">[master warning: LF will be replaced by CRLF in a.</span><br><span class="line">The file will have its original line endings in your working directory.</span><br><span class="line">de7c4cd] local second commit on master</span><br><span class="line">warning: LF will be replaced by CRLF in a.</span><br><span class="line">The file will have its original line endings in your working directory.</span><br><span class="line">1 file changed, 1 insertion(+)</span><br></pre></td></tr></table></figure>
+<p>这时候我们来看一下提交记录的图，这时候HEAD指针是指向最新的master分支的，但是服务器的master分支则是指向原有的commit记录。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git lol</span><br><span class="line">* de7c4cd (HEAD -&gt; master) local second commit on master</span><br><span class="line">* 7358cc0 (origin/master) local first commit</span><br></pre></td></tr></table></figure>
+<p>看一下产生的tree对象以及tree对象内容，还有commit对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">$ find .git/objects/ -type f</span><br><span class="line">.git/objects/34/da50374fa7eaa9d2ea609198237ed8af97c7e9</span><br><span class="line">.git/objects/66/e33f7b7a44ad93bcb3a049075e666b9041f63c</span><br><span class="line">.git/objects/73/58cc0797e6bf72393ab54c543c6261784c27dc</span><br><span class="line">.git/objects/7e/8f2d0c90cdd5dffd9bfb5f32604f74199725e4</span><br><span class="line">.git/objects/af/cc87af98402de78840dc0737700a62345abff4</span><br><span class="line">.git/objects/de/7c4cd49e32f197afc6161d0d6f5e6d413212c8</span><br><span class="line"></span><br><span class="line">$ git cat-file -t 66e33f</span><br><span class="line">tree</span><br><span class="line"></span><br><span class="line">$ git cat-file -p 66e33f</span><br><span class="line">100644 blob afcc87af98402de78840dc0737700a62345abff4    a</span><br><span class="line"></span><br><span class="line">$ git cat-file -p  afcc87</span><br><span class="line">this is file a on local master</span><br><span class="line">this is file a on local master second edit</span><br><span class="line"></span><br><span class="line">$ git cat-file -p  de7c4c</span><br><span class="line">tree 66e33f7b7a44ad93bcb3a049075e666b9041f63c</span><br><span class="line">parent 7358cc0797e6bf72393ab54c543c6261784c27dc</span><br><span class="line">author BattleHeart &lt;dwlsxj@126.com&gt; 1452331483 +0800</span><br><span class="line">committer BattleHeart &lt;dwlsxj@126.com&gt; 1452331483 +0800</span><br><span class="line"></span><br><span class="line">local second commit on master</span><br></pre></td></tr></table></figure>
+<p>OK，到了这里我们就要开始见证奇迹的时候到了，因为我们同时修改了a文件都是从第一次提交的commit记录里面衍生出来的（服务器上和本地提交），接下来就是见证奇迹了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ git pull origin</span><br><span class="line">remote: Counting objects: 3, done.</span><br><span class="line">remote: Compressing objects: 100% (2/2), done.</span><br><span class="line">remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0</span><br><span class="line">Unpacking objects: 100% (3/3), done.</span><br><span class="line">From https://github.com/dwlsxj/test</span><br><span class="line">7358cc0..67f70c5  master     -&gt; origin/master</span><br><span class="line">Auto-merging a</span><br><span class="line">CONFLICT (content): Merge conflict in a</span><br><span class="line">Automatic merge failed; fix conflicts and then commit the result.</span><br></pre></td></tr></table></figure>
+<p>Pull之后我们先不着急看a文件的内容，我们先来看一下生成的对象内容。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ find .git/objects/ -type f</span><br><span class="line">.git/objects/34/da50374fa7eaa9d2ea609198237ed8af97c7e9</span><br><span class="line">.git/objects/59/7f7359a768d3e98b65cd8b1558e09489d920b3</span><br><span class="line">.git/objects/66/e33f7b7a44ad93bcb3a049075e666b9041f63c</span><br><span class="line">.git/objects/67/f70c522e9e5b748445abbb41ea0cfa0fd171f9</span><br><span class="line">.git/objects/73/58cc0797e6bf72393ab54c543c6261784c27dc</span><br><span class="line">.git/objects/7e/8f2d0c90cdd5dffd9bfb5f32604f74199725e4</span><br><span class="line">.git/objects/af/cc87af98402de78840dc0737700a62345abff4</span><br><span class="line">.git/objects/de/7c4cd49e32f197afc6161d0d6f5e6d413212c8</span><br><span class="line">.git/objects/de/fb97746b25d3963454d4ff69fc903956b12075</span><br><span class="line">.git/objects/f5/537ea43f681442d2656105a2f348284181ef95</span><br></pre></td></tr></table></figure>
+<p>接下来就要看一下新增加的对象内容，其实我们猜想就能才想到肯定有三个对象是git对象和commit对象、tree对象因为这是在服务器上提交记录产生的。那么还多一个对象是什么呢？我们来看一下吧。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Administrator@USER-20150201IC MINGW64 ~/Desktop/rrr/test (master|MERGING)</span><br><span class="line">$ git cat-file -t 597f73   该对象是服务器上提交内容对象</span><br><span class="line">blob</span><br></pre></td></tr></table></figure>
+<p>对象的内容如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Administrator@USER-20150201IC MINGW64 ~/Desktop/rrr/test (master|MERGING)</span><br><span class="line">$ git cat-file -p 597f73</span><br><span class="line">this is file a on local master</span><br><span class="line">this is file a on server master</span><br></pre></td></tr></table></figure>
+<p>接下来67f70c是提交记录，是和上面blob一起的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Administrator@USER-20150201IC MINGW64 ~/Desktop/rrr/test (master|MERGING)</span><br><span class="line">$ git cat-file -t 67f70c</span><br><span class="line">commit</span><br><span class="line"></span><br><span class="line">Administrator@USER-20150201IC MINGW64 ~/Desktop/rrr/test (master|MERGING)</span><br><span class="line">$ git cat-file -p 67f70c</span><br><span class="line">tree f5537ea43f681442d2656105a2f348284181ef95</span><br><span class="line">parent 7358cc0797e6bf72393ab54c543c6261784c27dc</span><br><span class="line">author BattleHeart &lt;dwlsxj2013@hotmail.com&gt; 1452330567 +0800</span><br><span class="line">committer BattleHeart &lt;dwlsxj2013@hotmail.com&gt; 1452330567 +0800</span><br><span class="line"></span><br><span class="line">this is file a on server master</span><br><span class="line"></span><br><span class="line">this is file a on server master</span><br></pre></td></tr></table></figure>
+<p>接下来是tree对象内容，都是服务器上第二次提交产生的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Administrator@USER-20150201IC MINGW64 ~/Desktop/rrr/test (master|MERGING)</span><br><span class="line">$ git cat-file -t f5537ea</span><br><span class="line">tree</span><br><span class="line"></span><br><span class="line">$ git cat-file -p f5537ea</span><br><span class="line">100644 blob 597f7359a768d3e98b65cd8b1558e09489d920b3    a</span><br><span class="line">$ git cat-file -t defb97</span><br><span class="line">blob</span><br></pre></td></tr></table></figure>
+<p>哎呦，这个对象叼了，这个对象是在本地产生的，产生的冲突文件，我们会发现我没有将Administrator这一行去掉是因为我们现在文件是由冲突的，我们可以看到master|MERGING</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Administrator@USER-20150201IC MINGW64 ~/Desktop/rrr/test (master|MERGING)</span><br><span class="line">$ git cat-file -p defb97</span><br><span class="line">this is file a on local master</span><br><span class="line">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</span><br><span class="line">this is file a on local master second edit</span><br><span class="line">=======</span><br><span class="line">this is file a on server master</span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt; 67f70c522e9e5b748445abbb41ea0cfa0fd171f9</span><br></pre></td></tr></table></figure>
+<p>那么下来我们看一下commit的图是如何的：</p>
+<p><img src="/2016/01/14/git-learning-5-remote/12.png" alt=""></p>
+<p>我们发现origin/master分支指向也更新为了最新的记录。并且现在还是两个分支，因为还有冲突没有解决。这时候我们需要解决冲突在提交就好了。</p>
+<p><img src="/2016/01/14/git-learning-5-remote/13.png" alt=""></p>
+<p>并将其提交到记录里面这时候我们就会发现最后的commit图就合并到了一起。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Administrator@USER-20150201IC MINGW64 ~/Desktop/rrr/test (master|MERGING)</span><br><span class="line">$ git add .</span><br><span class="line"></span><br><span class="line">$ git commit -m &apos;merge&apos;</span><br><span class="line">[master 0dd66df] merge</span><br><span class="line"></span><br><span class="line">Administrator@USER-20150201IC MINGW64 ~/Desktop/rrr/test (master)</span><br><span class="line">$ git lol</span><br><span class="line">*   0dd66df (HEAD -&gt; master) merge</span><br><span class="line"></span><br><span class="line">|\</span><br><span class="line"></span><br><span class="line">| * 67f70c5 (origin/master) this is file a on server master</span><br><span class="line"></span><br><span class="line">* | de7c4cd local second commit on master</span><br><span class="line"></span><br><span class="line">|/</span><br><span class="line"></span><br><span class="line">* 7358cc0 local first commit</span><br></pre></td></tr></table></figure>
+<p>最后来一张图清晰地告诉大家git fetch和git push的区别。</p>
+<p><img src="/2016/01/14/git-learning-5-remote/14.png" alt=""></p>
+<h2 id="二、结束语"><a href="#二、结束语" class="headerlink" title="二、结束语"></a><strong>二、结束语</strong></h2><p>本篇文章分析完毕，希望各位能够喜欢并且指正里面的错误，分析的有不正确的就指出来。谢谢啦。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2016/01/14/git-learning-5-remote/">带你走进git-远程仓库</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">BattleHeart</a></p>
+        <p><span>发布时间:</span>2016-01-14, 21:22:19</p>
+        <p><span>最后更新:</span>2019-04-11, 16:13:51</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2016/01/14/git-learning-5-remote/" title="带你走进git-远程仓库">https://www.battleheart.cn/2016/01/14/git-learning-5-remote/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://www.battleheart.cn/2016/01/14/git-learning-5-remote/　　作者: BattleHeart" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2018/09/18/hello-world/">
+                    我的blog之旅又要开始了
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2016/01/14/git-learning-4-rewriting-history/">
+                    带你走进git-重写历史记录
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、文件，指令讲解"><span class="toc-number">1.</span> <span class="toc-text">一、文件，指令讲解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、结束语"><span class="toc-number">2.</span> <span class="toc-text">二、结束语</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"带你走进git-远程仓库　| BattleHeart　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2018/09/18/hello-world/" title="上一篇: 我的blog之旅又要开始了">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2016/01/14/git-learning-4-rewriting-history/" title="下一篇: 带你走进git-重写历史记录">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/04/09/git-server-transfer/">git仓库迁移</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/07/LinkedBlockingQueue-Principle/">LinkedBlockingQueue原理解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/06/arrayblockingqueue-principle/">ArrayBlockingQueue原理详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/28/block-and-lock-free/">阻塞算法和非阻塞算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/28/you-have-to-know-the-concept-of-multithreading/">你必须知道的多线程几个概念</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/25/spring-boot-and-dubbo-starter/">SpringBoot快速整合dubbo</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/22/how-use-synchronized/">深入理解synchronized</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/24/spring-boot-autoconfiguration-fashion/">SpringBoot自动装配详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/24/spring-boot-thymeleaf-and-shiro/">spring-boot与thymeleaf模板整合shiro标签内容</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/26/use-hexo-to-build-a-blog/">使用Hexo搭建博客</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/spring-boot-admin-monitor/">Spring Boot Admin监控系统搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/logback-with-elk/">使用Logback输出日志到ELK</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/elk-environment-construction-in-windows/">Windows环境下搭建ELK环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/quick-start-spring-cloud-sleuth/">分布式服务跟踪之Spring Cloud Sleuth快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/quick-start-spring-cloud-turbine-rabbitmq/">集群监控Spring Cloud Turbine消息队列篇</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/quick-start-spring-cloud-turbine/">集群监控之Spring Cloud Turbine快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/27/quick-start-spring-cloud-zuul/">API网关服务-Spring Cloud Zuul快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/27/quick-start-spring-cloud-config/">配置管理中心Spring Cloud Config快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/27/quick-start-spring-cloud-hystrix/">服务容错保护Spring Cloud Hystrix之快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/27/quick-start-spring-cloud-ribbon/">客户端负载均衡Spring Cloud Ribbon之快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/26/spring-cloud-tutorial-eureka/">服务治理-Spring Cloud Eureka</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/23/maven-skeleton-generation/">一文搭建Maven骨架</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/23/java-class-loader/">Java类加载器详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/20/how-dynamic-agents-work/">动态代理的工作原理简要分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/18/hello-world/">我的blog之旅又要开始了</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/14/git-learning-5-remote/">带你走进git-远程仓库</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/14/git-learning-4-rewriting-history/">带你走进git-重写历史记录</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/14/git-learning-3-revert-operation/">带你走进git-撤销修改</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/13/git-study-2/">带你走进git-工作区、暂存区、分支</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/13/git-config/">带你走进git-基础配置</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2018-2019 BattleHeart
+            </div>
+            <div class="footer-right">
+                <a href="http://battleHeart.cn/" target="_blank" title="快速、简洁且高效的博客框架">BattleHeart</a>  Blog 
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

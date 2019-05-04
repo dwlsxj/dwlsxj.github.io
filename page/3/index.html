@@ -279,6 +279,74 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-quick-start-spring-cloud-hystrix" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/09/27/quick-start-spring-cloud-hystrix/" class="article-date">
+      <time datetime="2018-09-27T14:15:34.000Z" itemprop="datePublished">2018-09-27</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/27/quick-start-spring-cloud-hystrix/">服务容错保护Spring Cloud Hystrix之快速入门</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              Spring Cloud Hystrix实现了断路器、线程隔离等一系列服务保护功能。它是基于Netflix的开源框架Hystrix实现，该框架的目标在于通过控制那些访问远程系统，服务和第三方库的节点，从而对延迟和故障提供更强大的容错能力。Hystrix具备服务降级，服务熔断、线程和信号隔离、请求缓存、请求合并以及服务监控等功能。场景描述：如果我们在微服务中进行通信时，发现其中微服务宕机了，这时候另外一个服务调用了宕机的服务，如果在没有断路器机制的前提下访问，这时候会一直等待，一直等待到服务达到超时的点，会使得线程因调用故障服务被长时间占用不能释放，通过断路器的故障监控，如果发现故障时，会向调用者返回一个错误相应，这样就不用长时间等待。
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/个人技术/">个人技术</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringCloud/">SpringCloud</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2018/09/27/quick-start-spring-cloud-hystrix/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-quick-start-spring-cloud-ribbon" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -415,74 +483,6 @@
 
 
   
-    <article id="post-maven-skeleton-generation" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/09/23/maven-skeleton-generation/" class="article-date">
-      <time datetime="2018-09-22T16:00:00.000Z" itemprop="datePublished">2018-09-23</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/23/maven-skeleton-generation/">一文搭建Maven骨架</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              Archetype是一个Maven项目模板工具包，通过Archetype我们可以快速搭建Maven项目，通俗理解就是项目的基础架构，项目初始化的过程。我们在使用Idea开发工具的时候会有如下图操作
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/个人技术/">个人技术</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Maven/">Maven</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a href="/2018/09/23/maven-skeleton-generation/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
     <article id="post-java-class-loader" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -533,6 +533,74 @@
       
         <p class="article-more-link">
           <a href="/2018/09/23/java-class-loader/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-maven-skeleton-generation" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/09/23/maven-skeleton-generation/" class="article-date">
+      <time datetime="2018-09-22T16:00:00.000Z" itemprop="datePublished">2018-09-23</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/23/maven-skeleton-generation/">一文搭建Maven骨架</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              Archetype是一个Maven项目模板工具包，通过Archetype我们可以快速搭建Maven项目，通俗理解就是项目的基础架构，项目初始化的过程。我们在使用Idea开发工具的时候会有如下图操作
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/个人技术/">个人技术</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Maven/">Maven</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2018/09/23/maven-skeleton-generation/#more">more >></a>
         </p>
       
       <div class="clearfix"></div>
@@ -873,74 +941,6 @@
       
         <p class="article-more-link">
           <a href="/2016/01/14/git-learning-3-revert-operation/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-git-study-2" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/01/13/git-study-2/" class="article-date">
-      <time datetime="2016-01-13T11:37:07.000Z" itemprop="datePublished">2016-01-13</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/01/13/git-study-2/">带你走进git-工作区、暂存区、分支</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              1.工作区working directory日常编辑代码的地方。2.历史仓库history repository是commit指向的一个树形结构。3.暂存区Staging area相当于是工作区与历史提交中间的缓存，它代表着是你要提交代码的一个工作状态，它维护的是一个虚拟的树形结构
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/个人技术/">个人技术</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Git/">Git</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a href="/2016/01/13/git-study-2/#more">more >></a>
         </p>
       
       <div class="clearfix"></div>

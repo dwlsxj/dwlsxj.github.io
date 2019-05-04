@@ -279,6 +279,74 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-spring-boot-thymeleaf-and-shiro" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/01/24/spring-boot-thymeleaf-and-shiro/" class="article-date">
+      <time datetime="2019-01-24T02:49:45.000Z" itemprop="datePublished">2019-01-24</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/24/spring-boot-thymeleaf-and-shiro/">spring-boot与thymeleaf模板整合shiro标签内容</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              添加依赖thymeleaf-extras-shiro，然后对html属性中添加xmlns:shiro="http://www.pollix.at/thymeleaf/shiro，添加Bean对象ShiroDialect
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/个人技术/">个人技术</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Shiro/">Shiro</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2019/01/24/spring-boot-thymeleaf-and-shiro/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-use-hexo-to-build-a-blog" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -873,74 +941,6 @@
       
         <p class="article-more-link">
           <a href="/2018/09/27/quick-start-spring-cloud-config/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-quick-start-spring-cloud-hystrix" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/09/27/quick-start-spring-cloud-hystrix/" class="article-date">
-      <time datetime="2018-09-27T14:15:34.000Z" itemprop="datePublished">2018-09-27</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/27/quick-start-spring-cloud-hystrix/">服务容错保护Spring Cloud Hystrix之快速入门</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              Spring Cloud Hystrix实现了断路器、线程隔离等一系列服务保护功能。它是基于Netflix的开源框架Hystrix实现，该框架的目标在于通过控制那些访问远程系统，服务和第三方库的节点，从而对延迟和故障提供更强大的容错能力。Hystrix具备服务降级，服务熔断、线程和信号隔离、请求缓存、请求合并以及服务监控等功能。场景描述：如果我们在微服务中进行通信时，发现其中微服务宕机了，这时候另外一个服务调用了宕机的服务，如果在没有断路器机制的前提下访问，这时候会一直等待，一直等待到服务达到超时的点，会使得线程因调用故障服务被长时间占用不能释放，通过断路器的故障监控，如果发现故障时，会向调用者返回一个错误相应，这样就不用长时间等待。
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/个人技术/">个人技术</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringCloud/">SpringCloud</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a href="/2018/09/27/quick-start-spring-cloud-hystrix/#more">more >></a>
         </p>
       
       <div class="clearfix"></div>

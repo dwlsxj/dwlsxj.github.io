@@ -23,6 +23,10 @@
 <meta property="og:site_name" content="BattleHeart">
 <meta property="og:description" content="ArrayBlockingQueue是基于数组实现的共享通道，为什么说是共享通道，假说线程A希望给线程B发一个消息，用什么方式来告知线程B是比较合适的呢？可以使用BlockingQueue来实现。">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="https://www.battleheart.cn/2019/05/04/synchronousqueue-principle-fair-pattern/24.png">
+<meta property="og:image" content="https://www.battleheart.cn/2019/05/04/synchronousqueue-principle-fair-pattern/25.png">
+<meta property="og:image" content="https://www.battleheart.cn/2019/05/04/synchronousqueue-principle-fair-pattern/26.png">
+<meta property="og:image" content="https://www.battleheart.cn/2019/05/04/synchronousqueue-principle-fair-pattern/27.png">
 <meta property="og:image" content="https://www.battleheart.cn/2019/05/04/synchronousqueue-principle-fair-pattern/16.png">
 <meta property="og:image" content="https://www.battleheart.cn/2019/05/04/synchronousqueue-principle-fair-pattern/17.png">
 <meta property="og:image" content="https://www.battleheart.cn/2019/05/04/synchronousqueue-principle-fair-pattern/18.png">
@@ -46,11 +50,11 @@
 <meta property="og:image" content="https://www.battleheart.cn/2019/05/04/synchronousqueue-principle-fair-pattern/13.png">
 <meta property="og:image" content="https://www.battleheart.cn/2019/05/04/synchronousqueue-principle-fair-pattern/14.png">
 <meta property="og:image" content="https://www.battleheart.cn/2019/05/04/synchronousqueue-principle-fair-pattern/15.png">
-<meta property="og:updated_time" content="2019-05-05T05:32:50.808Z">
+<meta property="og:updated_time" content="2019-05-11T03:22:50.954Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SynchronousQueue原理详解-公平模式">
 <meta name="twitter:description" content="ArrayBlockingQueue是基于数组实现的共享通道，为什么说是共享通道，假说线程A希望给线程B发一个消息，用什么方式来告知线程B是比较合适的呢？可以使用BlockingQueue来实现。">
-<meta name="twitter:image" content="https://www.battleheart.cn/2019/05/04/synchronousqueue-principle-fair-pattern/16.png">
+<meta name="twitter:image" content="https://www.battleheart.cn/2019/05/04/synchronousqueue-principle-fair-pattern/24.png">
 
 <link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
@@ -341,7 +345,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h1 id="SynchronousQueue原理详解-公平模式"><a href="#SynchronousQueue原理详解-公平模式" class="headerlink" title="SynchronousQueue原理详解-公平模式"></a>SynchronousQueue原理详解-公平模式</h1><h2 id="一、介绍"><a href="#一、介绍" class="headerlink" title="一、介绍"></a>一、介绍</h2><p>SynchronousQueue是一个无空间的队列，任何一个对SynchronousQueue写需要等到一个对SynchronousQueue的读操作，反之亦然。一个读操作需要等待一个写操作，相当于是交换通道，提供者和消费者是需要组队完成工作，缺少一个将会阻塞线程，知道等到配对为止。</p>
+        <h1 id="SynchronousQueue原理详解-公平模式"><a href="#SynchronousQueue原理详解-公平模式" class="headerlink" title="SynchronousQueue原理详解-公平模式"></a>SynchronousQueue原理详解-公平模式</h1><h2 id="一、介绍"><a href="#一、介绍" class="headerlink" title="一、介绍"></a>一、介绍</h2><p>SynchronousQueue是一个双栈双队列算法，无空间的队列或栈，任何一个对SynchronousQueue写需要等到一个对SynchronousQueue的读操作，反之亦然。一个读操作需要等待一个写操作，相当于是交换通道，提供者和消费者是需要组队完成工作，缺少一个将会阻塞线程，知道等到配对为止。</p>
 <p>SynchronousQueue是一个队列和栈算法实现，在SynchronousQueue中双队列FIFO提供公平模式，而双栈LIFO提供的则是非公平模式。</p>
 <p>对于SynchronousQueue来说，他的put方法和take方法都被抽象成统一方法来进行操作，通过抽象出内部类Transferer，来实现不同的操作。</p>
 <blockquote>
@@ -358,7 +362,15 @@
 <li>maxUntimedSpins：自旋次数，如果没有指定时间设置，则使用maxUntimedSpins。如果NCPUS数量大于等于2则设定为为32*16，否则为0；</li>
 <li>spinForTimeoutThreshold：为了防止自定义的时间限过长，而设置的，如果设置的时间限长于这个值则取这个spinForTimeoutThreshold 为时间限。这是为了优化而考虑的。这个的单位为纳秒。</li>
 </ul>
-<h2 id="公平模式-TransferQueue"><a href="#公平模式-TransferQueue" class="headerlink" title="公平模式-TransferQueue"></a>公平模式-TransferQueue</h2><p>TransferQueue继承自Transferer抽象类，并且实现了transfer方法，它主要包含以下内容:</p>
+<h2 id="公平模式-TransferQueue"><a href="#公平模式-TransferQueue" class="headerlink" title="公平模式-TransferQueue"></a>公平模式-TransferQueue</h2><p>TransferQueue内部是如何进行工作的，这里先大致讲解下，队列采用了互补模式进行等待，QNode中有一个字段是isData，如果模式相同或空队列时进行等待操作，互补的情况下就进行消费操作。</p>
+<p>入队操作相同模式</p>
+<p><img src="/2019/05/04/synchronousqueue-principle-fair-pattern/24.png" alt=""></p>
+<p><img src="/2019/05/04/synchronousqueue-principle-fair-pattern/25.png" alt=""></p>
+<p>不同模式时进行出队列操作：</p>
+<p><img src="/2019/05/04/synchronousqueue-principle-fair-pattern/26.png" alt=""></p>
+<p>这时候来了一个isData=false的互补模式，队列就会变成如下状态：</p>
+<p><img src="/2019/05/04/synchronousqueue-principle-fair-pattern/27.png" alt=""></p>
+<p>TransferQueue继承自Transferer抽象类，并且实现了transfer方法，它主要包含以下内容:</p>
 <h3 id="QNode"><a href="#QNode" class="headerlink" title="QNode"></a>QNode</h3><p>代表队列中的节点元素，它内部包含以下字段信息：</p>
 <ol>
 <li>字段信息描述</li>
@@ -553,7 +565,7 @@
         <p><span>本文标题:</span><a href="/2019/05/04/synchronousqueue-principle-fair-pattern/">SynchronousQueue原理详解-公平模式</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">BattleHeart</a></p>
         <p><span>发布时间:</span>2019-05-04, 16:44:16</p>
-        <p><span>最后更新:</span>2019-05-05, 13:32:50</p>
+        <p><span>最后更新:</span>2019-05-11, 11:22:50</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2019/05/04/synchronousqueue-principle-fair-pattern/" title="SynchronousQueue原理详解-公平模式">https://www.battleheart.cn/2019/05/04/synchronousqueue-principle-fair-pattern/</a>
             <span class="copy-path" data-clipboard-text="原文: https://www.battleheart.cn/2019/05/04/synchronousqueue-principle-fair-pattern/　　作者: BattleHeart" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>

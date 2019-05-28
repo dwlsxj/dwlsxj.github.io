@@ -33,7 +33,7 @@
 <meta property="og:image" content="https://www.battleheart.cn/2019/05/18/synchronousqueue-principle-unfair-pattern/8.png">
 <meta property="og:image" content="https://www.battleheart.cn/2019/05/18/synchronousqueue-principle-unfair-pattern/9.png">
 <meta property="og:image" content="https://www.battleheart.cn/2019/05/18/synchronousqueue-principle-unfair-pattern/10.png">
-<meta property="og:updated_time" content="2019-05-18T13:37:25.291Z">
+<meta property="og:updated_time" content="2019-05-28T00:57:17.759Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SynchronousQueue原理详解-非公平模式">
 <meta name="twitter:description" content="面已经讲解了公平模式的内容，今天来讲解下关于非公平模式下的SynchronousQueue是如何进行工作的，在源码分析的时候，先来简单看一下非公平模式的简单原理，它采用的栈这种FILO先进后出的方式进行非公平处理，它内部有三种状态，分别是REQUEST，DATA，FULFILLING，其中REQUEST代表的数据请求的操作也就是take操作，而DATA表示的是数据也就是Put操作将数据存放到栈中，">
@@ -393,7 +393,7 @@
 </tr>
 <tr>
 <td>tryCancel</td>
-<td>生成SNode节点对象</td>
+<td>取消当前节点，将当前节点的match节点设置为当前节点(this)</td>
 </tr>
 <tr>
 <td>isCancelled</td>
@@ -465,7 +465,7 @@
         <p><span>本文标题:</span><a href="/2019/05/18/synchronousqueue-principle-unfair-pattern/">SynchronousQueue原理详解-非公平模式</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">BattleHeart</a></p>
         <p><span>发布时间:</span>2019-05-18, 21:35:05</p>
-        <p><span>最后更新:</span>2019-05-18, 21:37:25</p>
+        <p><span>最后更新:</span>2019-05-28, 08:57:17</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2019/05/18/synchronousqueue-principle-unfair-pattern/" title="SynchronousQueue原理详解-非公平模式">https://www.battleheart.cn/2019/05/18/synchronousqueue-principle-unfair-pattern/</a>
             <span class="copy-path" data-clipboard-text="原文: https://www.battleheart.cn/2019/05/18/synchronousqueue-principle-unfair-pattern/　　作者: BattleHeart" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>

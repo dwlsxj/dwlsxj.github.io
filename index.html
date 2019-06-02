@@ -277,6 +277,74 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-reentrantlock-principle-fair" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/06/02/reentrantlock-principle-fair/" class="article-date">
+      <time datetime="2019-06-02T09:23:58.000Z" itemprop="datePublished">2019-06-02</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/06/02/reentrantlock-principle-fair/">图解AQS原理之ReentrantLock详解-公平锁</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              前面已经讲解了关于AQS的非公平锁模式，关于`NonfairSync`非公平锁，内部其实告诉我们谁先争抢到锁谁就先获得资源，下面就来分析一下公平锁`FairSync`内部是如何实现公平的？如果没有看过非公平锁的先去了解下非公平锁，因为这篇文章前面不会讲太多内部结构，直接会对源码进行分析
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/个人技术/">个人技术</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/多线程/">多线程</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/并发编程/">并发编程</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2019/06/02/reentrantlock-principle-fair/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-reentrantlock-principle-nonfairsync" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -306,7 +374,7 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-              Api网关是一个更为只能的应用服务器，他的定义类似面向对象设计模式中的Façade模式，它的存在就像是整个微服务架构系统的门面一样，所有的外部客户端访问都需要经过它来进行调度和过滤。他除了要实现请求路由、负载均衡、校验过滤等功能外，还需要更多的能力，比如与服务治理框架的结合，请求转发是的熔断机制，服务的聚合等一些列高级功能。
+              并发编程中，`ReentrantLock`的使用是比较多的，包括之前讲的`LinkedBlockingQueue`和`ArrayBlockQueue`的内部都是使用的`ReentrantLock`，谈到它又不能的不说AQS，AQS的全称是`AbstractQueuedSynchronizer`，这个类也是在`java.util.concurrent.locks`下面，提供了一个FIFO的队列，可以用于构建锁的基础框架，内部通过原子变量`state`来表示锁的状态，当`state`大于0的时候表示锁被占用，如果state等于0时表示没有占用锁，`ReentrantLock`是一个重入锁，表现在`state`上，如果持有锁的线程重复获取锁时，它会将`state`状态进行递增，也就是获得一个信号量，当释放锁时，同时也是释放了信号量，信号量跟随减少，如果上一个线程还没有完成任务，则会进行入队等待操作。
           
       
     </div>
@@ -871,74 +939,6 @@
       
         <p class="article-more-link">
           <a href="/2019/03/28/you-have-to-know-the-concept-of-multithreading/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-spring-boot-and-dubbo-starter" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/02/25/spring-boot-and-dubbo-starter/" class="article-date">
-      <time datetime="2019-02-25T06:19:14.000Z" itemprop="datePublished">2019-02-25</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/02/25/spring-boot-and-dubbo-starter/">SpringBoot快速整合dubbo</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              通过使用Spring Boot来快速整合dubbo，构建服务提供端和消费端的解耦，并将服务注册到zookeeper中去
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/个人技术/">个人技术</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/dubbo/">dubbo</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a href="/2019/02/25/spring-boot-and-dubbo-starter/#more">more >></a>
         </p>
       
       <div class="clearfix"></div>

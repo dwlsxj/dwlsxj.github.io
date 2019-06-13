@@ -26,8 +26,9 @@
 <meta property="og:image" content="https://www.battleheart.cn/2019/06/13/java-thread-pool-principle/1.png">
 <meta property="og:image" content="https://www.battleheart.cn/2019/06/13/java-thread-pool-principle/2.png">
 <meta property="og:image" content="https://www.battleheart.cn/2019/06/13/java-thread-pool-principle/3.png">
+<meta property="og:image" content="https://www.battleheart.cn/2019/06/13/java-thread-pool-principle/5.png">
 <meta property="og:image" content="https://www.battleheart.cn/2019/06/13/java-thread-pool-principle/4.png">
-<meta property="og:updated_time" content="2019-06-13T15:04:25.084Z">
+<meta property="og:updated_time" content="2019-06-13T15:30:25.398Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="线程池原理浅析">
 <meta name="twitter:description" content="为了避免频繁重复的创建和销毁线程，我们可以让这些线程进行复用，在线程池中，总会有活跃的线程在占用，但是线程池中也会存在没有占用的线程，这些线程处于空闲状态，当有任务的时候会从池子里面拿去一个线程来进行使用，当完成工作后，并没有销毁线程，而是将将线程放回到池子中去。">
@@ -496,6 +497,14 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">interruptWorkers</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> ReentrantLock mainLock = <span class="keyword">this</span>.mainLock;</span><br><span class="line">    mainLock.lock();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (Worker w : workers)</span><br><span class="line">          	<span class="comment">//直接进行中断操作。</span></span><br><span class="line">            w.interruptIfStarted();</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        mainLock.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>内部调用了<code>Worker</code>的<code>interruptIfStarted</code>方法，方法内部是针对线程进行中断操作，但是中断的前提条件是AQS的state状态必须大于等于0，如果状态为-1的则不会被中断，但是如果任务运行起来的时候在<code>runWorker</code>中则不会执行任务，因为线程池状态为<code>STOP</code>，如果线程池状态为STOP则会中断线程，下面代码是Worker中的<code>interruptIfStarted</code>:</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">interruptIfStarted</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Thread t;</span><br><span class="line">  	<span class="comment">//当前Worker锁状态大于等于0并且线程没有被中断</span></span><br><span class="line">    <span class="keyword">if</span> (getState() &gt;= <span class="number">0</span> &amp;&amp; (t = thread) != <span class="keyword">null</span> &amp;&amp; !t.isInterrupted()) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            t.interrupt();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (SecurityException ignore) &#123;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="拒绝策略"><a href="#拒绝策略" class="headerlink" title="拒绝策略"></a>拒绝策略</h3><p>JDK内置的拒绝策略如下：</p>
+<ol>
+<li>AbortPolicy策略：该策略会直接抛出异常，阻止系统正常工作</li>
+<li>CallerRunsPolicy策略：只要线程池没有关闭线程池状态是RUNNING状态，该略略直接调用线程中运行当前被丢弃的任务</li>
+<li>DiscardOledestPolicy策略：该策略将丢弃最老的一个请求，也就是即将被执行的第一个任务，并尝试再次提交任务</li>
+<li>DiscardPolicy策略：该策略默默丢弃无法处理的任务，不予任何处理。</li>
+</ol>
+<p>​<img src="/2019/06/13/java-thread-pool-principle/5.png" alt="5"></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>首先先上一张图，针对这张图来进行总结：</p>
 <p><img src="/2019/06/13/java-thread-pool-principle/4.png" alt="4"></p>
 <ol>
@@ -516,7 +525,7 @@
         <p><span>本文标题:</span><a href="/2019/06/13/java-thread-pool-principle/">线程池原理浅析</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">BattleHeart</a></p>
         <p><span>发布时间:</span>2019-06-13, 22:58:38</p>
-        <p><span>最后更新:</span>2019-06-13, 23:04:25</p>
+        <p><span>最后更新:</span>2019-06-13, 23:30:25</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2019/06/13/java-thread-pool-principle/" title="线程池原理浅析">https://www.battleheart.cn/2019/06/13/java-thread-pool-principle/</a>
             <span class="copy-path" data-clipboard-text="原文: https://www.battleheart.cn/2019/06/13/java-thread-pool-principle/　　作者: BattleHeart" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -546,7 +555,7 @@
     <div id="toc" class="toc-article">
         <strong class="toc-title">文章目录</strong>
         
-            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是线程池？"><span class="toc-number">1.</span> <span class="toc-text">什么是线程池？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#原理分析"><span class="toc-number">2.</span> <span class="toc-text">原理分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是线程池？"><span class="toc-number">1.</span> <span class="toc-text">什么是线程池？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#原理分析"><span class="toc-number">2.</span> <span class="toc-text">原理分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#拒绝策略"><span class="toc-number">2.1.</span> <span class="toc-text">拒绝策略</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li></ol>
         
     </div>
     <style>

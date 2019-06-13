@@ -279,6 +279,74 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-quick-start-spring-cloud-turbine-rabbitmq" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/10/01/quick-start-spring-cloud-turbine-rabbitmq/" class="article-date">
+      <time datetime="2018-10-01T07:54:41.000Z" itemprop="datePublished">2018-10-01</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/01/quick-start-spring-cloud-turbine-rabbitmq/">集群监控Spring Cloud Turbine消息队列篇</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              上一篇文章中我们介绍了Turbine简单的通过服务名称的方式构建监控聚合服务，这一章中我们将要讲一下使用消息队列的方式对集群信息进行收集，监控，我们可以将所有需要收集的监控信息都输出到消息代理中，然后turbine订阅消息代理中的消息，通过异步的方式读取消息，最后将读取出来的监控指标输出到Hystrix Dashboard中。
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/个人技术/">个人技术</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringCloud/">SpringCloud</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2018/10/01/quick-start-spring-cloud-turbine-rabbitmq/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-quick-start-spring-cloud-turbine" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -891,74 +959,6 @@
 
 
   
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/09/18/hello-world/" class="article-date">
-      <time datetime="2018-09-17T16:00:00.000Z" itemprop="datePublished">2018-09-18</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/18/hello-world/">我的blog之旅又要开始了</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              距离我的个人博客服务器到期到现在也有一段时间了，这段时间里面已经停止了些东西，最近要把写文章这件事慢慢的拾起来，制定写作计划。
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/生活杂谈/">生活杂谈</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Life/">Life</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a href="/2018/09/18/hello-world/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
@@ -1010,7 +1010,7 @@
                 $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
             }
             else {
-                var backgroundnum = 5;
+                var backgroundnum = 10;
                 var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
                 $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
             }

@@ -279,6 +279,74 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-java-thread-pool-principle" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/06/13/java-thread-pool-principle/" class="article-date">
+      <time datetime="2019-06-13T14:58:38.000Z" itemprop="datePublished">2019-06-13</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/06/13/java-thread-pool-principle/">线程池原理浅析</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              为了避免频繁重复的创建和销毁线程，我们可以让这些线程进行复用，在线程池中，总会有活跃的线程在占用，但是线程池中也会存在没有占用的线程，这些线程处于空闲状态，当有任务的时候会从池子里面拿去一个线程来进行使用，当完成工作后，并没有销毁线程，而是将将线程放回到池子中去。
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/个人技术/">个人技术</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/多线程/">多线程</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/并发编程/">并发编程</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2019/06/13/java-thread-pool-principle/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-reentrantlock-principle-fair" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -891,74 +959,6 @@
 
 
   
-    <article id="post-you-have-to-know-the-concept-of-multithreading" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2019/03/28/you-have-to-know-the-concept-of-multithreading/" class="article-date">
-      <time datetime="2019-03-28T06:42:14.000Z" itemprop="datePublished">2019-03-28</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/28/you-have-to-know-the-concept-of-multithreading/">你必须知道的多线程几个概念</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              你必须知道多线程几个概念,主要包括同步（Synchronous）、异步（Asynchronous）， 并发（Concurrency）和并行，临界区，阻塞、非阻塞，死锁、饥饿、活锁等基本概念。
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/个人技术/">个人技术</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/多线程/">多线程</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/并发编程/">并发编程</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a href="/2019/03/28/you-have-to-know-the-concept-of-multithreading/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1010,7 +1010,7 @@
                 $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
             }
             else {
-                var backgroundnum = 5;
+                var backgroundnum = 10;
                 var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
                 $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
             }

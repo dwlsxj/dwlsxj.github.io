@@ -279,6 +279,74 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-you-have-to-know-the-concept-of-multithreading" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/03/28/you-have-to-know-the-concept-of-multithreading/" class="article-date">
+      <time datetime="2019-03-28T06:42:14.000Z" itemprop="datePublished">2019-03-28</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/03/28/you-have-to-know-the-concept-of-multithreading/">你必须知道的多线程几个概念</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+              你必须知道多线程几个概念,主要包括同步（Synchronous）、异步（Asynchronous）， 并发（Concurrency）和并行，临界区，阻塞、非阻塞，死锁、饥饿、活锁等基本概念。
+          
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/个人技术/">个人技术</a>
+    </div>
+
+
+      
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/多线程/">多线程</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/并发编程/">并发编程</a></li></ul>
+    </div>
+
+      
+        <p class="article-more-link">
+          <a href="/2019/03/28/you-have-to-know-the-concept-of-multithreading/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+
+
+  
     <article id="post-spring-boot-and-dubbo-starter" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -891,74 +959,6 @@
 
 
   
-    <article id="post-quick-start-spring-cloud-turbine-rabbitmq" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/10/01/quick-start-spring-cloud-turbine-rabbitmq/" class="article-date">
-      <time datetime="2018-10-01T07:54:41.000Z" itemprop="datePublished">2018-10-01</time>
-</a>
-
-
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/01/quick-start-spring-cloud-turbine-rabbitmq/">集群监控Spring Cloud Turbine消息队列篇</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-          
-              上一篇文章中我们介绍了Turbine简单的通过服务名称的方式构建监控聚合服务，这一章中我们将要讲一下使用消息队列的方式对集群信息进行收集，监控，我们可以将所有需要收集的监控信息都输出到消息代理中，然后turbine订阅消息代理中的消息，通过异步的方式读取消息，最后将读取出来的监控指标输出到Hystrix Dashboard中。
-          
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/个人技术/">个人技术</a>
-    </div>
-
-
-      
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringCloud/">SpringCloud</a></li></ul>
-    </div>
-
-      
-        <p class="article-more-link">
-          <a href="/2018/10/01/quick-start-spring-cloud-turbine-rabbitmq/#more">more >></a>
-        </p>
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -1010,7 +1010,7 @@
                 $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
             }
             else {
-                var backgroundnum = 5;
+                var backgroundnum = 10;
                 var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
                 $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
             }

@@ -27,7 +27,7 @@
 <meta property="og:image" content="https://www.battleheart.cn/2019/06/13/java-thread-pool-principle/2.png">
 <meta property="og:image" content="https://www.battleheart.cn/2019/06/13/java-thread-pool-principle/3.png">
 <meta property="og:image" content="https://www.battleheart.cn/2019/06/13/java-thread-pool-principle/4.png">
-<meta property="og:updated_time" content="2019-06-13T15:01:10.832Z">
+<meta property="og:updated_time" content="2019-06-13T15:04:25.084Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="线程池原理浅析">
 <meta name="twitter:description" content="为了避免频繁重复的创建和销毁线程，我们可以让这些线程进行复用，在线程池中，总会有活跃的线程在占用，但是线程池中也会存在没有占用的线程，这些线程处于空闲状态，当有任务的时候会从池子里面拿去一个线程来进行使用，当完成工作后，并没有销毁线程，而是将将线程放回到池子中去。">
@@ -380,15 +380,12 @@
 </tbody>
 </table>
 <p>其中workQueue代表的是提交但未执行的队列，它是BlockingQueue接口的对象，用于存放Runable对象，主要分为以下几种类型：</p>
-<ul>
-<li><p>直接提交的队列：<code>SynchronousQueue</code>队列，它是一个没有容量的队列，前面我有对其进行讲解，当线程池进行入队offer操作的时候，本身是无容量的，所以直接返回false，并没有保存下来，而是直接提交给线程来进行执行，如果没有空余的线程则执行拒绝策略。</p>
-</li>
-<li><p>有界的任务队列：可以使用<code>ArrayBlockingQueue</code>队列，因为它内部是基于数组来进行实现的，初始化时必须指定容量参数，当使用有界任务队列时，当有任务进行提交时，线程池的线程数量小于corePoolSize则创建新的线程来执行任务，当线程池的线程数量大于corePoolSize的时候，则将提交的任务放入到队列中，当提交的任务塞满队列后，如果线程池的线程数量没有超过maximumPoolSize，则创建新的线程执行任务，如果超过了maximumPoolSize则执行拒绝策略。</p>
-</li>
-<li><p>无界的任务队列：可以使用<code>LinkedBlockingQueue</code>队列，它内部是基于链表的形式，默认队列的长度是<code>Integer.MAX_VALUE</code>，也可以指定队列的长度，当队列满时进行阻塞操作，当然线程池中采用的是<code>offer</code>方法并不会阻塞线程，当队列满时则返回false，入队成功则则返回true，当使用<code>LinkedBlockingQueue</code>队列时，有任务提交到线程池时，如果线程池的数量小于corePoolSize，线程池会产生新的线程来执行任务，当线程池的线程数量大于corePoolSize时，则将提交的任务放入到队列中，等待执行任务的线程执行完之后进行消费队列中的任务，若后续仍有新的任务提交，而没有空闲的线程时，它会不断往队列中入队提交的任务，直到资源耗尽。</p>
-</li>
+<ol>
+<li>直接提交的队列：<code>SynchronousQueue</code>队列，它是一个没有容量的队列，前面我有对其进行讲解，当线程池进行入队offer操作的时候，本身是无容量的，所以直接返回false，并没有保存下来，而是直接提交给线程来进行执行，如果没有空余的线程则执行拒绝策略。</li>
+<li>有界的任务队列：可以使用<code>ArrayBlockingQueue</code>队列，因为它内部是基于数组来进行实现的，初始化时必须指定容量参数，当使用有界任务队列时，当有任务进行提交时，线程池的线程数量小于corePoolSize则创建新的线程来执行任务，当线程池的线程数量大于corePoolSize的时候，则将提交的任务放入到队列中，当提交的任务塞满队列后，如果线程池的线程数量没有超过maximumPoolSize，则创建新的线程执行任务，如果超过了maximumPoolSize则执行拒绝策略。</li>
+<li>无界的任务队列：可以使用<code>LinkedBlockingQueue</code>队列，它内部是基于链表的形式，默认队列的长度是<code>Integer.MAX_VALUE</code>，也可以指定队列的长度，当队列满时进行阻塞操作，当然线程池中采用的是<code>offer</code>方法并不会阻塞线程，当队列满时则返回false，入队成功则则返回true，当使用<code>LinkedBlockingQueue</code>队列时，有任务提交到线程池时，如果线程池的数量小于corePoolSize，线程池会产生新的线程来执行任务，当线程池的线程数量大于corePoolSize时，则将提交的任务放入到队列中，等待执行任务的线程执行完之后进行消费队列中的任务，若后续仍有新的任务提交，而没有空闲的线程时，它会不断往队列中入队提交的任务，直到资源耗尽。</li>
 <li>优先任务队列：t有限任务队列是带有执行优先级的队列，他可以使用<code>PriorityBlockingQueue</code>队列，可以控制任务的执行先后顺序，它是一个无界队列，该队列可以根据任务自身的优先级顺序先后执行，在确保性能的同时，也能有很好的质量保证。</li>
-</ul>
+</ol>
 <p>上面讲解了关于线程池内部都是通过<code>ThreadPoolExecutor</code>来进行实现的，那么下面我以一个例子来进行源码分析：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadPoolDemo1</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ExecutorService executorService = <span class="keyword">new</span> ThreadPoolExecutor(<span class="number">5</span>,</span><br><span class="line">                <span class="number">10</span>,</span><br><span class="line">                <span class="number">60L</span>,</span><br><span class="line">                TimeUnit.MILLISECONDS,</span><br><span class="line">                <span class="keyword">new</span> ArrayBlockingQueue&lt;&gt;(<span class="number">5</span>), <span class="keyword">new</span> CustomThreadFactory());</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">15</span>; i++) &#123;</span><br><span class="line">            executorService.execute(() -&gt; &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    Thread.sleep(<span class="number">50000</span>);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">                System.out.println(<span class="string">"由线程："</span> + Thread.currentThread().getName() + <span class="string">"执行任务完成"</span>);</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>上面定义了一个线程池，线程池初始化的corePoolSize为5，也就是线程池中线程的数量为5，最大线程maximumThreadPoolSize为10，空余的线程存活的时间是60s，使用LinkedBlockingQueue来作为阻塞队列，这里还发现我自定义了<code>ThreadFactory</code>线程池工厂，这里我真是针对线程创建的时候输出线程池的名称，源码如下所示：</p>
@@ -519,7 +516,7 @@
         <p><span>本文标题:</span><a href="/2019/06/13/java-thread-pool-principle/">线程池原理浅析</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">BattleHeart</a></p>
         <p><span>发布时间:</span>2019-06-13, 22:58:38</p>
-        <p><span>最后更新:</span>2019-06-13, 23:01:10</p>
+        <p><span>最后更新:</span>2019-06-13, 23:04:25</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2019/06/13/java-thread-pool-principle/" title="线程池原理浅析">https://www.battleheart.cn/2019/06/13/java-thread-pool-principle/</a>
             <span class="copy-path" data-clipboard-text="原文: https://www.battleheart.cn/2019/06/13/java-thread-pool-principle/　　作者: BattleHeart" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>

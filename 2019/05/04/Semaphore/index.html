@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html >
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="BattleHeart" />
+
+
+
+<meta name="description" content="之前我们已经讲解过关于AQS的独占锁，这一章节主要讲解AQS的共享锁，以`Semaphore`信号量来进行讲解，相信通过看了本章节内容的同学可以对AQS的共享模式有一个了解，`Semaphore`信号量提供了用于控制资源同时被访问的个数，也就是它会维护一个许可证，访问资源之前需要申请许可证，申请许可证成功后才可以进行访问，如果申请访问资源获取的了许可证，则可以进行资源访问，同时颁发许可证中心的许可">
+<meta name="keywords" content="并发编程,多线程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Semaphore信号量之AQS共享锁-非公平模式">
+<meta property="og:url" content="https://www.battleheart.cn/2019/05/04/Semaphore/index.html">
+<meta property="og:site_name" content="BattleHeart">
+<meta property="og:description" content="之前我们已经讲解过关于AQS的独占锁，这一章节主要讲解AQS的共享锁，以`Semaphore`信号量来进行讲解，相信通过看了本章节内容的同学可以对AQS的共享模式有一个了解，`Semaphore`信号量提供了用于控制资源同时被访问的个数，也就是它会维护一个许可证，访问资源之前需要申请许可证，申请许可证成功后才可以进行访问，如果申请访问资源获取的了许可证，则可以进行资源访问，同时颁发许可证中心的许可">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://www.battleheart.cn/2019/05/04/Semaphore/1.png">
+<meta property="og:image" content="https://www.battleheart.cn/2019/05/04/Semaphore/2.png">
+<meta property="og:image" content="https://www.battleheart.cn/2019/05/04/Semaphore/3.png">
+<meta property="og:image" content="https://www.battleheart.cn/2019/05/04/Semaphore/4.png">
+<meta property="og:image" content="https://www.battleheart.cn/2019/05/04/Semaphore/5.png">
+<meta property="og:image" content="https://www.battleheart.cn/2019/05/04/Semaphore/6.png">
+<meta property="og:image" content="https://www.battleheart.cn/2019/05/04/Semaphore/7.png">
+<meta property="og:image" content="https://www.battleheart.cn/2019/05/04/Semaphore/14.png">
+<meta property="og:image" content="https://www.battleheart.cn/2019/05/04/Semaphore/8.png">
+<meta property="og:image" content="https://www.battleheart.cn/2019/05/04/Semaphore/9.png">
+<meta property="og:image" content="https://www.battleheart.cn/2019/05/04/Semaphore/10.png">
+<meta property="og:image" content="https://www.battleheart.cn/2019/05/04/Semaphore/11.png">
+<meta property="og:image" content="https://www.battleheart.cn/2019/05/04/Semaphore/12.png">
+<meta property="og:image" content="https://www.battleheart.cn/2019/05/04/Semaphore/13.png">
+<meta property="og:updated_time" content="2019-08-25T08:19:35.034Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Semaphore信号量之AQS共享锁-非公平模式">
+<meta name="twitter:description" content="之前我们已经讲解过关于AQS的独占锁，这一章节主要讲解AQS的共享锁，以`Semaphore`信号量来进行讲解，相信通过看了本章节内容的同学可以对AQS的共享模式有一个了解，`Semaphore`信号量提供了用于控制资源同时被访问的个数，也就是它会维护一个许可证，访问资源之前需要申请许可证，申请许可证成功后才可以进行访问，如果申请访问资源获取的了许可证，则可以进行资源访问，同时颁发许可证中心的许可">
+<meta name="twitter:image" content="https://www.battleheart.cn/2019/05/04/Semaphore/1.png">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="BattleHeart" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.png">
+
+
+
+    <link href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/orange/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Semaphore信号量之AQS共享锁-非公平模式 | BattleHeart</title>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdnjs.cloudflare.com/ajax/libs/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: true
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js", "//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+    <script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-56ff76c972fc0cf9"></script>
+
+
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/img/avatar.png" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">BattleHeart</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">个人博客</p>
+        
+
+        
+            <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false" />
+            <i class="fa fa-times" onclick="resetSearch()"></i>
+            </form>
+            <div id="local-search-result"></div>
+            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                        <li>关于我</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="dwlsxj:@126.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/dwlsxj" title="GitHub"></a>
+                            
+                                <a class="fa 博客园" href="https://www.cnblogs.com/dwlsxj/" title="博客园"></a>
+                            
+                                <a class="fa 网易云音乐" href="https://music.163.com/#/user/home?id=31908845" title="网易云音乐"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/">Assembly</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ELK/">ELK</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Life/">Life</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Maven/">Maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shiro/">Shiro</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringCloud/">SpringCloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dubbo/">dubbo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多线程/">多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/并发编程/">并发编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/栈/">栈</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://www.cnblogs.com/dwlsxj/">BalleHeart</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">专注于后端开发</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">BattleHeart</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/img/avatar.png" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">BattleHeart</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">个人博客</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="dwlsxj:@126.com" title="Email"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/dwlsxj" title="GitHub"></a>
+                            
+                                <a class="fa 博客园" target="_blank" href="https://www.cnblogs.com/dwlsxj/" title="博客园"></a>
+                            
+                                <a class="fa 网易云音乐" target="_blank" href="https://music.163.com/#/user/home?id=31908845" title="网易云音乐"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-Semaphore" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2019/05/04/Semaphore/" class="article-date">
+      <time datetime="2019-05-04T08:44:16.000Z" itemprop="datePublished">2019-05-04</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Semaphore信号量之AQS共享锁-非公平模式
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/个人技术/">个人技术</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/多线程/">多线程</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/并发编程/">并发编程</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><p>[TOC]</p>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>之前我们已经讲解过关于AQS的独占锁，这一章节主要讲解AQS的共享锁，以<code>Semaphore</code>信号量来进行讲解，相信通过看了本章节内容的同学可以对AQS的共享模式有一个了解，<code>Semaphore</code>信号量提供了用于控制资源同时被访问的个数，也就是它会维护一个许可证，访问资源之前需要申请许可证，申请许可证成功后才可以进行访问，如果申请访问资源获取的了许可证，则可以进行资源访问，同时颁发许可证中心的许可证会进行增加，等到访问资源的线程释放资源后，许可证使用情况会进行减少。</p>
+<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SemaphoreDemo</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Semaphore semaphore = <span class="keyword">new</span> Semaphore(<span class="number">3</span>);</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> AtomicInteger atomicInteger = <span class="keyword">new</span> AtomicInteger();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ExecutorService executorService = Executors.newFixedThreadPool(<span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">            executorService.execute(() -&gt; &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    semaphore.acquire();</span><br><span class="line">                    System.out.println(Thread.currentThread().getName() + <span class="string">"开始执行"</span>);</span><br><span class="line">                    Thread.sleep(<span class="number">100</span>);</span><br><span class="line">                    System.out.println(Thread.currentThread().getName() + <span class="string">"执行完毕"</span>);</span><br><span class="line">                    semaphore.release();</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">pool-<span class="number">1</span>-thread-<span class="number">2</span>开始执行</span><br><span class="line">pool-<span class="number">1</span>-thread-<span class="number">3</span>开始执行</span><br><span class="line">pool-<span class="number">1</span>-thread-<span class="number">1</span>开始执行</span><br><span class="line">pool-<span class="number">1</span>-thread-<span class="number">4</span>开始执行</span><br><span class="line">pool-<span class="number">1</span>-thread-<span class="number">6</span>开始执行</span><br><span class="line">pool-<span class="number">1</span>-thread-<span class="number">5</span>开始执行</span><br><span class="line">pool-<span class="number">1</span>-thread-<span class="number">7</span>开始执行</span><br><span class="line">pool-<span class="number">1</span>-thread-<span class="number">9</span>开始执行</span><br><span class="line">pool-<span class="number">1</span>-thread-<span class="number">8</span>开始执行</span><br><span class="line">pool-<span class="number">1</span>-thread-<span class="number">10</span>开始执行</span><br></pre></td></tr></table></figure>
+<p>通过一个例子来拨开<code>Semaphore</code>的面纱，上面我们定义了信号量为3个，也就是同时可以获得锁的线程只有3个，通过调用<code>semaphore.acquire();</code>申请信号量，如果申请成功则执行下面的逻辑，在后面通过<code>semaphore.release();</code>释放掉信号量的占用，也就是说通过<code>semaphore.acquice</code>从信号量中获取一个许可，如果许可通过则执行下面的语句，如果没有许可可发放则等待，然后通过<code>semaphore.release();</code>归还一个许可，上面例子中的输出内容也可清晰的看到同事只有两个线程能够访问资源。</p>
+<p>借助图示来说明一下：</p>
+<p>首先初始化的时候下面图示内容是放置了3个许可证，如下图所示：</p>
+<p><img src="/2019/05/04/Semaphore/1.png" alt="1"></p>
+<p>左边是线程，中间是要访问的资源文件，最右侧代表的是许可证池，当第一个线程尝试访问资源时，需要先从信号量中获得一个许可，如果信号量中可以获得许可则可以访问资源，如果没有许可可以颁发则表示需要等待，下面来看一下操作：</p>
+<p><img src="/2019/05/04/Semaphore/2.png" alt="2"></p>
+<p>首先线程1访问资源时，在没有许可的访问时，是行不通的，是需要先进行许可的申请，申请成功后才可以访问资源，此时信号量中的许可会进行减少，看上图中只剩下了两个许可，如果四个线程同时访问时必然会有一个线程处于等待状态，如下图所示：</p>
+<p><img src="/2019/05/04/Semaphore/3.png" alt="3"></p>
+<p>如上图所示中间两个线程简化了申请的过程，直接拥有许可访问权限，如果申请许可失败了，则会等待其他线程归还许可，发现线程4正在等待许可中，当其他线程调用<code>release</code>方法后会将许可归还给信号量中，如下图所示：</p>
+<p><img src="/2019/05/04/Semaphore/4.png" alt="4"></p>
+<p>这是线程4发现已经有可用的许可了，他就会不在等待拿着许可赶紧去访问资源，这里我就不再画图了，和上面一样，大致我们已经了解了关于信号量的内容，接下来我们就要对源码进行分析。</p>
+<h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><h3 id="Semaphore方法介绍"><a href="#Semaphore方法介绍" class="headerlink" title="Semaphore方法介绍"></a>Semaphore方法介绍</h3><p>Semaphore`主要方法有以下内容：</p>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>acquire()</td>
+<td>尝试获得一个准入许可，如无法获得，则线程等待，直到有线程释放一个许可或当线程被中断。</td>
+</tr>
+<tr>
+<td>acquire(int permits)</td>
+<td>尝试获得permits个准入许可，如无法获得，则线程等待，直到有线程释放permits个许可或当线程被中断。</td>
+</tr>
+<tr>
+<td>acquireUninterruptibly()</td>
+<td>尝试获得一个准入许可，如无法获得，则线程等待，直到有线程释放一个许可，但是不响应中断请求</td>
+</tr>
+<tr>
+<td>acquireUninterruptibly(int permits)</td>
+<td>尝试获得permits个准入许可，如无法获得，则线程等待，直到有线程释放permits个许可，但是不响应中断请求</td>
+</tr>
+<tr>
+<td>release()</td>
+<td>用于在线程访问资源结束后，释放一个许可，以使其他等待许可的线程可以进行资源访问。</td>
+</tr>
+<tr>
+<td>release(int permits)</td>
+<td>用于在线程访问资源结束后，释放permits个许可，以使其他等待许可的线程可以进行资源访问。</td>
+</tr>
+<tr>
+<td>tryAcquire()</td>
+<td>尝试获得一个许可，如果获得许可成功返回true，如果失败则返回fasle，它不会等待，立即返回</td>
+</tr>
+<tr>
+<td>tryAcquire(int permits)</td>
+<td>尝试获得permits个许可，如果获得许可成功返回true，如果失败则返回fasle，它不会等待，立即返回</td>
+</tr>
+<tr>
+<td>tryAcquire(int permits, long timeout, TimeUnit unit)</td>
+<td>尝试在指定时间内获得permits个许可，如果在指定时间内没有获得许可则则返回false，反之返回true</td>
+</tr>
+<tr>
+<td>tryAcquire(long timeout, TimeUnit unit)</td>
+<td>尝试在指定时间内获得一个许可，如果在指定时间内没有获得许可则则返回false，反之返回true</td>
+</tr>
+<tr>
+<td>availablePermits()：</td>
+<td>当前可用的许可数</td>
+</tr>
+</tbody>
+</table>
+<h3 id="获得信号量"><a href="#获得信号量" class="headerlink" title="获得信号量"></a>获得信号量</h3><p>通过上面方法的大致介绍，<code>Semaphore</code>提供了对信号量获取的操作，获取的过程中有等待操作，也有立即返回的方法，有的响应中断有的又不响应中断，下面会以一些简单的例子，进行分析一下源码内容，针对下面的例子来进行分析：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SemaphoreDemo</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Semaphore semaphore = <span class="keyword">new</span> Semaphore(<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> AtomicInteger atomicInteger = <span class="keyword">new</span> AtomicInteger();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ExecutorService executorService = Executors.newFixedThreadPool(<span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; i++) &#123;</span><br><span class="line">            Thread.sleep(<span class="number">100</span>);</span><br><span class="line">            executorService.execute(() -&gt; &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    semaphore.acquire();</span><br><span class="line">                    System.out.println(Thread.currentThread().getName() + <span class="string">"开始执行"</span>);</span><br><span class="line">                    Thread.sleep(<span class="number">10</span>);</span><br><span class="line">                    System.out.println(Thread.currentThread().getName() + <span class="string">"执行完毕"</span>);</span><br><span class="line"><span class="comment">//                    semaphore.release();</span></span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>针对上面的例子，我们先初始化了1个信号量，线程池提交了2个任务，这时候大家也想到了运行结果，运行结果就是只有1一个线程能够执行完毕，其余的线程都需要等到操作，因为信号量被消耗了，下面是输出结果：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pool-<span class="number">1</span>-thread-<span class="number">1</span>开始执行</span><br><span class="line">pool-<span class="number">1</span>-thread-<span class="number">1</span>执行完毕</span><br></pre></td></tr></table></figure>
+<p>我们这里特别在提交到线程池任务的时候睡眠了一会，其实想要达到的目的是能够让每个线程执行按照顺序排下去，不然可能顺序就不定了，当然也没有太大影响，这里只是为了方便分析，当第一个线程提交任务到线程池时，它会先经过<code>semaphore.acquire()</code>方法来进行获得一个许可操作，下面我们来看一下源码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">acquire</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    sync.acquireSharedInterruptibly(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们可以看到它调用了<code>sync.acquireSharedInterruptibly(1)</code>方法，这个<code>snyc</code>其实是<code>Semaphore</code>内部类<code>Sync</code>的实例对象，那么问题来了，这个<code>sync</code>变量是什么时候初始化的呢？其实当我们初始化<code>Semaphore</code>，就已经将<code>sync</code>变量初始化了，接下来我们看一下<code>Semaphore</code>构造函数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 非公平模式</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">Semaphore</span><span class="params">(<span class="keyword">int</span> permits)</span> </span>&#123;</span><br><span class="line">    sync = <span class="keyword">new</span> NonfairSync(permits);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// fair=true为公平模式，false=非公平模式</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">Semaphore</span><span class="params">(<span class="keyword">int</span> permits, <span class="keyword">boolean</span> fair)</span> </span>&#123;</span><br><span class="line">    sync = fair ? <span class="keyword">new</span> FairSync(permits) : <span class="keyword">new</span> NonfairSync(permits);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>构造函数一：初始化信号量数量为permits个，并采用非公平模式</li>
+<li>构造函数二：如果指定fair为true，则采用公平模式，如果指定为false，则采用非公平模式，并且初始化信号量数量为permits个。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 非公平模式</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">NonfairSync</span> <span class="keyword">extends</span> <span class="title">Sync</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = -<span class="number">2694183684443567898L</span>;</span><br><span class="line"></span><br><span class="line">    NonfairSync(<span class="keyword">int</span> permits) &#123;</span><br><span class="line">        <span class="keyword">super</span>(permits);</span><br><span class="line">    &#125;</span><br><span class="line">		<span class="comment">//实现AQS的tryAcquireShared方法，尝试获得锁。</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">int</span> <span class="title">tryAcquireShared</span><span class="params">(<span class="keyword">int</span> acquires)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> nonfairTryAcquireShared(acquires);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 公平模式</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">FairSync</span> <span class="keyword">extends</span> <span class="title">Sync</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">2014338818796000944L</span>;</span><br><span class="line"></span><br><span class="line">    FairSync(<span class="keyword">int</span> permits) &#123;</span><br><span class="line">        <span class="keyword">super</span>(permits);</span><br><span class="line">    &#125;</span><br><span class="line">		<span class="comment">//实现AQS的tryAcquireShared方法，尝试获得锁。</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">int</span> <span class="title">tryAcquireShared</span><span class="params">(<span class="keyword">int</span> acquires)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">            <span class="keyword">if</span> (hasQueuedPredecessors())</span><br><span class="line">                <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">int</span> available = getState();</span><br><span class="line">            <span class="keyword">int</span> remaining = available - acquires;</span><br><span class="line">            <span class="keyword">if</span> (remaining &lt; <span class="number">0</span> ||</span><br><span class="line">                compareAndSetState(available, remaining))</span><br><span class="line">                <span class="keyword">return</span> remaining;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们可以发现<code>Semaphore</code>提供了两种模式的锁机制，一种是公平模式，一种是非公平模式，公平模式其实就是如果发现了有线程在排队等待，则自觉到后面去排队，而非公平模式则不一样，它不管你有没有在排队的线程，谁先抢到是谁的，说到这里我们发现上例子中当声明<code>Semaphore</code>时，其实默认使用了非公平模式<code>NonfairSync</code>，指定了信号量数量为1个，其实它内部<code>Sync</code>中调用了<code>AQS</code>的<code>setState</code>方法，设置同步器状态<code>state</code>为1，详细如下图所示：</p>
+<p><img src="/2019/05/04/Semaphore/5.png" alt="5"></p>
+<p>接下来我们在回到<code>acquire</code>方法中，它调用了<code>sync.acquireSharedInterruptibly(1);</code>，细心地朋友会发现<code>NonfairSync</code>和父类<code>Sync</code>中并没有该方法，其实该方法是<code>AQS</code>提供的方法，接下来我们看一下这个方法到底做了什么？源码内容如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">acquireSharedInterruptibly</span><span class="params">(<span class="keyword">int</span> arg)</span></span></span><br><span class="line"><span class="function">        <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (Thread.interrupted())								<span class="comment">//如果线程被中断则抛出异常。</span></span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> InterruptedException();</span><br><span class="line">    <span class="keyword">if</span> (tryAcquireShared(arg) &lt; <span class="number">0</span>)					<span class="comment">//尝试获取信号量，如果获得信号量小于0，则代表获取失败则运行下面的语句。</span></span><br><span class="line">        doAcquireSharedInterruptibly(arg);	<span class="comment">//将当前线程节点加入到队列中，等到其他线程释放信号量。</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>先对线程进行判断是否被中断，如果被中断则相应中断，抛出InterruptedException异常。</li>
+<li>尝试获得信号量，如果信号量已经小于0，则代表没有信号量可以获取，获取失败，则会运行<code>doAcquireSharedInterruptibly</code>方法，将当前线程挂起等待其他线程释放信号量。</li>
+</ol>
+<p>接下来我们看一下<code>tryAcquireShared</code>方法实现，<code>tryAcquireShared</code>这个方法是<code>AQS</code>提供给子类实现的方法，它自身并没有实现，只是抛出了异常，实现它的类必然是<code>Semaphore</code>的<code>Sync</code>类，我们发现实现该方法有两个，包括非公平模式的<code>NonfairSync</code>，另外一个是公平模式下的<code>FairSync</code>，由于我们上例子中采用的是非公平模式，我们看一下非公平模式下的<code>tryAcquireShared</code>实现逻辑：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">int</span> <span class="title">tryAcquireShared</span><span class="params">(<span class="keyword">int</span> acquires)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> nonfairTryAcquireShared(acquires);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>它（<code>NonfairSync</code>）内部调用了父类<code>Sync</code>的<code>nonfairTryAcquireShared</code>方法，继续刨根问底看一下这个方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">int</span> <span class="title">nonfairTryAcquireShared</span><span class="params">(<span class="keyword">int</span> acquires)</span> </span>&#123;</span><br><span class="line">  	<span class="comment">//这里上来就是个死循环</span></span><br><span class="line">    <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">      	<span class="comment">//获取可用的信号量数量。</span></span><br><span class="line">        <span class="keyword">int</span> available = getState();</span><br><span class="line">      	<span class="comment">//剩余线程数，其实就是当前可用信号量数量-申请的信号量数量</span></span><br><span class="line">        <span class="keyword">int</span> remaining = available - acquires;</span><br><span class="line">      	<span class="comment">//1. 如果剩余信号量数量小于0，代表没有信号量可用</span></span><br><span class="line">      	<span class="comment">//2. 修改state成功，则代表申请信号量成功。</span></span><br><span class="line">        <span class="keyword">if</span> (remaining &lt; <span class="number">0</span> ||</span><br><span class="line">            compareAndSetState(available, remaining))</span><br><span class="line">            <span class="keyword">return</span> remaining;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果读过前面<code>ReentrantLock</code>源码的朋友会发现，它对<code>state</code>是增加的，也就是如果<code>state</code>值被设置上了值，则代表已经有线程获得了锁，其他线程不允许获取当前锁，如果是当前线程重新获得锁，则<code>state</code>值会增加，这也是重入锁的关键点，而<code>Semaphore</code>与之不同点在于，它是对<code>state</code>同步器状态进行减少操作，换句话说先初始化若干信号量，如果获得信号量时，剩余信号量小于0，则代表没有可用的信号量，则直接返回，如果获得信号量成功则对<code>state</code>值进行修改，回到上面的例子中，我们刚分析道其中第一个线程，第一个线程获得到了信号量，此时剩余信号量为0，它会将<code>state</code>值设置为0，设置之后回到了<code>acquireSharedInterruptibly</code>的<code>if (tryAcquireShared(arg) &lt; 0)</code>语句中，if语句为true，不进入到if语句内部，此时AQS的情况如下图所示：</p>
+<p><img src="/2019/05/04/Semaphore/6.png" alt="6"></p>
+<p>第一个线程情况运行结束，但是他并没有释放信号量，接下来就要对第二个线程，当第二个线程开始运行的时候，它也会重复线程1的操作，首先先去申请信号量，当然当它在申请信号量的时候，发现<code>state</code>已经变成0了，当它执行到<code>tryAcquireShared</code>去获取信号量时，可用信号量为0个，当可用信号量减去申请的信号量个数1时，此时剩余信号量变成了-1，所以这时候if语句的条件<code>remaining &lt; 0</code>是满足的，进入到if语句中，返回的是剩余信号量-1，此时会跳转到调用地方，也就是AQS的<code>acquireSharedInterruptibly</code>方法中，这时候发现if语句中（<code>tryAcquireShared(arg) &lt; 0</code>）返回结果是-1，会进入到if语句内部执行<code>doAcquireSharedInterruptibly</code>方法，这个方法主要操作是将当前线程放入到等待队列中，等到其他线程释放信号量，接下来慢慢剖析一下内部源码<code>AQS-&gt;doAcquireSharedInterruptibly</code>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Acquires in shared interruptible mode.</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> arg the acquire argument</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">doAcquireSharedInterruptibly</span><span class="params">(<span class="keyword">int</span> arg)</span></span></span><br><span class="line"><span class="function">    <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> Node node = addWaiter(Node.SHARED);				<span class="comment">//将节点添加到队列中</span></span><br><span class="line">    <span class="keyword">boolean</span> failed = <span class="keyword">true</span>;													<span class="comment">//失败标志位，如果出现中断，或者异常抛出时会进行取消操作</span></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">            <span class="keyword">final</span> Node p = node.predecessor();		  <span class="comment">//获取当前节点的前节点</span></span><br><span class="line">            <span class="keyword">if</span> (p == head) &#123;												<span class="comment">//如果当前节点的前节点为头节点</span></span><br><span class="line">                <span class="keyword">int</span> r = tryAcquireShared(arg);			<span class="comment">//尝试获得锁</span></span><br><span class="line">                <span class="keyword">if</span> (r &gt;= <span class="number">0</span>) &#123;												<span class="comment">//如果可以获得信号量</span></span><br><span class="line">                    setHeadAndPropagate(node, r);		<span class="comment">//设置当前节点为头节点</span></span><br><span class="line">                    p.next = <span class="keyword">null</span>; <span class="comment">// help GC				//帮助GC回收</span></span><br><span class="line">                    failed = <span class="keyword">false</span>;									<span class="comment">//设置失败为false，也就是正常获取</span></span><br><span class="line">                    <span class="keyword">return</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (shouldParkAfterFailedAcquire(p, node) &amp;&amp;</span><br><span class="line">                parkAndCheckInterrupt())</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> InterruptedException();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (failed)</span><br><span class="line">            cancelAcquire(node);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这时候当我们的程序运行到<code>addWaiter</code>，来看一下这个时候队列的情况：</p>
+<p><img src="/2019/05/04/Semaphore/7.png" alt="7"></p>
+<p>上图内容是第二个线程获取信号量时，获取失败，则加入到队列的情况，首先入队的时候如果队列为空，它会先新建一个Node节点，这个节点<code>Ref-405</code>是头节点，然后再将当前线程的节点指向头节点也就是上图中所示内容，因为这里<code>addWaiter</code>内部代码和之前分析的AQS的独占锁（也就是<code>ReentrantLock</code>源码）的时候已经分析过了，这里就不在赘述了，将线程加入到等待队列中之后，接下来进入到for死循环中去，首先上来获取当前节点的头节点，也就是上图的<code>Ref-405</code>,然后判断是不是头节点，这里面的内容其实就是再去尝试争抢一下信号量，看有没有信号量释放，如果返回的信号量剩余个数大于等于0，则代表争抢信号量成功，需要对节点进行处理，但是我们这个例子中，当进行<code>tryAcquireShared</code>时，返回的值是-1，所以获取信号量失败，不会进入到下面内容，但是我们在这里先进行分析分析一下这个方法<code>setHeadAndPropagate</code>，为后面埋下伏笔：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//从方法中也可以看出来大致意思是设置头节点，并且根据条件是否唤醒后继节点。</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">setHeadAndPropagate</span><span class="params">(Node node, <span class="keyword">int</span> propagate)</span> </span>&#123;</span><br><span class="line">    Node h = head; <span class="comment">// 记录一下原来的head头节点。</span></span><br><span class="line">    setHead(node); <span class="comment">// 设置新的节点设置为头节点。</span></span><br><span class="line">    <span class="keyword">if</span> (propagate &gt; <span class="number">0</span> || 			<span class="comment">//如果有信号量</span></span><br><span class="line">        	h == <span class="keyword">null</span> || 				<span class="comment">//头节点为空情况下</span></span><br><span class="line">        	h.waitStatus &lt; <span class="number">0</span> || <span class="comment">//如果原来的头结点的状态是负数，这里指的是SIGNAL和PROPAGATE两个状态</span></span><br><span class="line">        	(h = head) == <span class="keyword">null</span> || <span class="comment">// 重新阅读头节点防止额外的竞争。</span></span><br><span class="line">        	h.waitStatus &lt; <span class="number">0</span>) &#123;		<span class="comment">//如果原来的头结点的状态是负数，这里指的是SIGNAL和PROPAGATE两个状态</span></span><br><span class="line">        Node s = node.next;</span><br><span class="line">        <span class="keyword">if</span> (s == <span class="keyword">null</span> || s.isShared())</span><br><span class="line">            doReleaseShared();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>判断是否还有信号量的存在，如果有则释放队列中等待的线程</li>
+<li>如果原来的头结点的状态是负数，这里指的是SIGNAL和PROPAGATE两个状态</li>
+<li>重新阅读头节点防止额外的竞争。</li>
+</ol>
+<p>当他没有进入到setHeadAndPropagate方法，它会走下面的步骤：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (shouldParkAfterFailedAcquire(p, node) &amp;&amp;</span><br><span class="line">              parkAndCheckInterrupt())</span><br><span class="line">              <span class="keyword">throw</span> <span class="keyword">new</span> InterruptedException();</span><br></pre></td></tr></table></figure>
+<p><code>shouldParkAfterFailedAcquire</code>将头节点修改为<code>SIGNAL</code>，<code>parkAndCheckInterrupt</code>将线程进行阻塞，运行到这里是线程被挂起，等待其他线程唤醒，此时队列状态如下所示：</p>
+<p><img src="/2019/05/04/Semaphore/14.png" alt="14"></p>
+<h3 id="释放信号量"><a href="#释放信号量" class="headerlink" title="释放信号量"></a>释放信号量</h3><p>当我们调用<code>semaphore.release()</code>进行释放信号量时，它其实调用的是<code>AbstractQueuedSynchronizer</code>中的<code>releaseShared(int arg)</code>方法，我们来看一下源码内容：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">release</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    sync.releaseShared(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来分析一下AQS中的<code>releaseShared</code>方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">releaseShared</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</span><br><span class="line">  	<span class="comment">// 调用Semaphore实现的tryReleaseShared方法。</span></span><br><span class="line">    <span class="keyword">if</span> (tryReleaseShared(arg)) &#123;</span><br><span class="line">      	<span class="comment">// 唤醒后记节点</span></span><br><span class="line">        doReleaseShared();</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>先进尝试释放信号量，如果信号量释放成功，则进行调用doReleaseShared来进行唤醒等待的节点，告知队列中等待的节点已经有信号量了可以进行获取了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">tryReleaseShared</span><span class="params">(<span class="keyword">int</span> releases)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">      	<span class="comment">// 获取当前的state值</span></span><br><span class="line">        <span class="keyword">int</span> current = getState();</span><br><span class="line">      	<span class="comment">// 将当前的state值添加releases个信号量</span></span><br><span class="line">        <span class="keyword">int</span> next = current + releases;</span><br><span class="line">        <span class="keyword">if</span> (next &lt; current) <span class="comment">// overflow</span></span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">"Maximum permit count exceeded"</span>);</span><br><span class="line">      	<span class="comment">// cas修改state值</span></span><br><span class="line">        <span class="keyword">if</span> (compareAndSetState(current, next))</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其实最主要的方法是方法是<code>doReleaseShared</code>方法，我们来看一下源码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 唤醒队列中的节点，以及修改头结点的waitStatus状态为PROPAGATE</span></span><br><span class="line"><span class="comment"> * 1. 如果头节点等待状态为SIGNAL，则将头节点状态设为0，并唤醒后继节点</span></span><br><span class="line"><span class="comment"> * 2. 如果头节点等待状态为0，则将头节点状态设为PROPAGATE，保证唤醒能够正常传播下去。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">doReleaseShared</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">        Node h = head;</span><br><span class="line">        <span class="keyword">if</span> (h != <span class="keyword">null</span> &amp;&amp; h != tail) &#123;</span><br><span class="line">            <span class="keyword">int</span> ws = h.waitStatus;</span><br><span class="line">          	<span class="comment">// 如果头结点的状态为SIGNAL则进行唤醒操作。</span></span><br><span class="line">            <span class="keyword">if</span> (ws == Node.SIGNAL) &#123;</span><br><span class="line">                <span class="keyword">if</span> (!compareAndSetWaitStatus(h, Node.SIGNAL, <span class="number">0</span>))</span><br><span class="line">                    <span class="keyword">continue</span>;            <span class="comment">// loop to recheck cases</span></span><br><span class="line">                unparkSuccessor(h);</span><br><span class="line">            &#125;</span><br><span class="line">          	<span class="comment">// 如果头节点状态为0，则将头节点状态修改为PROPAGATE，至于为什么会变成0，为什么要有PROPAGATE？，请看下文。</span></span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (ws == <span class="number">0</span> &amp;&amp;</span><br><span class="line">                     !compareAndSetWaitStatus(h, <span class="number">0</span>, Node.PROPAGATE))</span><br><span class="line">                <span class="keyword">continue</span>;                <span class="comment">// loop on failed CAS</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (h == head)                   <span class="comment">// loop if head changed</span></span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="PROPAGATE状态存在的意义"><a href="#PROPAGATE状态存在的意义" class="headerlink" title="PROPAGATE状态存在的意义"></a>PROPAGATE状态存在的意义</h2><p>这里可能大家会有一个疑问，为什么不是直接propagate &gt; 0，然后就直接唤醒下一个节点呢？这里我要引用一下之前的版本中的一个bug来说明一下：</p>
+<p><a href="https://bugs.java.com/bugdatabase/view_bug.do?bug_id=6801020" target="_blank" rel="noopener">BUG-6801020</a></p>
+<p>根据BUG中的描述影响的版本号是 JDK 6u11,6u17 两个版本，BUG中提及到了复现bug的代码如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.concurrent.Semaphore;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestSemaphore</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">static</span> Semaphore sem = <span class="keyword">new</span> Semaphore(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Thread1</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">       <span class="meta">@Override</span></span><br><span class="line">       <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">           sem.acquireUninterruptibly();</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Thread2</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">       <span class="meta">@Override</span></span><br><span class="line">       <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">           sem.release();</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">       <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10000000</span>; i++) &#123;</span><br><span class="line">           Thread t1 = <span class="keyword">new</span> Thread1();</span><br><span class="line">           Thread t2 = <span class="keyword">new</span> Thread1();</span><br><span class="line">           Thread t3 = <span class="keyword">new</span> Thread2();</span><br><span class="line">           Thread t4 = <span class="keyword">new</span> Thread2();</span><br><span class="line">           t1.start();</span><br><span class="line">           t2.start();</span><br><span class="line">           t3.start();</span><br><span class="line">           t4.start();</span><br><span class="line">           t1.join();</span><br><span class="line">           t2.join();</span><br><span class="line">           t3.join();</span><br><span class="line">           t4.join();</span><br><span class="line">           System.out.println(i);</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来看一下受影响版本号中的<code>setHeadAndPropagate</code> 和<code>releaseShared</code>两个方法源码，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">setHeadAndPropagate</span><span class="params">(Node node, <span class="keyword">int</span> propagate)</span> </span>&#123;</span><br><span class="line">    setHead(node);</span><br><span class="line">  	<span class="comment">// 这里是区别点，他这里直接是比较的信号量如果存在，并且当前节点的等待状态不等于0，才会去唤醒下一个线程。</span></span><br><span class="line">    <span class="keyword">if</span> (propagate &gt; <span class="number">0</span> &amp;&amp; node.waitStatus != <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">         * Don't bother fully figuring out successor.  If it</span></span><br><span class="line"><span class="comment">         * looks null, call unparkSuccessor anyway to be safe.</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        Node s = node.next;</span><br><span class="line">        <span class="keyword">if</span> (s == <span class="keyword">null</span> || s.isShared())</span><br><span class="line">            unparkSuccessor(node);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">releaseShared</span><span class="params">(<span class="keyword">int</span> arg)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (tryReleaseShared(arg)) &#123;</span><br><span class="line">        Node h = head;</span><br><span class="line">        <span class="keyword">if</span> (h != <span class="keyword">null</span> &amp;&amp; h.waitStatus != <span class="number">0</span>)</span><br><span class="line">            unparkSuccessor(h);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在JDK JDK 6u11,6u17 版本中发现中是没有<code>PROPAGATE</code>这种状态的，在后面的版本中引入是为了解决共享模式下并发释放导致的线程hang住问题，上面例子运行一段时间后，偶尔会出现线程hang住的情况。上面例子中初始化了四个线程，信号量初始化时是0个，t1线程和t2线程是获取信号量，t3和t4线程是释放信号量，假设某种情况极端的情况下t1和t2添加到了队列中，如下图所示：</p>
+<p><img src="/2019/05/04/Semaphore/8.png" alt="8"></p>
+<ol>
+<li>t1时刻的时候，t3线程调用了<code>releaseShared</code>方法，会调用<code>unparkSuccessor</code>，这个方法是用来通知等待线程，此时head中的waitStatus由-1变成0，然后唤醒线程t1，此时信号量为1。</li>
+</ol>
+<p><img src="/2019/05/04/Semaphore/9.png" alt="9"></p>
+<ol start="2">
+<li>由于线程t1刚刚被唤醒，它的头节点还没有进行切换，因为我们在上文中可以直到在线程等待的时候是<code>doAcquireSharedInterruptibly</code>方法里面，当线程唤醒的时候也是从这个方法中进行执行，当t1线程尝试获得信号量时，发现可以获得信号量，<code>tryAcquireShared</code>返回的是0，因为消耗了一个信号量，而此时当前线程没有进行继续往下操作，而是进行了线程切换，此时线程状态如下：</li>
+</ol>
+<p><img src="/2019/05/04/Semaphore/10.png" alt="10"></p>
+<ol start="3">
+<li>此时切换到t4线程，t4调用<code>releaseShared</code>，此时头节点的waitStatus=0，直接返回false，并未调用unparkSuccessor，但是此时信号量变成了1。</li>
+</ol>
+<p><img src="/2019/05/04/Semaphore/11.png" alt="11"></p>
+<ol start="4">
+<li>此时t1线程被唤醒，继续执行将head节点指向了Ref-505，并且当时的信号量只有1个，他自己消耗了信号量，虽然现在state=1，但是我们可以看线程切换时，信号量的state=0，所以线程切换回去之后，它的propagate=0，调用<code>setHeadAndPropagate</code>方法的时候，他没有进入到if语句的内部，所以t2线程一直没有被唤醒，导致主线程挂起。</li>
+</ol>
+<p><img src="/2019/05/04/Semaphore/12.png" alt="12"></p>
+<p>jdk1.8中的<code>setHeadAndPropagate</code>并没有直接调用<code>unparkSuccessor</code>方法，而是修改调用<code>doReleaseShared</code>方法，我们来看一下这个方法跟上面bug中有什么区别：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 1.唤醒队列中的节点</span></span><br><span class="line"><span class="comment"> * 2.如果队列头节点waitStatus=0，则将当前head头节点修改为PROPAGATE(-3)状态</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">doReleaseShared</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * Ensure that a release propagates, even if there are other</span></span><br><span class="line"><span class="comment">     * in-progress acquires/releases.  This proceeds in the usual</span></span><br><span class="line"><span class="comment">     * way of trying to unparkSuccessor of head if it needs</span></span><br><span class="line"><span class="comment">     * signal. But if it does not, status is set to PROPAGATE to</span></span><br><span class="line"><span class="comment">     * ensure that upon release, propagation continues.</span></span><br><span class="line"><span class="comment">     * Additionally, we must loop in case a new node is added</span></span><br><span class="line"><span class="comment">     * while we are doing this. Also, unlike other uses of</span></span><br><span class="line"><span class="comment">     * unparkSuccessor, we need to know if CAS to reset status</span></span><br><span class="line"><span class="comment">     * fails, if so rechecking.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">        Node h = head;</span><br><span class="line">        <span class="keyword">if</span> (h != <span class="keyword">null</span> &amp;&amp; h != tail) &#123;</span><br><span class="line">            <span class="keyword">int</span> ws = h.waitStatus;</span><br><span class="line">            <span class="keyword">if</span> (ws == Node.SIGNAL) &#123;</span><br><span class="line">                <span class="keyword">if</span> (!compareAndSetWaitStatus(h, Node.SIGNAL, <span class="number">0</span>))</span><br><span class="line">                    <span class="keyword">continue</span>;            <span class="comment">// loop to recheck cases</span></span><br><span class="line">                unparkSuccessor(h);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (ws == <span class="number">0</span> &amp;&amp;</span><br><span class="line">                     !compareAndSetWaitStatus(h, <span class="number">0</span>, Node.PROPAGATE))</span><br><span class="line">                <span class="keyword">continue</span>;                <span class="comment">// loop on failed CAS</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (h == head)                   <span class="comment">// loop if head changed</span></span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里我们回到上面第三步，此时切换到t4线程，t4调用<code>releaseShared</code>，此时头节点的waitStatus=0，直接返回false，并未调用unparkSuccessor，但是此时信号量变成了1，并且将head头节点的waitStatus状态修改为-3。</p>
+<p><img src="/2019/05/04/Semaphore/13.png" alt="13"></p>
+<p>回到上面第四步骤：此时t1线程被唤醒，继续执行将head节点指向了<code>Ref-505</code>，并且当时的信号量只有1个，他自己消耗了信号量，虽然现在state=1，但是我们可以看线程切换时，信号量的<code>state=0</code>，所以线程切换回去之后，它的<code>propagate=0</code>，调用<code>setHeadAndPropagate</code>方法的时候，此时head头节点的状态是<code>PROPAGATE(-3)</code>,会进入到if语句中执行<code>doReleaseShared</code>方法，此时唤醒线程t2。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2019/05/04/Semaphore/">Semaphore信号量之AQS共享锁-非公平模式</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">BattleHeart</a></p>
+        <p><span>发布时间:</span>2019-05-04, 16:44:16</p>
+        <p><span>最后更新:</span>2019-08-25, 16:19:35</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2019/05/04/Semaphore/" title="Semaphore信号量之AQS共享锁-非公平模式">https://www.battleheart.cn/2019/05/04/Semaphore/</a>
+            <span class="copy-path" data-clipboard-text="原文: https://www.battleheart.cn/2019/05/04/Semaphore/　　作者: BattleHeart" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2019/05/18/synchronousqueue-principle-unfair-pattern/">
+                    SynchronousQueue原理详解-非公平模式
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2019/05/04/synchronousqueue-principle-fair-pattern/">
+                    SynchronousQueue原理详解-公平模式
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">文章目录</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#目录"><span class="toc-number">1.</span> <span class="toc-text">目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#介绍"><span class="toc-number">2.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#例子"><span class="toc-number">3.</span> <span class="toc-text">例子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#源码分析"><span class="toc-number">4.</span> <span class="toc-text">源码分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Semaphore方法介绍"><span class="toc-number">4.1.</span> <span class="toc-text">Semaphore方法介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#获得信号量"><span class="toc-number">4.2.</span> <span class="toc-text">获得信号量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#释放信号量"><span class="toc-number">4.3.</span> <span class="toc-text">释放信号量</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PROPAGATE状态存在的意义"><span class="toc-number">5.</span> <span class="toc-text">PROPAGATE状态存在的意义</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+
+    <script>
+        yiliaConfig.toc = ["隐藏目录", "显示目录", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+
+    
+        <div class="addthis_sharing_toolbox"></div>
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2019/05/18/synchronousqueue-principle-unfair-pattern/" title="上一篇: SynchronousQueue原理详解-非公平模式">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2019/05/04/synchronousqueue-principle-fair-pattern/" title="下一篇: SynchronousQueue原理详解-公平模式">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2019/06/13/java-thread-pool-principle/">Java线程池原理浅析</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/02/reentrantlock-principle-fair/">图解AQS原理之ReentrantLock详解-公平锁</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/06/02/reentrantlock-principle-nonfairsync/">图解AQS原理之ReentrantLock详解-非公平锁</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/18/synchronousqueue-principle-unfair-pattern/">SynchronousQueue原理详解-非公平模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/04/Semaphore/">Semaphore信号量之AQS共享锁-非公平模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/04/synchronousqueue-principle-fair-pattern/">SynchronousQueue原理详解-公平模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/11/stack-working-principle/">系统栈的工作原理</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/09/git-server-transfer/">git仓库迁移</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/07/LinkedBlockingQueue-Principle/">LinkedBlockingQueue原理解析</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/04/06/arrayblockingqueue-principle/">ArrayBlockingQueue原理详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/28/block-and-lock-free/">阻塞算法和非阻塞算法</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/03/28/you-have-to-know-the-concept-of-multithreading/">你必须知道的多线程几个概念</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/25/spring-boot-and-dubbo-starter/">SpringBoot快速整合dubbo</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/22/how-use-synchronized/">深入理解synchronized</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/24/spring-boot-autoconfiguration-fashion/">SpringBoot自动装配详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/01/24/spring-boot-thymeleaf-and-shiro/">spring-boot与thymeleaf模板整合shiro标签内容</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/26/use-hexo-to-build-a-blog/">使用Hexo搭建博客</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/spring-boot-admin-monitor/">Spring Boot Admin监控系统搭建</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/logback-with-elk/">使用Logback输出日志到ELK</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/elk-environment-construction-in-windows/">Windows环境下搭建ELK环境</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/quick-start-spring-cloud-sleuth/">分布式服务跟踪之Spring Cloud Sleuth快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/quick-start-spring-cloud-turbine-rabbitmq/">集群监控Spring Cloud Turbine消息队列篇</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/01/quick-start-spring-cloud-turbine/">集群监控之Spring Cloud Turbine快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/27/quick-start-spring-cloud-zuul/">API网关服务-Spring Cloud Zuul快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/27/quick-start-spring-cloud-config/">配置管理中心Spring Cloud Config快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/27/quick-start-spring-cloud-hystrix/">服务容错保护Spring Cloud Hystrix之快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/27/quick-start-spring-cloud-ribbon/">客户端负载均衡Spring Cloud Ribbon之快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/26/spring-cloud-tutorial-eureka/">服务治理-Spring Cloud Eureka</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/23/maven-skeleton-generation/">一文搭建Maven骨架</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/23/java-class-loader/">Java类加载器详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/20/how-dynamic-agents-work/">动态代理的工作原理简要分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/09/18/hello-world/">我的blog之旅又要开始了</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/14/git-learning-5-remote/">带你走进git-远程仓库</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/14/git-learning-4-rewriting-history/">带你走进git-重写历史记录</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/14/git-learning-3-revert-operation/">带你走进git-撤销修改</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/13/git-study-2/">带你走进git-工作区、暂存区、分支</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/01/13/git-config/">带你走进git-基础配置</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2018-2019 BattleHeart
+            </div>
+            <div class="footer-right">
+                <a href="http://battleHeart.cn/" target="_blank" title="快速、简洁且高效的博客框架">BattleHeart</a>  Blog 
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="本站到访数"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="本页阅读量"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 10;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

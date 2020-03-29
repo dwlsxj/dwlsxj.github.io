@@ -107,56 +107,100 @@
 
 
 </head></html>
+
 <body>
   <div id="container">
     <div class="left-col">
-    <div class="overlay"></div>
+      <div class="overlay"></div>
 <div class="intrude-less">
     <header id="header" class="inner">
         <a href="/" class="profilepic">
             <img src="/img/avatar.png" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/">BattleHeart</a></h1>
+            <h1 class="header-author"><a href="/">BattleHeart</a></h1>
         </hgroup>
 
         
-        <p class="header-subtitle">个人博客</p>
+        <!-- <p class="header-subtitle">个人博客</p> -->
+        <div id="binft"></div>
+        <script>
+            var binft = function (r) {
+                function t() {
+                    return b[Math.floor(Math.random() * b.length)]
+                }
+                function e() {
+                    return String.fromCharCode(94 * Math.random() + 33)
+                }
+                function n(r) {
+                    for (var n = document.createDocumentFragment(), i = 0; r > i; i++) {
+                        var l = document.createElement("span");
+                        l.textContent = e(), l.style.color = t(), n.appendChild(l)
+                    }
+                    return n
+                }
+                function i() {
+                    var t = o[c.skillI];
+                    c.step ? c.step-- : (c.step = g, c.prefixP < l.length ? (c.prefixP >= 0 && (c.text += l[c.prefixP]), c.prefixP++) : "forward" === c.direction ? c.skillP < t.length ? (c.text += t[c.skillP], c.skillP++) : c.delay ? c.delay-- : (c.direction = "backward", c.delay = a) : c.skillP > 0 ? (c.text = c.text.slice(0, -1), c.skillP--) : (c.skillI = (c.skillI + 1) % o.length, c.direction = "forward")), r.textContent = c.text, r.appendChild(n(c.prefixP < l.length ? Math.min(s, s + c.prefixP) : Math.min(s, t.length - c.skillP))), setTimeout(i, d)
+                }
+                var l = "",
+                    o = ["物来顺应,未来不迎", "当时不杂,既过不恋", "欢迎访问个人博客"].map(function (r) {
+                        return r + ""
+                    }),
+                    a = 2,
+                    g = 1,
+                    s = 5,
+                    d = 75,
+                    b = ["rgb(110,64,170)", "rgb(150,61,179)", "rgb(191,60,175)", "rgb(228,65,157)", "rgb(254,75,131)", "rgb(255,94,99)", "rgb(255,120,71)", "rgb(251,150,51)", "rgb(226,183,47)", "rgb(198,214,60)", "rgb(175,240,91)", "rgb(127,246,88)", "rgb(82,246,103)", "rgb(48,239,130)", "rgb(29,223,163)", "rgb(26,199,194)", "rgb(35,171,216)", "rgb(54,140,225)", "rgb(76,110,219)", "rgb(96,84,200)"],
+                    c = {
+                        text: "",
+                        prefixP: -s,
+                        skillI: 0,
+                        skillP: 0,
+                        direction: "forward",
+                        delay: a,
+                        step: g
+                    };
+                i()
+            };
+            binft(document.getElementById('binft'));
+        </script>
         
 
         
-            <form id="search-form">
-            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false" />
+        <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control"
+                autocomplete="off" autocorrect="off" searchonload="false" />
             <i class="fa fa-times" onclick="resetSearch()"></i>
-            </form>
-            <div id="local-search-result"></div>
-            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        </form>
+        <div id="local-search-result"></div>
+        <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
         
 
 
         
-            <div id="switch-btn" class="switch-btn">
-                <div class="icon">
-                    <div class="icon-ctn">
-                        <div class="icon-wrap icon-house" data-idx="0">
-                            <div class="birdhouse"></div>
-                            <div class="birdhouse_holes"></div>
-                        </div>
-                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
-                            <div class="ribbon"></div>
-                        </div>
+        <div id="switch-btn" class="switch-btn">
+            <div class="icon">
+                <div class="icon-ctn">
+                    <div class="icon-wrap icon-house" data-idx="0">
+                        <div class="birdhouse"></div>
+                        <div class="birdhouse_holes"></div>
+                    </div>
+                    <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                        <div class="ribbon"></div>
+                    </div>
+                    
+                    <div class="icon-wrap icon-link hide" data-idx="2">
+                        <div class="loopback_l"></div>
+                        <div class="loopback_r"></div>
+                    </div>
+                    
                         
-                        <div class="icon-wrap icon-link hide" data-idx="2">
-                            <div class="loopback_l"></div>
-                            <div class="loopback_r"></div>
-                        </div>
-                        
-                        
-                        <div class="icon-wrap icon-me hide" data-idx="3">
-                            <div class="user"></div>
-                            <div class="shoulder"></div>
-                        </div>
-                        
+                    <div class="icon-wrap icon-me hide" data-idx="3">
+                        <div class="user"></div>
+                        <div class="shoulder"></div>
+                    </div>
+                    
                     </div>
                     
                 </div>
@@ -164,78 +208,93 @@
                     <div class="tips-arrow"></div>
                     <ul class="tips-inner">
                         <li>菜单</li>
-                        <li>标签</li>
+                    <li>标签</li>
+                    
+                    <li>友情链接</li>
+                    
                         
-                        <li>友情链接</li>
-                        
-                        
-                        <li>关于我</li>
-                        
+                    <li>关于我</li>
+                    
                     </ul>
                 </div>
             </div>
         
 
-        <div id="switch-area" class="switch-area">
-            <div class="switch-wrap">
-                <section class="switch-part switch-part1">
-                    <nav class="header-menu">
-                        <ul>
-                        
-                            <li><a href="/">主页</a></li>
-                        
-                            <li><a href="/archives/">所有文章</a></li>
-                        
-                            <li><a href="/tags/">标签云</a></li>
-                        
-                            <li><a href="/about/">关于我</a></li>
-                        
+                    <div id="switch-area" class="switch-area">
+                        <div class="switch-wrap">
+                            <section class="switch-part switch-part1">
+                                <nav class="header-menu">
+                                    <ul>
+                                        
+                                        <li><a href="/">主页</a>
+                                        </li>
+                                        
+                                        <li><a href="/archives/">所有文章</a>
+                                        </li>
+                                        
+                                        <li><a href="/tags/">标签云</a>
+                                        </li>
+                                        
+                                        <li><a href="/about/">关于我</a>
+                                        </li>
+                                        
                         </ul>
                     </nav>
                     <nav class="header-nav">
                         <ul class="social">
                             
-                                <a class="fa Email" href="dwlsxj:@126.com" title="Email"></a>
-                            
-                                <a class="fa GitHub" href="https://github.com/dwlsxj" title="GitHub"></a>
-                            
-                                <a class="fa 博客园" href="https://www.cnblogs.com/dwlsxj/" title="博客园"></a>
-                            
-                                <a class="fa 网易云音乐" href="https://music.163.com/#/user/home?id=31908845" title="网易云音乐"></a>
-                            
+                                        <a class="fa Email" href="dwlsxj:@126.com"
+                                            title="Email"></a>
+                                        
+                                        <a class="fa GitHub" href="https://github.com/dwlsxj"
+                                            title="GitHub"></a>
+                                        
+                                        <a class="fa 博客园" href="https://www.cnblogs.com/dwlsxj/"
+                                            title="博客园"></a>
+                                        
+                                        <a class="fa 网易云音乐" href="https://music.163.com/#/user/home?id=31908845"
+                                            title="网易云音乐"></a>
+                                        
                         </ul>
                     </nav>
                 </section>
                 
                 
-                <section class="switch-part switch-part2">
-                    <div class="widget tagcloud" id="js-tagcloud">
-                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/">Assembly</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ELK/">ELK</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Life/">Life</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Maven/">Maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shiro/">Shiro</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringCloud/">SpringCloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dubbo/">dubbo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多线程/">多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/并发编程/">并发编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/栈/">栈</a></li></ul>
-                    </div>
-                </section>
+                                        <section class="switch-part switch-part2">
+                                            <div class="widget tagcloud" id="js-tagcloud">
+                                                <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/">Assembly</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ELK/">ELK</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Life/">Life</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Maven/">Maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shiro/">Shiro</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringCloud/">SpringCloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dubbo/">dubbo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多线程/">多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/并发编程/">并发编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/栈/">栈</a></li></ul>
+                                            </div>
+                                        </section>
+                                        
                 
                 
-                
-                <section class="switch-part switch-part3">
-                    <div id="js-friends">
-                    
-                      <a class="main-nav-link switch-friends-link" href="https://www.cnblogs.com/dwlsxj/">BalleHeart</a>
-                    
-                    </div>
-                </section>
-                
+                                        <section class="switch-part switch-part3">
+                                            <div id="js-friends">
+                                                
+                                                <a class="main-nav-link switch-friends-link"
+                                                    href="https://www.cnblogs.com/dwlsxj/">BalleHeart</a>
+                                                
+                                            </div>
+                                        </section>
+                                        
 
                 
-                
-                <section class="switch-part switch-part4">
-                
-                    <div id="js-aboutme">专注于后端开发</div>
-                </section>
-                
+                                        
+                                            <section class="switch-part switch-part4">
+                                                
+                    <div id="js-aboutme">专注于后端开发
+                        </div>
+                        </section>
+                        
             </div>
         </div>
-    </header>                
+    </header>             
 </div>
+
+<!-- 背景音乐 -->
+<div style="position:absolute;bottom:100px;left:0px;width:50px">
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=289 height=86 src="//music.163.com/outchain/player?type=2&id=304991&auto=1&height=66"></iframe>
+</div>   
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
@@ -289,9 +348,8 @@
   
     <div class="article-meta">
       <a href="/2016/01/14/git-learning-4-rewriting-history/" class="article-date">
-      <time datetime="2016-01-14T07:19:19.000Z" itemprop="datePublished">2016-01-14</time>
+    <time datetime="2016-01-14T07:19:19.000Z" itemprop="datePublished">2016-01-14</time>
 </a>
-
 
     </div>
   
@@ -308,14 +366,14 @@
     </h1>
   
 
+        
       </header>
       
       <div class="article-info article-info-post">
         
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/个人技术/">个人技术</a>
-    </div>
-
+<div class="article-category tagcloud">
+  <a class="article-category-link" href="/categories/个人技术/">个人技术</a>
+</div>
 
         
     <div class="article-tag tagcloud">
@@ -331,20 +389,28 @@
           
         <h2 id="一、git对象文件创建"><a href="#一、git对象文件创建" class="headerlink" title="一、git对象文件创建"></a>一、git对象文件创建</h2><p>开篇先补充一个知识点，就是比如我建立一个文件之后，使用git add就会生成一个git对象，但是git对象生成后可以在.git/objects里面对应，首先我们来初始化一个仓库git init。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git init</span><br></pre></td></tr></table></figure>
+
 <p>然后我们来创建两个文件文件名分别为a和b。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ touch a b</span><br></pre></td></tr></table></figure>
+
 <p>将a文件添加到暂存区，然后再将b添加到暂存区，我们会想到这时候有两个git对象产生，但是git对象对应.git/objects文件。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ git add .</span><br><span class="line"></span><br><span class="line">$ find .git/objects/</span><br><span class="line">.git/objects/</span><br><span class="line">.git/objects/e6</span><br><span class="line">.git/objects/e6/<span class="number">9</span>de29bb2d1d6434b8b29ae775ad8c2e48c5391</span><br><span class="line">.git/objects/info</span><br><span class="line">.git/objects/pack</span><br></pre></td></tr></table></figure>
+
 <p>我们来查看下.git/objects文件下面会产生几条git对象库。这时候超出了我们想象，我们认为对象文件也应该创建两个但是仅仅创建了一个，这是为什么呢？那么着一个文件又指的是什么呢？</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git cat-file -t e69de29bb2d1d6434b8b29ae775ad8c2e48c5391</span><br><span class="line"></span><br><span class="line">blob</span><br></pre></td></tr></table></figure>
+
 <p>上述命令查看了当前sha-1是git对象（blob）。这时候我们根本就看不出来这个a和b的存放位置。我们将暂存区的文件提交到记录中，git commit –m “initial commit”</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ git commit -m &apos;initial commit&apos;</span><br><span class="line">[master (root-commit) 5b077dd] initial commit</span><br><span class="line">2 files changed, 0 insertions(+), 0 deletions(-)</span><br><span class="line">create mode 100644 a</span><br><span class="line">create mode 100644 b</span><br></pre></td></tr></table></figure>
+
 <p>这时候我们再来看一下.git/object文件下内容，产生了一个tree对象和commit对象，这个commit对象指向了tree对象。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ find .git/objects/</span><br><span class="line">.git/objects/</span><br><span class="line">.git/objects/29</span><br><span class="line">.git/objects/29/6e56023cdc034d2735fee8c0d85a659d1b07f4</span><br><span class="line">.git/objects/5b</span><br><span class="line">.git/objects/5b/077ddc03fa28dff8a1ac0d85969fcc2ac40c0b</span><br><span class="line">.git/objects/e6</span><br><span class="line">.git/objects/e6/9de29bb2d1d6434b8b29ae775ad8c2e48c5391</span><br><span class="line">.git/objects/info</span><br><span class="line">.git/objects/pack</span><br></pre></td></tr></table></figure>
+
 <p>分别查看下各自的对象类型：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ git cat-file -t 296e56023cdc034d2735fee8c0d85a659d1b07f4</span><br><span class="line">Tree</span><br><span class="line">$ git cat-file -t 5b077ddc03fa28dff8a1ac0d85969fcc2ac40c0b</span><br><span class="line">Commit</span><br><span class="line">$ git cat-file -t e69de29bb2d1d6434b8b29ae775ad8c2e48c5391</span><br><span class="line">Blob</span><br></pre></td></tr></table></figure>
+
 <p>那么这时候我们要查看一下tree对象里面的内容，应该是a和b分别创建的git对象。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ git cat-file -p 296e56023cdc034d2735fee8c0d85a659d1b07f4</span><br><span class="line"></span><br><span class="line">100644 blob e69de29bb2d1d6434b8b29ae775ad8c2e48c5391    a</span><br><span class="line"></span><br><span class="line">100644 blob e69de29bb2d1d6434b8b29ae775ad8c2e48c5391    b</span><br></pre></td></tr></table></figure>
+
 <p>OK，我们到了这里才看到了，原来产生的两个git对象都存放在了e6/9de29bb2d1d6434b8b29ae775ad8c2e48c5391这个文件里面，接下来我要讲一下为什么会存放在一起。<br>首先来说一下sha-1的生成，一个将待存储的数据外加一个头部信息（header）一起做 SHA-1 校验运算而得的校验和，也就是说我们创建一个文件a他会根据文件a里面的数据和头部信息拼在一起生成一个sha-1的值，这个头部信息是固定的，如下图所示：</p>
 <p><img src="/2016/01/14/git-learning-4-rewriting-history/1.png" alt=""></p>
 <p>正因为a和b文件的内容一样都是blob空文本所以生成sha-1是一样的所以会放在一个文件里面。</p>
@@ -359,35 +425,50 @@
 <li>git commit –amend有时候我们提交完了才发现漏掉了几个文件没有添加，或者提交信息写错了。 此时，可以运行带有–amend 选项的提交命令尝试重新提交：<br>新建两个文件a和b这时候我们只提交一个文件a到暂存区里面</li>
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">touch  a b</span><br><span class="line">$ git add a</span><br></pre></td></tr></table></figure>
+
 <p>提交a文件到暂存区内这时候我们就要来看一下生成的对象以及对象类型。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ find .git/objects/</span><br><span class="line">.git/objects/</span><br><span class="line">.git/objects/e6</span><br><span class="line">.git/objects/e6/9de29bb2d1d6434b8b29ae775ad8c2e48c5391</span><br><span class="line">.git/objects/info</span><br><span class="line">.git/objects/pack</span><br></pre></td></tr></table></figure>
+
 <p>发现生成了一个e6的文件夹和9de29bb2d1d6434b8b29ae775ad8c2e48c5391文件名的文件。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git cat-file -t e69de29bb2d1d6434b8b29ae775ad8c2e48c5391</span><br><span class="line">blob</span><br></pre></td></tr></table></figure>
+
 <p>查看下新生成对象的类型是git对象blob。接下来我们将a文件进行提交到记录里面去。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ git commit -m &apos;commit file a&apos;</span><br><span class="line">[master (root-commit) 96696f0] commit file a</span><br><span class="line">1 file changed, 0 insertions(+), 0 deletions(-)</span><br><span class="line">create mode 100644 a</span><br><span class="line">提交完成后，我们再来看一下.git/objects文件下面的内容。</span><br></pre></td></tr></table></figure>
+
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ find .git/objects/</span><br><span class="line">.git/objects/</span><br><span class="line">.git/objects/49</span><br><span class="line">.git/objects/49/6d6428b9cf92981dc9495211e6e1120fb6f2ba</span><br><span class="line">.git/objects/96</span><br><span class="line">.git/objects/96/696f06370488cc9b271dbd870d8ba0d4e7ce3c</span><br><span class="line">.git/objects/e6</span><br><span class="line">.git/objects/e6/9de29bb2d1d6434b8b29ae775ad8c2e48c5391</span><br><span class="line">.git/objects/info</span><br><span class="line">.git/objects/pack</span><br></pre></td></tr></table></figure>
+
 <p>分别查看下96696f和496d64的对象类型。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ git cat-file -t 496d6428b9cf92981dc9495211e6e1120fb6f2ba</span><br><span class="line">tree</span><br><span class="line"></span><br><span class="line">$ git cat-file -t 96696f06370488cc9b271dbd870d8ba0d4e7ce3c</span><br><span class="line">commit</span><br></pre></td></tr></table></figure>
+
 <p>这时候确定了96696f为commit对象，那么496d64就是tree对象。查看下他们的内容。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ git cat-file -p 96696f06370488cc9b271dbd870d8ba0d4e7ce3c</span><br><span class="line">tree 496d6428b9cf92981dc9495211e6e1120fb6f2ba</span><br><span class="line">author BattleHeart &lt;dwlsxj@126.com&gt; 1452085041 +0800</span><br><span class="line">committer BattleHeart &lt;dwlsxj@126.com&gt; 1452085041 +0800</span><br><span class="line"> </span><br><span class="line">commit file a</span><br></pre></td></tr></table></figure>
+
 <p>commit对象内容下面是指向496d64这个tree对象，并且有作者和提交时写的提交信息。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git cat-file -p 496d6428b9cf92981dc9495211e6e1120fb6f2ba</span><br><span class="line">100644 blob e69de29bb2d1d6434b8b29ae775ad8c2e48c5391    a</span><br></pre></td></tr></table></figure>
+
 <p>Tree对象内容则是他的叶子内容，因为我们只提交了a文件所以只有a文件这个内容。<br>这时候我们发现应该a文件和b文件一起提交而不是分开提交，这时候就是用到接下来的命令–amend命令。那么首先要做的就先把b文件放到暂存区理面</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git add b</span><br></pre></td></tr></table></figure>
+
 <p>这时候再使用git  commit  –amend就会将暂存区的文件一起提交</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git commit –amend</span><br></pre></td></tr></table></figure>
+
 <p>当我们输入的时候git commit –amend命令后我们先不着急操作，我们先来看一下产生的文件内容.git/objects文件里面。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ find .git/objects/ -type f</span><br><span class="line">.git/objects/29/6e56023cdc034d2735fee8c0d85a659d1b07f4</span><br><span class="line">.git/objects/49/6d6428b9cf92981dc9495211e6e1120fb6f2ba</span><br><span class="line">.git/objects/96/696f06370488cc9b271dbd870d8ba0d4e7ce3c</span><br><span class="line">.git/objects/e6/9de29bb2d1d6434b8b29ae775ad8c2e48c5391</span><br></pre></td></tr></table></figure>
+
 <p>会新生成一个296e56这样一个对象。那么这个对象是什么呢？我们来仔细观察下。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ git cat-file -t 296e56023cdc034d2735fee8c0d85a659d1b07f4</span><br><span class="line">tree</span><br><span class="line"></span><br><span class="line">$ git cat-file -p 296e56023cdc034d2735fee8c0d85a659d1b07f4</span><br><span class="line">100644 blob e69de29bb2d1d6434b8b29ae775ad8c2e48c5391    a</span><br><span class="line">100644 blob e69de29bb2d1d6434b8b29ae775ad8c2e48c5391    b</span><br></pre></td></tr></table></figure>
+
 <p>啊哈，原来是个tree对象当然这里同样也产生了blob对象只是内容和a内容一样所以合并成一个文件了，因为296e56树下面有两个子节点。</p>
 <p><img src="/2016/01/14/git-learning-4-rewriting-history/2.png" alt=""></p>
 <p>我们这时候再进行填写注释，我们会发现我上一次提交的信息他给展现出来了，这里我们可以修改成first commit。当我们保存退出后就会产生如下输出信息：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ git commit --amend</span><br><span class="line">[master 433aedb] first commit</span><br><span class="line">Date: Wed Jan 6 20:57:21 2016 +0800</span><br><span class="line">2 files changed, 0 insertions(+), 0 deletions(-)</span><br><span class="line">create mode 100644 a</span><br><span class="line">create mode 100644 b</span><br></pre></td></tr></table></figure>
+
 <p>这回我们再来看一下.git/objects里面内容。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ find .git/objects/</span><br><span class="line">.git/objects/</span><br><span class="line">.git/objects/29</span><br><span class="line">.git/objects/29/6e56023cdc034d2735fee8c0d85a659d1b07f4</span><br><span class="line">.git/objects/43</span><br><span class="line">.git/objects/43/3aedb274b59386535efa27c874d1ff5ded4a9b</span><br><span class="line">.git/objects/49</span><br><span class="line">.git/objects/49/6d6428b9cf92981dc9495211e6e1120fb6f2ba</span><br><span class="line">.git/objects/96</span><br><span class="line">.git/objects/96/696f06370488cc9b271dbd870d8ba0d4e7ce3c</span><br><span class="line">.git/objects/e6</span><br><span class="line">.git/objects/e6/9de29bb2d1d6434b8b29ae775ad8c2e48c5391</span><br><span class="line">.git/objects/info</span><br><span class="line">.git/objects/pack</span><br></pre></td></tr></table></figure>
+
 <p>多出来了一个433aed对象，那么这个对象是什么东西呢？以及里面存放的东西是什么？</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ git cat-file -t 433aedb274b59386535efa27c874d1ff5ded4a9b</span><br><span class="line">commit</span><br><span class="line"> </span><br><span class="line">$ git cat-file -p 433aedb274b59386535efa27c874d1ff5ded4a9b</span><br><span class="line">tree 296e56023cdc034d2735fee8c0d85a659d1b07f4</span><br><span class="line">author BattleHeart &lt;dwlsxj@126.com&gt; 1452085041 +0800</span><br><span class="line">committer BattleHeart &lt;dwlsxj@126.com&gt; 1452085549 +0800</span><br><span class="line"></span><br><span class="line">first commit</span><br></pre></td></tr></table></figure>
+
 <p>我们看到了这个是个commit对象并且这个commit对象指向了新生成的树对象，以及commit对象没有父节点也就是说本次提交相当于第一次提交。</p>
 <ol start="2">
 <li>git rebase<br>新建两个文件a和b文件，添加文件a的内容为this is file a，添加文件内容b为this is file b。并将其添加到暂存区内。</li>
@@ -395,33 +476,46 @@
 <p><img src="/2016/01/14/git-learning-4-rewriting-history/3.png" alt=""></p>
 <p>git  add  .添加到暂存区内，查看一下.git/objects里面的内容，会产生两个git对象，对象类型为blob。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ git add .</span><br><span class="line">$ find .git/objects/</span><br><span class="line">.git/objects/</span><br><span class="line">.git/objects/77</span><br><span class="line">.git/objects/77/486f708f7f7a0dab6f951148b75365081fcc3c</span><br><span class="line">.git/objects/ba</span><br><span class="line">.git/objects/ba/f5b90e3bc9f0c775c8d52764d353212259ffb3</span><br><span class="line">.git/objects/info</span><br><span class="line">.git/objects/pack</span><br></pre></td></tr></table></figure>
+
 <p>查看下git对象的类型以及git对象下的内容。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ git cat-file -t 77486f708f7f7a0dab6f951148b75365081fcc3c</span><br><span class="line">blob</span><br><span class="line"></span><br><span class="line">$ git cat-file -t baf5b90e3bc9f0c775c8d52764d353212259ffb3</span><br><span class="line">blob</span><br><span class="line"></span><br><span class="line">$ git cat-file -p baf5b90e3bc9f0c775c8d52764d353212259ffb3</span><br><span class="line">this is file a</span><br><span class="line"></span><br><span class="line">$ git cat-file -p 77486f708f7f7a0dab6f951148b75365081fcc3c</span><br><span class="line">this is file b</span><br></pre></td></tr></table></figure>
+
 <p>将两个文件同时提交到记录里面。Git commit</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ git commit -m &apos;first commit&apos;</span><br><span class="line">[master (root-commit) 4bd85c6] first commit</span><br><span class="line">warning: LF will be replaced by CRLF in a.</span><br><span class="line">The file will have its original line endings in your working directory.</span><br><span class="line">warning: LF will be replaced by CRLF in b.</span><br><span class="line">The file will have its original line endings in your working directory.</span><br><span class="line">2 files changed, 2 insertions(+)</span><br><span class="line">create mode 100644 a</span><br><span class="line">create mode 100644 b</span><br></pre></td></tr></table></figure>
+
 <p>这时候我们来看一下objects文件下内容。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ find .git/objects/</span><br><span class="line">.git/objects/</span><br><span class="line">.git/objects/4b</span><br><span class="line">.git/objects/4b/d85c6b6ed389f268ca7c183e560fb9cb33430e</span><br><span class="line">.git/objects/77</span><br><span class="line">.git/objects/77/486f708f7f7a0dab6f951148b75365081fcc3c</span><br><span class="line">.git/objects/ba</span><br><span class="line">.git/objects/ba/f5b90e3bc9f0c775c8d52764d353212259ffb3</span><br><span class="line">.git/objects/bd</span><br><span class="line">.git/objects/bd/887f9b4dc0d570bd7cae7e604e0da5dd3f466a</span><br><span class="line">.git/objects/info</span><br><span class="line">.git/objects/pack</span><br></pre></td></tr></table></figure>
+
 <p>这时候会多两个文件。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ git cat-file -t bd887f</span><br><span class="line">Tree</span><br><span class="line"></span><br><span class="line">$ git cat-file -t 4bd85c</span><br><span class="line">Commit</span><br></pre></td></tr></table></figure>
+
 <p>这时候整体记录的内容结构如下图所示：</p>
 <p>这时候我们新建一个分支test，并切换到test分支上面，在分支上面修改下a文件内容添加内容。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git branch test</span><br></pre></td></tr></table></figure>
+
 <p>这时候结构是这个样子的。</p>
 <p><img src="/2016/01/14/git-learning-4-rewriting-history/5.png" alt=""></p>
 <p>这时候我们要在master分支上面修改下a文件并且提交a文件内容，这时候会产生新的commit对象以及tree对象和新生成git对象。<br>首先我们要做到在master分值上面先修改下a文件然后commit到记录里面，然后在修改下b文件在提交到记录里面。这是会产生两条记录让我们来看一下：<br>首先做的就是添加a文件内容为this is master branch，并且添加到暂存区。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ vim a</span><br><span class="line"></span><br><span class="line">$ git add .</span><br></pre></td></tr></table></figure>
+
 <p>在来查看下新生成的git对象（blob），这个对象的sha-1为a4cb8b4（与上次对比）</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ find .git/objects/</span><br><span class="line">.git/objects/</span><br><span class="line">.git/objects/4b</span><br><span class="line">.git/objects/4b/d85c6b6ed389f268ca7c183e560fb9cb33430e</span><br><span class="line">.git/objects/77</span><br><span class="line">.git/objects/77/486f708f7f7a0dab6f951148b75365081fcc3c</span><br><span class="line">.git/objects/a4</span><br><span class="line">.git/objects/a4/cb8b4e0819ae97811f650886390e17e54bc93c</span><br><span class="line">.git/objects/ba</span><br><span class="line">.git/objects/ba/f5b90e3bc9f0c775c8d52764d353212259ffb3</span><br><span class="line">.git/objects/bd</span><br><span class="line">.git/objects/bd/887f9b4dc0d570bd7cae7e604e0da5dd3f466a</span><br><span class="line">.git/objects/info</span><br><span class="line">.git/objects/pack</span><br></pre></td></tr></table></figure>
+
 <p>查看下a4cb8b4类型是blob那么查看下当前文件下的内容正是我们添加的内容一致。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ git cat-file -t a4cb8b4</span><br><span class="line">blob</span><br><span class="line"></span><br><span class="line">$ git cat-file -p a4cb8b4</span><br><span class="line">this is file a</span><br><span class="line">this is master branch</span><br></pre></td></tr></table></figure>
+
 <p>这时候提交到版本控制里面去，将修改的文件a。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ git commit -m &apos;master commit&apos;</span><br><span class="line">[master warning: LF will be replaced by CRLF in a.</span><br><span class="line">The file will have its original line endings in your working directory.</span><br><span class="line">a6bcbb7] master commit</span><br><span class="line">warning: LF will be replaced by CRLF in a.</span><br><span class="line">The file will have its original line endings in your working directory.</span><br><span class="line">1 file changed, 1 insertion(+)</span><br></pre></td></tr></table></figure>
+
 <p>当然提交上去的时候这时候必然会产生commit对象和新的tree对象。让我们看一下谁是commit对象，谁是tree对象。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ find .git/objects/ -type f</span><br><span class="line">.git/objects/4b/d85c6b6ed389f268ca7c183e560fb9cb33430e</span><br><span class="line">.git/objects/77/486f708f7f7a0dab6f951148b75365081fcc3c</span><br><span class="line">.git/objects/a4/cb8b4e0819ae97811f650886390e17e54bc93c</span><br><span class="line">.git/objects/ba/f5b90e3bc9f0c775c8d52764d353212259ffb3</span><br><span class="line">.git/objects/bd/887f9b4dc0d570bd7cae7e604e0da5dd3f466a</span><br><span class="line">.git/objects/99/1f631d3674f37a8595fd782ce9fd57d354103a</span><br><span class="line">.git/objects/a6/bcbb77ada043da6df0a55918cac224bae50ef1</span><br></pre></td></tr></table></figure>
+
 <p>这时候我们发现比上一次对象多出了两个对象分别是991f63和a6bcbb，多出了这两个对象，那么我们来看一下这两个对象就是是什么类型的。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ git cat-file -t 991f63</span><br><span class="line">tree</span><br><span class="line"></span><br><span class="line">$ git cat-file -p 991f63</span><br><span class="line">100644 blob a4cb8b4e0819ae97811f650886390e17e54bc93c    a</span><br><span class="line">100644 blob 77486f708f7f7a0dab6f951148b75365081fcc3c    b</span><br></pre></td></tr></table></figure>
+
 <p>OK，991f63是tree对象，而且tree对象下面的内容中有一个是我们刚修改的a文件的git对象和第一次提交的b文件的git对象。<br>那么a6bcbb就是commit对象，且commit对象的指向是上面的tree对象。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ git cat-file -t a6bcbb</span><br><span class="line">commit</span><br><span class="line"></span><br><span class="line">$ git cat-file -p a6bcbb</span><br><span class="line">tree 991f631d3674f37a8595fd782ce9fd57d354103a</span><br><span class="line">parent 4bd85c6b6ed389f268ca7c183e560fb9cb33430e</span><br><span class="line">author BattleHeart &lt;dwlsxj@126.com&gt; 1452165520 +0800</span><br><span class="line">committer BattleHeart &lt;dwlsxj@126.com&gt; 1452165520 +0800</span><br><span class="line">master commit</span><br></pre></td></tr></table></figure>
+
 <p>Ok，这时候整体的提交之后的示意图如下所示：</p>
 <p><img src="/2016/01/14/git-learning-4-rewriting-history/6.png" alt=""></p>
 <p>这时候按照上面步骤看一下b的，这时候git对象变成了af379ed，commit对象变成了359118，tree对象变成了73f2e9。下面是操作记录：</p>
@@ -434,24 +528,32 @@
 <p><img src="/2016/01/14/git-learning-4-rewriting-history/10.png" alt=""></p>
 <p>这时候我们会发现有两个分支出来了，因为我们现在test分支上面，我们使用git rebase master命令来维护一个线性的记录。<br>当我是用vim的时候肯定会产生冲突，这时候我们解决下冲突文件a和b文件再调用git  rebase  –continue命令即可，这里要详细讲解下合成的原理以及内容，当我git  rebase master的时候会产生两个树对象和一个git对象出来，这时候我们的HEAD头部将会切换到master分支上面，也就是说接下来的操作是在master分支指向的最后一个分支上面进行与test分支上面每一个进行合并，这里我们来看一下git对象的内容是：这个树对象的sha-1是：1de9f3f3cb3c87aaf2e43732ae13bf2aff1f8cda，我们会发现这个tree文件下面git对象是我们之前创建的，并不是这一次产生的，这个git对象是cce4bf，我们查看下他的内容如下所示：（这tree对象下面blob是test分支最后生成的内容）</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git cat-file -p cce4bf</span><br><span class="line">this is file a</span><br><span class="line">this is test branch (file a)</span><br></pre></td></tr></table></figure>
+
 <p>而产生的第二个tree对象是3ada29384374b5219c3564ce1fa999ac4fde99aa是这个，我们发现他的git对象子节点也是之前创建的baf5b9，这个对象的内容是：（这个tree对象下面的blob是master分支第一次产生的内容）</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git cat-file -p baf5b9</span><br><span class="line">this is file a</span><br></pre></td></tr></table></figure>
+
 <p>这时候我们会发现还有一个git对象blob，这个git对象里面到底是什么东西呢？这会引起我们很大的想象，为什么会产生上面两个tree并指向了之前的git对象呢？下面揭开谜底，原来新生成的blob对象就是a文件产生的冲突文件，文件的sha-1是：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">.git/objects/72/038d17664a165e8a0bc65b9b028f3322e7f418 blob</span><br><span class="line">$ git cat-file -p 72038d</span><br><span class="line">this is file a</span><br><span class="line">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</span><br><span class="line">this is master branch</span><br><span class="line">=======</span><br><span class="line">this is test branch (file a)</span><br><span class="line">&gt;&gt;&gt;&gt;&gt;&gt;&gt; this is commit on test branch</span><br></pre></td></tr></table></figure>
+
 <p>这个文件是怎么产生的，这要说一下冲突产生的算法，我喜欢用数学的思维方式思考：给定两个提交 A和 B，合并提交（commit）操作 A∨B 就可以描述为： [A∨B ]=[ A]+[ B]−[ C ] 这里的 C是A 和 B的合并共有项(最近提交树祖先共同含有的部分)，我们必须要“减去” C，因为如果不这样的话，我们就会有两个A∧B。也就是第一个树对象是B也就是不是HEAD指针指向的master分支下的a的内容，HEAD指针下的内容就是A，内容如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">this is file a</span><br><span class="line">this is master branch</span><br></pre></td></tr></table></figure>
+
 <p>A和B的共同之处就是this is file a这个内容（C），A+B-C就是我们现在看到冲突的文件blob（72038d）<br>这时候我们解决完冲突时候，git  add  . 之后就会生成一个新的blob对象就是这个对象。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">.git/objects/07/cf0edd220a022c7447a8cf111bac3ed3422db9  blob对象</span><br><span class="line">this is file a</span><br><span class="line">this is master branch</span><br><span class="line">this is test branch (file a)</span><br></pre></td></tr></table></figure>
+
 <p>这个对象我们在调用git  rebase  –continue的时候就会产生新的commit对象和tree对象。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">.git/objects/77/14fb6ec6a19ba0d546d1cd10f89261445d3553  commit对象</span><br><span class="line"></span><br><span class="line">$ git cat-file -p 7714fb</span><br><span class="line">tree 000fbac4af12a11f969d5e46d86d135f62adff8b</span><br><span class="line">parent 35911829097e90763845733d090e17c32d9a218c</span><br><span class="line">author BattleHeart &lt;dwlsxj@126.com&gt; 1452168533 +0800</span><br><span class="line">committer BattleHeart &lt;dwlsxj@126.com&gt; 1452169355 +0800</span><br><span class="line"></span><br><span class="line">this is commit on test branch</span><br><span class="line"></span><br><span class="line">.git/objects/00/0fbac4af12a11f969d5e46d86d135f62adff8b  tree对象</span><br><span class="line">Administrator@USER-20150201IC MINGW64 ~/Desktop/test (test)</span><br><span class="line">$ git cat-file -p 000fba</span><br><span class="line">100644 blob 07cf0edd220a022c7447a8cf111bac3ed3422db9    a</span><br><span class="line">100644 blob af379ed27a46022aca5a851bc55a8f69fd7afe3a    b</span><br></pre></td></tr></table></figure>
+
 <p>这里我们会发现b文件af379e是HEAD指针的指向的master分支的b文件的内容。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">.git/objects/af/379ed27a46022aca5a851bc55a8f69fd7afe3a blob</span><br><span class="line">$ git cat-file -p af379e</span><br><span class="line">this is file b</span><br><span class="line">this is branch master(b)</span><br></pre></td></tr></table></figure>
+
 <p>这时候我们在进行第二次处理冲突内容，也就是b文件的内容，这时候产生的内容和上面的一样的内容。这时候下面的内容就变成这样：（第二部分的分析请读者自行分析）一样的步骤。<br>结构图就变成如下的样子：</p>
 <p><img src="/2016/01/14/git-learning-4-rewriting-history/11.png" alt=""></p>
 <p>整体的commit对象的图就变成这样：(<code>c4’和c5’都是C3的基础上进行合并的</code>)</p>
 <p><img src="/2016/01/14/git-learning-4-rewriting-history/12.png" alt=""></p>
 <h3 id="花絮"><a href="#花絮" class="headerlink" title="花絮"></a>花絮</h3><p>接下来的内容就是上图中的节点，至于中间产生的节点只有第一次使用git  rebase  –continue的时候的结果，第二次的结果还请读者自行分析。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">.git/objects/43be0ce752cdabca0968e721fb030000093baa4d commit对象</span><br><span class="line">tree eefcff716912aa684576546f63a06f3a52ce0959</span><br><span class="line">parent 7714fb6ec6a19ba0d546d1cd10f89261445d3553</span><br><span class="line">author BattleHeart &lt;dwlsxj@126.com&gt; 1452168857 +0800</span><br><span class="line">committer BattleHeart &lt;dwlsxj@126.com&gt; 1452169398 +0800</span><br><span class="line"></span><br><span class="line">下面tree对象</span><br><span class="line">.git/objects/eefcff716912aa684576546f63a06f3a52ce0959 tree对象</span><br><span class="line">$ git cat-file -p eefcff</span><br><span class="line">100644 blob 07cf0edd220a022c7447a8cf111bac3ed3422db9    a</span><br><span class="line">100644 blob 19f1ba2426ee5e72b95412c2707e75d9feb2833e    b</span><br><span class="line"></span><br><span class="line">下面得内容</span><br><span class="line">.git/objects/07cf0edd220a022c7447a8cf111bac3ed3422db9  blob对象在上面</span><br><span class="line">tree对象里</span><br><span class="line">this is file a</span><br><span class="line">this is master branch</span><br><span class="line">this is test branch (file a)</span><br><span class="line"></span><br><span class="line">.git/objects/19/f1ba2426ee5e72b95412c2707e75d9feb2833e  blob</span><br><span class="line">this is file b</span><br><span class="line">this is branch master(b)</span><br><span class="line">this is test branch (file b)</span><br><span class="line"></span><br><span class="line">第一次commit对象</span><br><span class="line">.git/objects/7714fb6ec6a19ba0d546d1cd10f89261445d3553  commit对象</span><br><span class="line">$ git cat-file -p 7714fb</span><br><span class="line">tree 000fbac4af12a11f969d5e46d86d135f62adff8b</span><br><span class="line">parent 35911829097e90763845733d090e17c32d9a218c</span><br><span class="line">author BattleHeart &lt;dwlsxj@126.com&gt; 1452168533 +0800</span><br><span class="line">committer BattleHeart &lt;dwlsxj@126.com&gt; 1452169355 +0800</span><br><span class="line"></span><br><span class="line">this is commit on test branch</span><br><span class="line"></span><br><span class="line">.git/objects/00/0fbac4af12a11f969d5e46d86d135f62adff8b  tree对象</span><br><span class="line">Administrator@USER-20150201IC MINGW64 ~/Desktop/test (test)</span><br><span class="line">$ git cat-file -p 000fba</span><br><span class="line">100644 blob 07cf0edd220a022c7447a8cf111bac3ed3422db9    a</span><br><span class="line">100644 blob af379ed27a46022aca5a851bc55a8f69fd7afe3a    b</span><br><span class="line"></span><br><span class="line">.git/objects/07/cf0edd220a022c7447a8cf111bac3ed3422db9  blob对象</span><br><span class="line">this is file a</span><br><span class="line">this is master branch</span><br><span class="line">this is test branch (file a)</span><br><span class="line"></span><br><span class="line">.git/objects/af/379ed27a46022aca5a851bc55a8f69fd7afe3a blob</span><br><span class="line">$ git cat-file -p af379e</span><br><span class="line">this is file b</span><br><span class="line">this is branch master(b)</span><br></pre></td></tr></table></figure>
+
 <ol start="3">
 <li>git reflog 罗列出所有的commit对象的sha-1码和commit提交内容，看到我们上面merge操作我们想要换药到之前的操作就用git reset –hard  HEAD@{5}这里的HEAD@{5}是根据reflog查出来的，hard就是将暂存区内容还原到之前。</li>
 </ol>
@@ -467,7 +569,10 @@
         <p><span>本文标题:</span><a href="/2016/01/14/git-learning-4-rewriting-history/">带你走进git-重写历史记录</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">BattleHeart</a></p>
         <p><span>发布时间:</span>2016-01-14, 15:19:19</p>
-        <p><span>最后更新:</span>2019-04-11, 16:14:02</p>
+        
+            <p><span class="post-meta-item-text">字数统计:</span> <span class="post-count">4.3k字</span></p>
+            <p><span class="post-meta-item-text">  阅读时长:</span><span class="post-count">18分</span></p>
+        
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/01/14/git-learning-4-rewriting-history/" title="带你走进git-重写历史记录">https://www.battleheart.cn/2016/01/14/git-learning-4-rewriting-history/</a>
             <span class="copy-path" data-clipboard-text="原文: https://www.battleheart.cn/2016/01/14/git-learning-4-rewriting-history/　　作者: BattleHeart" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -541,6 +646,25 @@
 
 
     
+        <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC80OTM1NC8yNTg0Ng==">
+	<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+	</script>
+<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
+    
 
 
 
@@ -600,8 +724,27 @@
                 
             </div>
         
+        <div>
+            <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+        </div>
     </div>
 </footer>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("08/10/2018 17:38:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+setInterval("createtime()",250);
+</script>
     </div>
     
 <script data-main="/js/main.js" src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.min.js"></script>
@@ -678,4 +821,17 @@ MathJax.Hub.Queue(function() {
 </script>
   </div>
 </body>
+
+
+
 </html>
+<!-- 雪花特效 -->
+<script type="text/javascript" src="\js\snow.js"></script>
+<!-- 代码雨 -->
+<canvas id="canvas" width="1440" height="900" ></canvas>
+<script type="text/javascript" src="/js/DigitalRain.js"></script>
+<!--动态线条背景-->
+<script type="text/javascript" color="220,220,220" opacity='0.7' zIndex="-2" count="200"
+  src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+  </script>
+<script src="https://g.joyinshare.com/hc/ribbon.min.js" type="text/javascript"></script>

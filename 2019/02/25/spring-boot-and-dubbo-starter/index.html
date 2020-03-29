@@ -95,56 +95,100 @@
 
 
 </head></html>
+
 <body>
   <div id="container">
     <div class="left-col">
-    <div class="overlay"></div>
+      <div class="overlay"></div>
 <div class="intrude-less">
     <header id="header" class="inner">
         <a href="/" class="profilepic">
             <img src="/img/avatar.png" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/">BattleHeart</a></h1>
+            <h1 class="header-author"><a href="/">BattleHeart</a></h1>
         </hgroup>
 
         
-        <p class="header-subtitle">个人博客</p>
+        <!-- <p class="header-subtitle">个人博客</p> -->
+        <div id="binft"></div>
+        <script>
+            var binft = function (r) {
+                function t() {
+                    return b[Math.floor(Math.random() * b.length)]
+                }
+                function e() {
+                    return String.fromCharCode(94 * Math.random() + 33)
+                }
+                function n(r) {
+                    for (var n = document.createDocumentFragment(), i = 0; r > i; i++) {
+                        var l = document.createElement("span");
+                        l.textContent = e(), l.style.color = t(), n.appendChild(l)
+                    }
+                    return n
+                }
+                function i() {
+                    var t = o[c.skillI];
+                    c.step ? c.step-- : (c.step = g, c.prefixP < l.length ? (c.prefixP >= 0 && (c.text += l[c.prefixP]), c.prefixP++) : "forward" === c.direction ? c.skillP < t.length ? (c.text += t[c.skillP], c.skillP++) : c.delay ? c.delay-- : (c.direction = "backward", c.delay = a) : c.skillP > 0 ? (c.text = c.text.slice(0, -1), c.skillP--) : (c.skillI = (c.skillI + 1) % o.length, c.direction = "forward")), r.textContent = c.text, r.appendChild(n(c.prefixP < l.length ? Math.min(s, s + c.prefixP) : Math.min(s, t.length - c.skillP))), setTimeout(i, d)
+                }
+                var l = "",
+                    o = ["物来顺应,未来不迎", "当时不杂,既过不恋", "欢迎访问个人博客"].map(function (r) {
+                        return r + ""
+                    }),
+                    a = 2,
+                    g = 1,
+                    s = 5,
+                    d = 75,
+                    b = ["rgb(110,64,170)", "rgb(150,61,179)", "rgb(191,60,175)", "rgb(228,65,157)", "rgb(254,75,131)", "rgb(255,94,99)", "rgb(255,120,71)", "rgb(251,150,51)", "rgb(226,183,47)", "rgb(198,214,60)", "rgb(175,240,91)", "rgb(127,246,88)", "rgb(82,246,103)", "rgb(48,239,130)", "rgb(29,223,163)", "rgb(26,199,194)", "rgb(35,171,216)", "rgb(54,140,225)", "rgb(76,110,219)", "rgb(96,84,200)"],
+                    c = {
+                        text: "",
+                        prefixP: -s,
+                        skillI: 0,
+                        skillP: 0,
+                        direction: "forward",
+                        delay: a,
+                        step: g
+                    };
+                i()
+            };
+            binft(document.getElementById('binft'));
+        </script>
         
 
         
-            <form id="search-form">
-            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false" />
+        <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control"
+                autocomplete="off" autocorrect="off" searchonload="false" />
             <i class="fa fa-times" onclick="resetSearch()"></i>
-            </form>
-            <div id="local-search-result"></div>
-            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        </form>
+        <div id="local-search-result"></div>
+        <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
         
 
 
         
-            <div id="switch-btn" class="switch-btn">
-                <div class="icon">
-                    <div class="icon-ctn">
-                        <div class="icon-wrap icon-house" data-idx="0">
-                            <div class="birdhouse"></div>
-                            <div class="birdhouse_holes"></div>
-                        </div>
-                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
-                            <div class="ribbon"></div>
-                        </div>
+        <div id="switch-btn" class="switch-btn">
+            <div class="icon">
+                <div class="icon-ctn">
+                    <div class="icon-wrap icon-house" data-idx="0">
+                        <div class="birdhouse"></div>
+                        <div class="birdhouse_holes"></div>
+                    </div>
+                    <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                        <div class="ribbon"></div>
+                    </div>
+                    
+                    <div class="icon-wrap icon-link hide" data-idx="2">
+                        <div class="loopback_l"></div>
+                        <div class="loopback_r"></div>
+                    </div>
+                    
                         
-                        <div class="icon-wrap icon-link hide" data-idx="2">
-                            <div class="loopback_l"></div>
-                            <div class="loopback_r"></div>
-                        </div>
-                        
-                        
-                        <div class="icon-wrap icon-me hide" data-idx="3">
-                            <div class="user"></div>
-                            <div class="shoulder"></div>
-                        </div>
-                        
+                    <div class="icon-wrap icon-me hide" data-idx="3">
+                        <div class="user"></div>
+                        <div class="shoulder"></div>
+                    </div>
+                    
                     </div>
                     
                 </div>
@@ -152,78 +196,93 @@
                     <div class="tips-arrow"></div>
                     <ul class="tips-inner">
                         <li>菜单</li>
-                        <li>标签</li>
+                    <li>标签</li>
+                    
+                    <li>友情链接</li>
+                    
                         
-                        <li>友情链接</li>
-                        
-                        
-                        <li>关于我</li>
-                        
+                    <li>关于我</li>
+                    
                     </ul>
                 </div>
             </div>
         
 
-        <div id="switch-area" class="switch-area">
-            <div class="switch-wrap">
-                <section class="switch-part switch-part1">
-                    <nav class="header-menu">
-                        <ul>
-                        
-                            <li><a href="/">主页</a></li>
-                        
-                            <li><a href="/archives/">所有文章</a></li>
-                        
-                            <li><a href="/tags/">标签云</a></li>
-                        
-                            <li><a href="/about/">关于我</a></li>
-                        
+                    <div id="switch-area" class="switch-area">
+                        <div class="switch-wrap">
+                            <section class="switch-part switch-part1">
+                                <nav class="header-menu">
+                                    <ul>
+                                        
+                                        <li><a href="/">主页</a>
+                                        </li>
+                                        
+                                        <li><a href="/archives/">所有文章</a>
+                                        </li>
+                                        
+                                        <li><a href="/tags/">标签云</a>
+                                        </li>
+                                        
+                                        <li><a href="/about/">关于我</a>
+                                        </li>
+                                        
                         </ul>
                     </nav>
                     <nav class="header-nav">
                         <ul class="social">
                             
-                                <a class="fa Email" href="dwlsxj:@126.com" title="Email"></a>
-                            
-                                <a class="fa GitHub" href="https://github.com/dwlsxj" title="GitHub"></a>
-                            
-                                <a class="fa 博客园" href="https://www.cnblogs.com/dwlsxj/" title="博客园"></a>
-                            
-                                <a class="fa 网易云音乐" href="https://music.163.com/#/user/home?id=31908845" title="网易云音乐"></a>
-                            
+                                        <a class="fa Email" href="dwlsxj:@126.com"
+                                            title="Email"></a>
+                                        
+                                        <a class="fa GitHub" href="https://github.com/dwlsxj"
+                                            title="GitHub"></a>
+                                        
+                                        <a class="fa 博客园" href="https://www.cnblogs.com/dwlsxj/"
+                                            title="博客园"></a>
+                                        
+                                        <a class="fa 网易云音乐" href="https://music.163.com/#/user/home?id=31908845"
+                                            title="网易云音乐"></a>
+                                        
                         </ul>
                     </nav>
                 </section>
                 
                 
-                <section class="switch-part switch-part2">
-                    <div class="widget tagcloud" id="js-tagcloud">
-                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/">Assembly</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ELK/">ELK</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Life/">Life</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Maven/">Maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shiro/">Shiro</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringCloud/">SpringCloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dubbo/">dubbo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多线程/">多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/并发编程/">并发编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/栈/">栈</a></li></ul>
-                    </div>
-                </section>
+                                        <section class="switch-part switch-part2">
+                                            <div class="widget tagcloud" id="js-tagcloud">
+                                                <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/">Assembly</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ELK/">ELK</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Life/">Life</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Maven/">Maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shiro/">Shiro</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringCloud/">SpringCloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dubbo/">dubbo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多线程/">多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/并发编程/">并发编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/栈/">栈</a></li></ul>
+                                            </div>
+                                        </section>
+                                        
                 
                 
-                
-                <section class="switch-part switch-part3">
-                    <div id="js-friends">
-                    
-                      <a class="main-nav-link switch-friends-link" href="https://www.cnblogs.com/dwlsxj/">BalleHeart</a>
-                    
-                    </div>
-                </section>
-                
+                                        <section class="switch-part switch-part3">
+                                            <div id="js-friends">
+                                                
+                                                <a class="main-nav-link switch-friends-link"
+                                                    href="https://www.cnblogs.com/dwlsxj/">BalleHeart</a>
+                                                
+                                            </div>
+                                        </section>
+                                        
 
                 
-                
-                <section class="switch-part switch-part4">
-                
-                    <div id="js-aboutme">专注于后端开发</div>
-                </section>
-                
+                                        
+                                            <section class="switch-part switch-part4">
+                                                
+                    <div id="js-aboutme">专注于后端开发
+                        </div>
+                        </section>
+                        
             </div>
         </div>
-    </header>                
+    </header>             
 </div>
+
+<!-- 背景音乐 -->
+<div style="position:absolute;bottom:100px;left:0px;width:50px">
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=289 height=86 src="//music.163.com/outchain/player?type=2&id=304991&auto=1&height=66"></iframe>
+</div>   
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
@@ -277,9 +336,8 @@
   
     <div class="article-meta">
       <a href="/2019/02/25/spring-boot-and-dubbo-starter/" class="article-date">
-      <time datetime="2019-02-25T06:19:14.000Z" itemprop="datePublished">2019-02-25</time>
+    <time datetime="2019-02-25T06:19:14.000Z" itemprop="datePublished">2019-02-25</time>
 </a>
-
 
     </div>
   
@@ -296,14 +354,14 @@
     </h1>
   
 
+        
       </header>
       
       <div class="article-info article-info-post">
         
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/个人技术/">个人技术</a>
-    </div>
-
+<div class="article-category tagcloud">
+  <a class="article-category-link" href="/categories/个人技术/">个人技术</a>
+</div>
 
         
     <div class="article-tag tagcloud">
@@ -318,20 +376,27 @@
       
           
         <h1 id="Spring-Boot与Dubbo进行整合"><a href="#Spring-Boot与Dubbo进行整合" class="headerlink" title="Spring Boot与Dubbo进行整合"></a>Spring Boot与Dubbo进行整合</h1><h2 id="添加引用"><a href="#添加引用" class="headerlink" title="添加引用"></a>添加引用</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alibaba.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>dubbo-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>0.2.1.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
 <h2 id="服务提供端-provider"><a href="#服务提供端-provider" class="headerlink" title="服务提供端-provider"></a>服务提供端-provider</h2><h3 id="服务端代码"><a href="#服务端代码" class="headerlink" title="服务端代码"></a>服务端代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DubboProviderApplication</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">new</span> SpringApplicationBuilder(DubboProviderApplication.class)</span><br><span class="line">                .web(WebApplicationType.SERVLET)</span><br><span class="line">                .listeners((ApplicationListener&lt;ApplicationEnvironmentPreparedEvent&gt;) event -&gt; &#123;</span><br><span class="line">                    Environment environment = event.getEnvironment();</span><br><span class="line">                    <span class="keyword">int</span> port = environment.getProperty(<span class="string">"embedded.zookeeper.port"</span>, <span class="keyword">int</span>.class);</span><br><span class="line">                    <span class="keyword">new</span> EmbeddedZooKeeper(port, <span class="keyword">false</span>).start();</span><br><span class="line">                &#125;)</span><br><span class="line">                .run(args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <ol>
 <li><code>ApplicationEnvironmentPreparedEvent</code>监听环境变量预处理事件</li>
 <li>通过事件方式连接Zk</li>
 </ol>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Demo Service实现层。</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> battleheart</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Service</span>(version = <span class="string">"$&#123;demo.service.version&#125;"</span>, loadbalance = <span class="string">"roundrobin"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DemoServiceImpl</span> <span class="keyword">implements</span> <span class="title">DemoService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">sayHello</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Hello "</span> + name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <ol>
 <li>服务提供端通过dubbo的<code>@Service</code>注解进行服务的提供</li>
 </ol>
 <h3 id="服务端配置文件"><a href="#服务端配置文件" class="headerlink" title="服务端配置文件"></a>服务端配置文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># SpringBoot应用名称</span><br><span class="line">spring.application.name=dubbo-registry-zookeeper-provider-sample</span><br><span class="line"># 扫描的Service包地址</span><br><span class="line">dubbo.scan.base-packages=com.battleheart.dubboprovider</span><br><span class="line"># Zookeeper的端口号</span><br><span class="line">embedded.zookeeper.port=2181</span><br><span class="line"># Dubbo Protocol</span><br><span class="line">dubbo.protocol.name=dubbo</span><br><span class="line">## Dubbo注册地址</span><br><span class="line">dubbo.registry.address=zookeeper://127.0.0.1:$&#123;embedded.zookeeper.port&#125;</span><br><span class="line">## dubbo服务版本号</span><br><span class="line">demo.service.version=1.0.0</span><br><span class="line"># 服务端口</span><br><span class="line">server.port=8081</span><br></pre></td></tr></table></figure>
+
 <h2 id="服务消费端-customer"><a href="#服务消费端-customer" class="headerlink" title="服务消费端-customer"></a>服务消费端-customer</h2><h3 id="客户端代码"><a href="#客户端代码" class="headerlink" title="客户端代码"></a>客户端代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Reference</span>(version = <span class="string">"1.0.0"</span>)</span><br><span class="line">    <span class="keyword">private</span> DemoService demoService;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">sayHello</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> demoService.sayHello(name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h3 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">spring.application.name=annotation-consumer</span><br><span class="line">embedded.zookeeper.port=2181</span><br><span class="line">dubbo.registry.address=zookeeper://127.0.0.1:$&#123;embedded.zookeeper.port&#125;</span><br><span class="line">dubbo.consumer.timeout=3000</span><br></pre></td></tr></table></figure>
+
 <h1 id="EmbeddedZooKeeper"><a href="#EmbeddedZooKeeper" class="headerlink" title="EmbeddedZooKeeper"></a>EmbeddedZooKeeper</h1><p><code>EmbeddedZooKeeper</code>代码</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EmbeddedZooKeeper</span> <span class="keyword">implements</span> <span class="title">SmartLifecycle</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Logger.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger logger = LoggerFactory.getLogger(EmbeddedZooKeeper.class);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * ZooKeeper client port. This will be determined dynamically upon startup.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> clientPort;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Whether to auto-start. Default is true.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> autoStartup = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Lifecycle phase. Default is 0.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> phase = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Thread for running the ZooKeeper server.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> Thread zkServerThread;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * ZooKeeper server.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> ZooKeeperServerMain zkServer;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * &#123;<span class="doctag">@link</span> ErrorHandler&#125; to be invoked if an Exception is thrown from the ZooKeeper server thread.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> ErrorHandler errorHandler;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> daemon = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Construct an EmbeddedZooKeeper with a random port.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">EmbeddedZooKeeper</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        clientPort = SocketUtils.findAvailableTcpPort();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Construct an EmbeddedZooKeeper with the provided port.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> clientPort port for ZooKeeper server to bind to</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">EmbeddedZooKeeper</span><span class="params">(<span class="keyword">int</span> clientPort, <span class="keyword">boolean</span> daemon)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.clientPort = clientPort;</span><br><span class="line">        <span class="keyword">this</span>.daemon = daemon;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Returns the port that clients should use to connect to this embedded server.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> dynamically determined client port</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getClientPort</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.clientPort;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Specify whether to start automatically. Default is true.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> autoStartup whether to start automatically</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAutoStartup</span><span class="params">(<span class="keyword">boolean</span> autoStartup)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.autoStartup = autoStartup;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * &#123;<span class="doctag">@inheritDoc</span>&#125;</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isAutoStartup</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.autoStartup;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Specify the lifecycle phase for the embedded server.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> phase the lifecycle phase</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPhase</span><span class="params">(<span class="keyword">int</span> phase)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.phase = phase;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * &#123;<span class="doctag">@inheritDoc</span>&#125;</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getPhase</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.phase;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * &#123;<span class="doctag">@inheritDoc</span>&#125;</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isRunning</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (zkServerThread != <span class="keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Start the ZooKeeper server in a background thread.</span></span><br><span class="line"><span class="comment">     * &lt;p&gt;</span></span><br><span class="line"><span class="comment">     * Register an error handler via &#123;<span class="doctag">@link</span> #setErrorHandler&#125; in order to handle</span></span><br><span class="line"><span class="comment">     * any exceptions thrown during startup or execution.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">start</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (zkServerThread == <span class="keyword">null</span>) &#123;</span><br><span class="line">            zkServerThread = <span class="keyword">new</span> Thread(<span class="keyword">new</span> ServerRunnable(), <span class="string">"ZooKeeper Server Starter"</span>);</span><br><span class="line">            zkServerThread.setDaemon(daemon);</span><br><span class="line">            zkServerThread.start();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Shutdown the ZooKeeper server.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">stop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (zkServerThread != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="comment">// The shutdown method is protected...thus this hack to invoke it.</span></span><br><span class="line">            <span class="comment">// This will log an exception on shutdown; see</span></span><br><span class="line">            <span class="comment">// https://issues.apache.org/jira/browse/ZOOKEEPER-1873 for details.</span></span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                Method shutdown = ZooKeeperServerMain.class.getDeclaredMethod(<span class="string">"shutdown"</span>);</span><br><span class="line">                shutdown.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">                shutdown.invoke(zkServer);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// It is expected that the thread will exit after</span></span><br><span class="line">            <span class="comment">// the server is shutdown; this will block until</span></span><br><span class="line">            <span class="comment">// the shutdown is complete.</span></span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                zkServerThread.join(<span class="number">5000</span>);</span><br><span class="line">                zkServerThread = <span class="keyword">null</span>;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                Thread.currentThread().interrupt();</span><br><span class="line">                logger.warn(<span class="string">"Interrupted while waiting for embedded ZooKeeper to exit"</span>);</span><br><span class="line">                <span class="comment">// abandoning zk thread</span></span><br><span class="line">                zkServerThread = <span class="keyword">null</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Stop the server if running and invoke the callback when complete.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">stop</span><span class="params">(Runnable callback)</span> </span>&#123;</span><br><span class="line">        stop();</span><br><span class="line">        callback.run();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Provide an &#123;<span class="doctag">@link</span> ErrorHandler&#125; to be invoked if an Exception is thrown from the ZooKeeper server thread. If none</span></span><br><span class="line"><span class="comment">     * is provided, only error-level logging will occur.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> errorHandler the &#123;<span class="doctag">@link</span> ErrorHandler&#125; to be invoked</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setErrorHandler</span><span class="params">(ErrorHandler errorHandler)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.errorHandler = errorHandler;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Runnable implementation that starts the ZooKeeper server.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">ServerRunnable</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                Properties properties = <span class="keyword">new</span> Properties();</span><br><span class="line">                File file = <span class="keyword">new</span> File(System.getProperty(<span class="string">"java.io.tmpdir"</span>)</span><br><span class="line">                        + File.separator + UUID.randomUUID());</span><br><span class="line">                file.deleteOnExit();</span><br><span class="line">                properties.setProperty(<span class="string">"dataDir"</span>, file.getAbsolutePath());</span><br><span class="line">                properties.setProperty(<span class="string">"clientPort"</span>, String.valueOf(clientPort));</span><br><span class="line"></span><br><span class="line">                QuorumPeerConfig quorumPeerConfig = <span class="keyword">new</span> QuorumPeerConfig();</span><br><span class="line">                quorumPeerConfig.parseProperties(properties);</span><br><span class="line"></span><br><span class="line">                zkServer = <span class="keyword">new</span> ZooKeeperServerMain();</span><br><span class="line">                ServerConfig configuration = <span class="keyword">new</span> ServerConfig();</span><br><span class="line">                configuration.readFrom(quorumPeerConfig);</span><br><span class="line"></span><br><span class="line">                zkServer.runFromConfig(configuration);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                <span class="keyword">if</span> (errorHandler != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    errorHandler.handleError(e);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    logger.error(<span class="string">"Exception running embedded ZooKeeper"</span>, e);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 
       
     </div>
@@ -343,7 +408,10 @@
         <p><span>本文标题:</span><a href="/2019/02/25/spring-boot-and-dubbo-starter/">SpringBoot快速整合dubbo</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">BattleHeart</a></p>
         <p><span>发布时间:</span>2019-02-25, 14:19:14</p>
-        <p><span>最后更新:</span>2019-02-25, 14:56:30</p>
+        
+            <p><span class="post-meta-item-text">字数统计:</span> <span class="post-count">916字</span></p>
+            <p><span class="post-meta-item-text">  阅读时长:</span><span class="post-count">5分</span></p>
+        
         <p>
             <span>原始链接:</span><a class="post-url" href="/2019/02/25/spring-boot-and-dubbo-starter/" title="SpringBoot快速整合dubbo">https://www.battleheart.cn/2019/02/25/spring-boot-and-dubbo-starter/</a>
             <span class="copy-path" data-clipboard-text="原文: https://www.battleheart.cn/2019/02/25/spring-boot-and-dubbo-starter/　　作者: BattleHeart" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -417,6 +485,25 @@
 
 
     
+        <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC80OTM1NC8yNTg0Ng==">
+	<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+	</script>
+<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
+    
 
 
 
@@ -476,8 +563,27 @@
                 
             </div>
         
+        <div>
+            <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+        </div>
     </div>
 </footer>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("08/10/2018 17:38:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+setInterval("createtime()",250);
+</script>
     </div>
     
 <script data-main="/js/main.js" src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.min.js"></script>
@@ -554,4 +660,17 @@ MathJax.Hub.Queue(function() {
 </script>
   </div>
 </body>
+
+
+
 </html>
+<!-- 雪花特效 -->
+<script type="text/javascript" src="\js\snow.js"></script>
+<!-- 代码雨 -->
+<canvas id="canvas" width="1440" height="900" ></canvas>
+<script type="text/javascript" src="/js/DigitalRain.js"></script>
+<!--动态线条背景-->
+<script type="text/javascript" color="220,220,220" opacity='0.7' zIndex="-2" count="200"
+  src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+  </script>
+<script src="https://g.joyinshare.com/hc/ribbon.min.js" type="text/javascript"></script>

@@ -106,56 +106,100 @@
 
 
 </head></html>
+
 <body>
   <div id="container">
     <div class="left-col">
-    <div class="overlay"></div>
+      <div class="overlay"></div>
 <div class="intrude-less">
     <header id="header" class="inner">
         <a href="/" class="profilepic">
             <img src="/img/avatar.png" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/">BattleHeart</a></h1>
+            <h1 class="header-author"><a href="/">BattleHeart</a></h1>
         </hgroup>
 
         
-        <p class="header-subtitle">个人博客</p>
+        <!-- <p class="header-subtitle">个人博客</p> -->
+        <div id="binft"></div>
+        <script>
+            var binft = function (r) {
+                function t() {
+                    return b[Math.floor(Math.random() * b.length)]
+                }
+                function e() {
+                    return String.fromCharCode(94 * Math.random() + 33)
+                }
+                function n(r) {
+                    for (var n = document.createDocumentFragment(), i = 0; r > i; i++) {
+                        var l = document.createElement("span");
+                        l.textContent = e(), l.style.color = t(), n.appendChild(l)
+                    }
+                    return n
+                }
+                function i() {
+                    var t = o[c.skillI];
+                    c.step ? c.step-- : (c.step = g, c.prefixP < l.length ? (c.prefixP >= 0 && (c.text += l[c.prefixP]), c.prefixP++) : "forward" === c.direction ? c.skillP < t.length ? (c.text += t[c.skillP], c.skillP++) : c.delay ? c.delay-- : (c.direction = "backward", c.delay = a) : c.skillP > 0 ? (c.text = c.text.slice(0, -1), c.skillP--) : (c.skillI = (c.skillI + 1) % o.length, c.direction = "forward")), r.textContent = c.text, r.appendChild(n(c.prefixP < l.length ? Math.min(s, s + c.prefixP) : Math.min(s, t.length - c.skillP))), setTimeout(i, d)
+                }
+                var l = "",
+                    o = ["物来顺应,未来不迎", "当时不杂,既过不恋", "欢迎访问个人博客"].map(function (r) {
+                        return r + ""
+                    }),
+                    a = 2,
+                    g = 1,
+                    s = 5,
+                    d = 75,
+                    b = ["rgb(110,64,170)", "rgb(150,61,179)", "rgb(191,60,175)", "rgb(228,65,157)", "rgb(254,75,131)", "rgb(255,94,99)", "rgb(255,120,71)", "rgb(251,150,51)", "rgb(226,183,47)", "rgb(198,214,60)", "rgb(175,240,91)", "rgb(127,246,88)", "rgb(82,246,103)", "rgb(48,239,130)", "rgb(29,223,163)", "rgb(26,199,194)", "rgb(35,171,216)", "rgb(54,140,225)", "rgb(76,110,219)", "rgb(96,84,200)"],
+                    c = {
+                        text: "",
+                        prefixP: -s,
+                        skillI: 0,
+                        skillP: 0,
+                        direction: "forward",
+                        delay: a,
+                        step: g
+                    };
+                i()
+            };
+            binft(document.getElementById('binft'));
+        </script>
         
 
         
-            <form id="search-form">
-            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false" />
+        <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control"
+                autocomplete="off" autocorrect="off" searchonload="false" />
             <i class="fa fa-times" onclick="resetSearch()"></i>
-            </form>
-            <div id="local-search-result"></div>
-            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        </form>
+        <div id="local-search-result"></div>
+        <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
         
 
 
         
-            <div id="switch-btn" class="switch-btn">
-                <div class="icon">
-                    <div class="icon-ctn">
-                        <div class="icon-wrap icon-house" data-idx="0">
-                            <div class="birdhouse"></div>
-                            <div class="birdhouse_holes"></div>
-                        </div>
-                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
-                            <div class="ribbon"></div>
-                        </div>
+        <div id="switch-btn" class="switch-btn">
+            <div class="icon">
+                <div class="icon-ctn">
+                    <div class="icon-wrap icon-house" data-idx="0">
+                        <div class="birdhouse"></div>
+                        <div class="birdhouse_holes"></div>
+                    </div>
+                    <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                        <div class="ribbon"></div>
+                    </div>
+                    
+                    <div class="icon-wrap icon-link hide" data-idx="2">
+                        <div class="loopback_l"></div>
+                        <div class="loopback_r"></div>
+                    </div>
+                    
                         
-                        <div class="icon-wrap icon-link hide" data-idx="2">
-                            <div class="loopback_l"></div>
-                            <div class="loopback_r"></div>
-                        </div>
-                        
-                        
-                        <div class="icon-wrap icon-me hide" data-idx="3">
-                            <div class="user"></div>
-                            <div class="shoulder"></div>
-                        </div>
-                        
+                    <div class="icon-wrap icon-me hide" data-idx="3">
+                        <div class="user"></div>
+                        <div class="shoulder"></div>
+                    </div>
+                    
                     </div>
                     
                 </div>
@@ -163,78 +207,93 @@
                     <div class="tips-arrow"></div>
                     <ul class="tips-inner">
                         <li>菜单</li>
-                        <li>标签</li>
+                    <li>标签</li>
+                    
+                    <li>友情链接</li>
+                    
                         
-                        <li>友情链接</li>
-                        
-                        
-                        <li>关于我</li>
-                        
+                    <li>关于我</li>
+                    
                     </ul>
                 </div>
             </div>
         
 
-        <div id="switch-area" class="switch-area">
-            <div class="switch-wrap">
-                <section class="switch-part switch-part1">
-                    <nav class="header-menu">
-                        <ul>
-                        
-                            <li><a href="/">主页</a></li>
-                        
-                            <li><a href="/archives/">所有文章</a></li>
-                        
-                            <li><a href="/tags/">标签云</a></li>
-                        
-                            <li><a href="/about/">关于我</a></li>
-                        
+                    <div id="switch-area" class="switch-area">
+                        <div class="switch-wrap">
+                            <section class="switch-part switch-part1">
+                                <nav class="header-menu">
+                                    <ul>
+                                        
+                                        <li><a href="/">主页</a>
+                                        </li>
+                                        
+                                        <li><a href="/archives/">所有文章</a>
+                                        </li>
+                                        
+                                        <li><a href="/tags/">标签云</a>
+                                        </li>
+                                        
+                                        <li><a href="/about/">关于我</a>
+                                        </li>
+                                        
                         </ul>
                     </nav>
                     <nav class="header-nav">
                         <ul class="social">
                             
-                                <a class="fa Email" href="dwlsxj:@126.com" title="Email"></a>
-                            
-                                <a class="fa GitHub" href="https://github.com/dwlsxj" title="GitHub"></a>
-                            
-                                <a class="fa 博客园" href="https://www.cnblogs.com/dwlsxj/" title="博客园"></a>
-                            
-                                <a class="fa 网易云音乐" href="https://music.163.com/#/user/home?id=31908845" title="网易云音乐"></a>
-                            
+                                        <a class="fa Email" href="dwlsxj:@126.com"
+                                            title="Email"></a>
+                                        
+                                        <a class="fa GitHub" href="https://github.com/dwlsxj"
+                                            title="GitHub"></a>
+                                        
+                                        <a class="fa 博客园" href="https://www.cnblogs.com/dwlsxj/"
+                                            title="博客园"></a>
+                                        
+                                        <a class="fa 网易云音乐" href="https://music.163.com/#/user/home?id=31908845"
+                                            title="网易云音乐"></a>
+                                        
                         </ul>
                     </nav>
                 </section>
                 
                 
-                <section class="switch-part switch-part2">
-                    <div class="widget tagcloud" id="js-tagcloud">
-                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/">Assembly</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ELK/">ELK</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Life/">Life</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Maven/">Maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shiro/">Shiro</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringCloud/">SpringCloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dubbo/">dubbo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多线程/">多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/并发编程/">并发编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/栈/">栈</a></li></ul>
-                    </div>
-                </section>
+                                        <section class="switch-part switch-part2">
+                                            <div class="widget tagcloud" id="js-tagcloud">
+                                                <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/">Assembly</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ELK/">ELK</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Life/">Life</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Maven/">Maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shiro/">Shiro</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringCloud/">SpringCloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dubbo/">dubbo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多线程/">多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/并发编程/">并发编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/栈/">栈</a></li></ul>
+                                            </div>
+                                        </section>
+                                        
                 
                 
-                
-                <section class="switch-part switch-part3">
-                    <div id="js-friends">
-                    
-                      <a class="main-nav-link switch-friends-link" href="https://www.cnblogs.com/dwlsxj/">BalleHeart</a>
-                    
-                    </div>
-                </section>
-                
+                                        <section class="switch-part switch-part3">
+                                            <div id="js-friends">
+                                                
+                                                <a class="main-nav-link switch-friends-link"
+                                                    href="https://www.cnblogs.com/dwlsxj/">BalleHeart</a>
+                                                
+                                            </div>
+                                        </section>
+                                        
 
                 
-                
-                <section class="switch-part switch-part4">
-                
-                    <div id="js-aboutme">专注于后端开发</div>
-                </section>
-                
+                                        
+                                            <section class="switch-part switch-part4">
+                                                
+                    <div id="js-aboutme">专注于后端开发
+                        </div>
+                        </section>
+                        
             </div>
         </div>
-    </header>                
+    </header>             
 </div>
+
+<!-- 背景音乐 -->
+<div style="position:absolute;bottom:100px;left:0px;width:50px">
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=289 height=86 src="//music.163.com/outchain/player?type=2&id=304991&auto=1&height=66"></iframe>
+</div>   
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
@@ -288,9 +347,8 @@
   
     <div class="article-meta">
       <a href="/2019/05/18/synchronousqueue-principle-unfair-pattern/" class="article-date">
-      <time datetime="2019-05-18T13:35:05.000Z" itemprop="datePublished">2019-05-18</time>
+    <time datetime="2019-05-18T13:35:05.000Z" itemprop="datePublished">2019-05-18</time>
 </a>
-
 
     </div>
   
@@ -307,14 +365,14 @@
     </h1>
   
 
+        
       </header>
       
       <div class="article-info article-info-post">
         
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/个人技术/">个人技术</a>
-    </div>
-
+<div class="article-category tagcloud">
+  <a class="article-category-link" href="/categories/个人技术/">个人技术</a>
+</div>
 
         
     <div class="article-tag tagcloud">
@@ -342,6 +400,7 @@
 <p><img src="/2019/05/18/synchronousqueue-principle-unfair-pattern/3.png" alt="3"></p>
 <p>通过上图可见，本来栈中有一个DATA模式的数据等待消费者进行消费，这时候来了一个REQUEST模式的请求操作来进行消费数据，这时候并没有将REQUEST模式直接压入栈顶，而是将其转换为FULLFILLING模式，并且保留了原有的类型，这是进行FULLFILLING的请求，请求和栈顶下方元素进行匹配，当匹配成功后将栈顶和匹配元素同时进行出栈操作，详细请见下文分析：</p>
 <h2 id="TransferStack"><a href="#TransferStack" class="headerlink" title="TransferStack"></a>TransferStack</h2><h3 id="字段信息"><a href="#字段信息" class="headerlink" title="字段信息"></a>字段信息</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** 消费者模式 */</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> REQUEST    = <span class="number">0</span>;</span><br><span class="line"><span class="comment">/** 提供者模式 */</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DATA       = <span class="number">1</span>;</span><br><span class="line"><span class="comment">/** 互补模式 */</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> FULFILLING = <span class="number">2</span>;</span><br><span class="line"><span class="comment">/** 栈顶指针 */</span></span><br><span class="line"><span class="keyword">volatile</span> SNode head;</span><br></pre></td></tr></table></figure>
+
 <h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><table>
 <thead>
 <tr>
@@ -349,8 +408,7 @@
 <th>描述</th>
 </tr>
 </thead>
-<tbody>
-<tr>
+<tbody><tr>
 <td>isFulfilling</td>
 <td>判断指定类型是否是互补模式</td>
 </tr>
@@ -374,9 +432,9 @@
 <td>shouldSpin</td>
 <td>判断节点s是头结点或是fulfill节点则返回true</td>
 </tr>
-</tbody>
-</table>
+</tbody></table>
 <h3 id="SNode内容"><a href="#SNode内容" class="headerlink" title="SNode内容"></a>SNode内容</h3><h4 id="字段信息-1"><a href="#字段信息-1" class="headerlink" title="字段信息"></a>字段信息</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">volatile</span> SNode next;        <span class="comment">// 栈下一个元素</span></span><br><span class="line"><span class="keyword">volatile</span> SNode match;       <span class="comment">// 匹配的节点</span></span><br><span class="line"><span class="keyword">volatile</span> Thread waiter;     <span class="comment">// 控制park/unpark的线程</span></span><br><span class="line">Object item;                <span class="comment">// 数据或请求</span></span><br><span class="line"><span class="keyword">int</span> mode;										<span class="comment">// 模式，上面介绍的三种模式</span></span><br></pre></td></tr></table></figure>
+
 <h4 id="方法-1"><a href="#方法-1" class="headerlink" title="方法"></a>方法</h4><table>
 <thead>
 <tr>
@@ -384,8 +442,7 @@
 <th>描述</th>
 </tr>
 </thead>
-<tbody>
-<tr>
+<tbody><tr>
 <td>casNext</td>
 <td>判断指定类型是否是互补模式</td>
 </tr>
@@ -401,26 +458,31 @@
 <td>isCancelled</td>
 <td>判断match节点是不是等于当前节点</td>
 </tr>
-</tbody>
-</table>
+</tbody></table>
 <p>经过上面内容的分析，接下来就进入正题，让我们整体先看一下下transfer都为我们做了些什么内容，下面是transfer源码内容:</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">E <span class="title">transfer</span><span class="params">(E e, <span class="keyword">boolean</span> timed, <span class="keyword">long</span> nanos)</span> </span>&#123;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * Basic algorithm is to loop trying one of three actions:</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 1. If apparently empty or already containing nodes of same</span></span><br><span class="line"><span class="comment">     *    mode, try to push node on stack and wait for a match,</span></span><br><span class="line"><span class="comment">     *    returning it, or null if cancelled.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 2. If apparently containing node of complementary mode,</span></span><br><span class="line"><span class="comment">     *    try to push a fulfilling node on to stack, match</span></span><br><span class="line"><span class="comment">     *    with corresponding waiting node, pop both from</span></span><br><span class="line"><span class="comment">     *    stack, and return matched item. The matching or</span></span><br><span class="line"><span class="comment">     *    unlinking might not actually be necessary because of</span></span><br><span class="line"><span class="comment">     *    other threads performing action 3:</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 3. If top of stack already holds another fulfilling node,</span></span><br><span class="line"><span class="comment">     *    help it out by doing its match and/or pop</span></span><br><span class="line"><span class="comment">     *    operations, and then continue. The code for helping</span></span><br><span class="line"><span class="comment">     *    is essentially the same as for fulfilling, except</span></span><br><span class="line"><span class="comment">     *    that it doesn't return the item.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line"></span><br><span class="line">    SNode s = <span class="keyword">null</span>; <span class="comment">// constructed/reused as needed</span></span><br><span class="line">    <span class="keyword">int</span> mode = (e == <span class="keyword">null</span>) ? REQUEST : DATA;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">        SNode h = head;</span><br><span class="line">        <span class="keyword">if</span> (h == <span class="keyword">null</span> || h.mode == mode) &#123;  <span class="comment">// 栈顶指针为空或者是模式相同</span></span><br><span class="line">            <span class="keyword">if</span> (timed &amp;&amp; nanos &lt;= <span class="number">0</span>) &#123;      <span class="comment">// 制定了timed并且时间小于等于0则取消操作。</span></span><br><span class="line">                <span class="keyword">if</span> (h != <span class="keyword">null</span> &amp;&amp; h.isCancelled())</span><br><span class="line">                    casHead(h, h.next);     <span class="comment">// 判断头结点是否被取消了取消了就弹出队列，将头结点指向下一个节点</span></span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (casHead(h, s = snode(s, e, h, mode))) &#123;<span class="comment">// 初始化新节点并且修改栈顶指针</span></span><br><span class="line">                SNode m = awaitFulfill(s, timed, nanos);			<span class="comment">// 进行等待操作</span></span><br><span class="line">                <span class="keyword">if</span> (m == s) &#123;               <span class="comment">// 返回内容是本身则进行清理操作</span></span><br><span class="line">                    clean(s);</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> ((h = head) != <span class="keyword">null</span> &amp;&amp; h.next == s)</span><br><span class="line">                    casHead(h, s.next);     <span class="comment">// help s's fulfiller</span></span><br><span class="line">                <span class="keyword">return</span> (E) ((mode == REQUEST) ? m.item : s.item);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (!isFulfilling(h.mode)) &#123; <span class="comment">// 尝试去匹配</span></span><br><span class="line">            <span class="keyword">if</span> (h.isCancelled())            <span class="comment">// 判断是否已经被取消了</span></span><br><span class="line">                casHead(h, h.next);         <span class="comment">// 弹出取消的节点并且从新进入主循环</span></span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (casHead(h, s=snode(s, e, h, FULFILLING|mode))) &#123;<span class="comment">//新建一个Full节点压入栈顶</span></span><br><span class="line">                <span class="keyword">for</span> (;;) &#123; <span class="comment">// 循环直到匹配</span></span><br><span class="line">                    SNode m = s.next;       <span class="comment">// s的下一个节点为匹配节点</span></span><br><span class="line">                    <span class="keyword">if</span> (m == <span class="keyword">null</span>) &#123;        <span class="comment">// 代表没有等待内容了</span></span><br><span class="line">                        casHead(s, <span class="keyword">null</span>);   <span class="comment">// 弹出full节点</span></span><br><span class="line">                        s = <span class="keyword">null</span>;           <span class="comment">// 设置为null用于下次生成新的节点</span></span><br><span class="line">                        <span class="keyword">break</span>;              <span class="comment">// 退回到主循环中</span></span><br><span class="line">                    &#125;</span><br><span class="line">                    SNode mn = m.next;</span><br><span class="line">                    <span class="keyword">if</span> (m.tryMatch(s)) &#123;</span><br><span class="line">                        casHead(s, mn);     <span class="comment">// 弹出s节点和m节点两个节点</span></span><br><span class="line">                        <span class="keyword">return</span> (E) ((mode == REQUEST) ? m.item : s.item);</span><br><span class="line">                    &#125; <span class="keyword">else</span>                  <span class="comment">// 如果失去了匹配</span></span><br><span class="line">                        s.casNext(m, mn);   <span class="comment">// 帮助取消连接</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;                            <span class="comment">// 这里是帮助进行fillull</span></span><br><span class="line">            SNode m = h.next;               <span class="comment">// m是头结点的匹配节点</span></span><br><span class="line">            <span class="keyword">if</span> (m == <span class="keyword">null</span>)                  <span class="comment">// 如果m不存在则直接将头节点赋值为nll</span></span><br><span class="line">                casHead(h, <span class="keyword">null</span>);           <span class="comment">// 弹出fulfill节点</span></span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                SNode mn = m.next;</span><br><span class="line">                <span class="keyword">if</span> (m.tryMatch(h))          <span class="comment">// h节点尝试匹配m节点</span></span><br><span class="line">                    casHead(h, mn);         <span class="comment">// 弹出h和m节点</span></span><br><span class="line">                <span class="keyword">else</span>                        <span class="comment">// 丢失匹配则直接将头结点的下一个节点赋值为头结点的下下节点</span></span><br><span class="line">                    h.casNext(m, mn);       </span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <ol>
 <li>模式相同的时候则进行等待操作，入队等待操作</li>
 <li>当模式不相同时，首先判断头结点是否是fulfill节点如果不是则进行匹配操作，如果是fulfill节点先帮助头结点的fulfill节点进行匹配操作</li>
 </ol>
 <p>接下来再来看一下<code>awaitFulfill</code>方法内容</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">SNode <span class="title">awaitFulfill</span><span class="params">(SNode s, <span class="keyword">boolean</span> timed, <span class="keyword">long</span> nanos)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">long</span> deadline = timed ? System.nanoTime() + nanos : <span class="number">0L</span>;</span><br><span class="line">  	<span class="comment">// 等待线程</span></span><br><span class="line">    Thread w = Thread.currentThread();</span><br><span class="line">  	<span class="comment">// 等待时间设置</span></span><br><span class="line">    <span class="keyword">int</span> spins = (shouldSpin(s) ?</span><br><span class="line">                 (timed ? maxTimedSpins : maxUntimedSpins) : <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">        <span class="keyword">if</span> (w.isInterrupted())			<span class="comment">// 判断当前线程是否被中断 </span></span><br><span class="line">            s.tryCancel();					<span class="comment">// 尝试取消操作 </span></span><br><span class="line">        SNode m = s.match;					<span class="comment">// 获取当前节点的匹配节点，如果节点不为null代表匹配或取消操作，则返回</span></span><br><span class="line">        <span class="keyword">if</span> (m != <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">return</span> m;</span><br><span class="line">        <span class="keyword">if</span> (timed) &#123;</span><br><span class="line">            nanos = deadline - System.nanoTime();</span><br><span class="line">            <span class="keyword">if</span> (nanos &lt;= <span class="number">0L</span>) &#123;</span><br><span class="line">                s.tryCancel();</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (spins &gt; <span class="number">0</span>)</span><br><span class="line">            spins = shouldSpin(s) ? (spins-<span class="number">1</span>) : <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (s.waiter == <span class="keyword">null</span>)</span><br><span class="line">            s.waiter = w; <span class="comment">// establish waiter so can park next iter</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (!timed)</span><br><span class="line">            LockSupport.park(<span class="keyword">this</span>);</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (nanos &gt; spinForTimeoutThreshold)</span><br><span class="line">            LockSupport.parkNanos(<span class="keyword">this</span>, nanos);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>通过上面的源码，其实我们之前分析同步模式的时候差不太多，变化的地方其中包括返回内容判断这里判断的是match节点是否为null，还有就是spins时间设置这里发现了<code>shoudSpin</code>用来判断是否进行轮训，来看一下<code>shouldSpin</code>方法：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 判断节点是否是fulfill节点，或者是头结点为空再或者是头结点和当前节点相等时则不需要进行轮训操作</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">shouldSpin</span><span class="params">(SNode s)</span> </span>&#123;</span><br><span class="line">    SNode h = head;</span><br><span class="line">    <span class="keyword">return</span> (h == s || h == <span class="keyword">null</span> || isFulfilling(h.mode));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>实际上就是判断节点是否是fulfill节点，或者是头结点为空再或者是头结点和当前节点相等时则不需要进行轮训操作，如果满足上述条件就不小进行轮训等到操作了直接进行等待就行了。</p>
 <p>接下来我们来用例子一点点解析原理：</p>
 <p>首先先进行一个put操作，这样可以简单分析下内部信息。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * SynchronousQueue原理内容</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> battleheart</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SynchronousQueueDemo1</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        SynchronousQueue&lt;Integer&gt; queue = <span class="keyword">new</span> SynchronousQueue&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        Thread thread1 = <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                queue.put(<span class="number">1</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        thread1.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>首先它会进入到transfer方法中，进行第一步的判断他的类型信息，如下所示：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SNode s = <span class="keyword">null</span>; <span class="comment">// constructed/reused as needed</span></span><br><span class="line"><span class="keyword">int</span> mode = (e == <span class="keyword">null</span>) ? REQUEST : DATA;</span><br></pre></td></tr></table></figure>
+
 <p>通过上面代码可以看到e=1所以是DATA类型，接下来进行判断是如何进行操作，当前堆栈是空的，如何判断堆栈为空呢？上面也讲到了<code>head</code>节点为空时则代表堆栈为空，接下来就要判断如果head节点为空或head指向的节点和当前操作内容模式相同，则进行等待操作，如下代码所示：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">SNode h = head;</span><br><span class="line"><span class="keyword">if</span> (h == <span class="keyword">null</span> || h.mode == mode) &#123;  <span class="comment">// empty or same-mode</span></span><br><span class="line">    <span class="keyword">if</span> (timed &amp;&amp; nanos &lt;= <span class="number">0</span>) &#123;      <span class="comment">// can't wait</span></span><br><span class="line">        <span class="keyword">if</span> (h != <span class="keyword">null</span> &amp;&amp; h.isCancelled())</span><br><span class="line">            casHead(h, h.next);     <span class="comment">// pop cancelled node</span></span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (casHead(h, s = snode(s, e, h, mode))) &#123;</span><br><span class="line">        SNode m = awaitFulfill(s, timed, nanos);</span><br><span class="line">        <span class="keyword">if</span> (m == s) &#123;               <span class="comment">// wait was cancelled</span></span><br><span class="line">            clean(s);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> ((h = head) != <span class="keyword">null</span> &amp;&amp; h.next == s)</span><br><span class="line">            casHead(h, s.next);     <span class="comment">// help s's fulfiller</span></span><br><span class="line">        <span class="keyword">return</span> (E) ((mode == REQUEST) ? m.item : s.item);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>显然头结点是空的，所以进入到第一个fi语句中执行等待操作，如果指定了timed则判断时间是否小于0，如果小于0则直接null，反之判断当前节点是否不是头结点以及头结点是否取消，潘祖条件弹出头结点，并将下一个节点设置为头结点，上述条件在当前例子中都不满足，所以要进入到下面这段代码中，首先进行对s进行初始化值，并且进行入栈操作，<code>casHead(h, s = snode(s, e, h, mode))</code>，下面看一下栈中的情况如下图所示：</p>
 <p><img src="/2019/05/18/synchronousqueue-principle-unfair-pattern/4.png" alt="4"></p>
 <p>当执行完了入栈操作之后接下来要执行<code>awaitFulfill</code>这里的操作就是轮训以及将当前节点的线程赋值，并且挂起当前线程。此时的栈的情况如下图所示：</p>
@@ -429,31 +491,40 @@
 <p><img src="/2019/05/18/synchronousqueue-principle-unfair-pattern/6.png" alt="6"></p>
 <p>通过上图可以看到，其实就是将头结点移动到了新的节点上，然后新节点的next节点维护这下一个节点的引用，好了，上述内容分析是同模式的操作，接下来我们试着进行take操作时，这时候会发什么内容呢？</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * SynchronousQueue例子二进行两次put操作和一次take操作</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> battleheart</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SynchronousQueueDemo1</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        SynchronousQueue&lt;Integer&gt; queue = <span class="keyword">new</span> SynchronousQueue&lt;&gt;();</span><br><span class="line"></span><br><span class="line">        Thread thread1 = <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                queue.put(<span class="number">1</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        thread1.start();</span><br><span class="line">        Thread.sleep(<span class="number">2000</span>);</span><br><span class="line">        Thread thread2 = <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                queue.put(<span class="number">2</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        thread2.start();</span><br><span class="line"></span><br><span class="line">        Thread.sleep(<span class="number">2000</span>);</span><br><span class="line">        Thread thread6 = <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                queue.take();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">      	thread6.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>上面例子正好符合上面例子两次put操作的截图，进行两次put操作过后再进行take操作，接下来我们来看一下take操作是如何进行操作的，换句话说当有不同模式的操作时又是如何进行处理呢？上面分析的内容是同种操作模式下的，当有不同操作则会走下面内容：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">else</span> <span class="keyword">if</span> (!isFulfilling(h.mode)) &#123; <span class="comment">// try to fulfill</span></span><br><span class="line">    <span class="keyword">if</span> (h.isCancelled())            <span class="comment">// already cancelled</span></span><br><span class="line">        casHead(h, h.next);         <span class="comment">// pop and retry</span></span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (casHead(h, s=snode(s, e, h, FULFILLING|mode))) &#123;</span><br><span class="line">        <span class="keyword">for</span> (;;) &#123; <span class="comment">// loop until matched or waiters disappear</span></span><br><span class="line">            SNode m = s.next;       <span class="comment">// m is s's match</span></span><br><span class="line">            <span class="keyword">if</span> (m == <span class="keyword">null</span>) &#123;        <span class="comment">// all waiters are gone</span></span><br><span class="line">                casHead(s, <span class="keyword">null</span>);   <span class="comment">// pop fulfill node</span></span><br><span class="line">                s = <span class="keyword">null</span>;           <span class="comment">// use new node next time</span></span><br><span class="line">                <span class="keyword">break</span>;              <span class="comment">// restart main loop</span></span><br><span class="line">            &#125;</span><br><span class="line">            SNode mn = m.next;</span><br><span class="line">            <span class="keyword">if</span> (m.tryMatch(s)) &#123;</span><br><span class="line">                casHead(s, mn);     <span class="comment">// pop both s and m</span></span><br><span class="line">                <span class="keyword">return</span> (E) ((mode == REQUEST) ? m.item : s.item);</span><br><span class="line">            &#125; <span class="keyword">else</span>                  <span class="comment">// lost match</span></span><br><span class="line">                s.casNext(m, mn);   <span class="comment">// help unlink</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;                            <span class="comment">// help a fulfiller</span></span><br><span class="line">    SNode m = h.next;               <span class="comment">// m is h's match</span></span><br><span class="line">    <span class="keyword">if</span> (m == <span class="keyword">null</span>)                  <span class="comment">// waiter is gone</span></span><br><span class="line">        casHead(h, <span class="keyword">null</span>);           <span class="comment">// pop fulfilling node</span></span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        SNode mn = m.next;</span><br><span class="line">        <span class="keyword">if</span> (m.tryMatch(h))          <span class="comment">// help match</span></span><br><span class="line">            casHead(h, mn);         <span class="comment">// pop both h and m</span></span><br><span class="line">        <span class="keyword">else</span>                        <span class="comment">// lost match</span></span><br><span class="line">            h.casNext(m, mn);       <span class="comment">// help unlink</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>最下面的else我们等会来进行分析，我们看到如果不是同模式的话，则会先判断是否是fulfill模式，如果不是fulfill模式，则进入到第一个if语句中，显然通过<code>图示6</code>可以得出，头结点<code>head</code>模式并不是fillfull模式，则进入到该if语句中，上来首先判断当前头结点是否被取消了，如果被取消则将头结点移动到栈顶下一个节点，反之则将s节点赋值为fulfill模式按位或当前节点模式，个人认为目的是既保留了原有模式也变成了fulfill模式，我们开篇就讲到了，REQUEST=0，二进制则是00，而DATA=1，其二进制为01，而FULFILLING=2，其二进制表示10，也就是说如果当前节点是REQUEST的话那么节点的内容值时00|10=10，如果节点是DATA模式则s节点的模式时01|10=11，这样的话11既保留了原有模式也是FULFILLING模式，然后将头节点移动到当前s节点，也就是将FULFILLING模式节点入栈操作，目前分析到这里时<code>casHead(h, s=snode(s, e, h, FULFILLING|mode)</code>，栈的情况如下图所示：</p>
 <p><img src="/2019/05/18/synchronousqueue-principle-unfair-pattern/7.png" alt="7"></p>
 <p>接下来运行for循环里面内容，先运行如下内容：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SNode m = s.next;       <span class="comment">// m is s's match</span></span><br><span class="line"><span class="keyword">if</span> (m == <span class="keyword">null</span>) &#123;        <span class="comment">// all waiters are gone</span></span><br><span class="line">    casHead(s, <span class="keyword">null</span>);   <span class="comment">// pop fulfill node</span></span><br><span class="line">    s = <span class="keyword">null</span>;           <span class="comment">// use new node next time</span></span><br><span class="line">    <span class="keyword">break</span>;              <span class="comment">// restart main loop</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>先判断当前节点也就是头结点s的下一个节点上图中head=s节点，所以s.next节点代表的是<code>Ref-750</code>，判断当前节点是否为空，如果为空的话代表没有可匹配的节点，先对head进行替换为null代表堆栈为空，然后将当前s节点设置为null，退出fulfill匹配模式进入到主循环中，会重新进行对当前节点进行操作，是消费还是匹配，显然本例子中m节点是不为空的，所以这里不会运行，跳过之后运行下面内容：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SNode mn = m.next;</span><br><span class="line"><span class="keyword">if</span> (m.tryMatch(s)) &#123;</span><br><span class="line">    casHead(s, mn);     <span class="comment">// pop both s and m</span></span><br><span class="line">    <span class="keyword">return</span> (E) ((mode == REQUEST) ? m.item : s.item);</span><br><span class="line">&#125; <span class="keyword">else</span>                  <span class="comment">// lost match</span></span><br><span class="line">    s.casNext(m, mn);   <span class="comment">// help unlink</span></span><br></pre></td></tr></table></figure>
+
 <p>mn节点在上图中对应的是<code>Ref-681</code>，这里是重点，<code>m.tryMatch(s)</code>，m节点尝试匹配s节点，进入到方法里，到这一步是我们再来看一下头结点的元素的内容：</p>
 <p><img src="/2019/05/18/synchronousqueue-principle-unfair-pattern/8.png" alt="8"></p>
 <p>并且唤醒m节点的，告诉m节点，你现在有匹配的对象了你可以被唤醒了，这里唤醒之后就会进入到<code>awaitFulfill</code>下面的操作</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">SNode m = awaitFulfill(s, timed, nanos);</span><br><span class="line"><span class="keyword">if</span> (m == s) &#123;               <span class="comment">// wait was cancelled</span></span><br><span class="line">    clean(s);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> ((h = head) != <span class="keyword">null</span> &amp;&amp; h.next == s)</span><br><span class="line">    casHead(h, s.next);     <span class="comment">// help s's fulfiller</span></span><br><span class="line"><span class="keyword">return</span> (E) ((mode == REQUEST) ? m.item : s.item);</span><br></pre></td></tr></table></figure>
+
 <p>运行这里的线程显然是上图中的m节点，因为m节点被唤醒了，m==s代表的是取消了节点，显然没有进行该操作，然后就是帮助头结点进行fulfill操作，这里重点说一下这段代码：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ((h = head) != <span class="keyword">null</span> &amp;&amp; h.next == s)</span><br><span class="line">    casHead(h, s.next);</span><br></pre></td></tr></table></figure>
+
 <p>获取当前头结点，也就是上图中的头结点如果不为空而且h.next节点为m节点正好是m节点进行操作时的s节点，也就是说这个语句是成立的，直接将头节点指向了上图的mn节点，这里的操作和take中的下面操作是一样的，也就是帮助fulfill操作弹出栈顶和栈顶匹配的节点内容，下面代码：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SNode mn = m.next;</span><br><span class="line"><span class="keyword">if</span> (m.tryMatch(s)) &#123;</span><br><span class="line">    casHead(s, mn);     <span class="comment">// pop both s and m</span></span><br><span class="line">    <span class="keyword">return</span> (E) ((mode == REQUEST) ? m.item : s.item);</span><br><span class="line">&#125; <span class="keyword">else</span>                  <span class="comment">// lost match</span></span><br><span class="line">    s.casNext(m, mn);   <span class="comment">// help unlink</span></span><br></pre></td></tr></table></figure>
+
 <p>重点是casHead的代码，弹出s和m两个节点，此时栈中内容如下图所示：</p>
 <p><img src="/2019/05/18/synchronousqueue-principle-unfair-pattern/9.png" alt="9"></p>
 <p>主要的流程分析完毕了，但是细心的朋友会发现，最后面还有一个帮助fulfill的操作，（transfer中）代码如下所示：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">else</span> &#123;                            <span class="comment">// help a fulfiller</span></span><br><span class="line">    SNode m = h.next;               <span class="comment">// m is h's match</span></span><br><span class="line">    <span class="keyword">if</span> (m == <span class="keyword">null</span>)                  <span class="comment">// waiter is gone</span></span><br><span class="line">        casHead(h, <span class="keyword">null</span>);           <span class="comment">// pop fulfilling node</span></span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        SNode mn = m.next;</span><br><span class="line">        <span class="keyword">if</span> (m.tryMatch(h))          <span class="comment">// help match</span></span><br><span class="line">            casHead(h, mn);         <span class="comment">// pop both h and m</span></span><br><span class="line">        <span class="keyword">else</span>                        <span class="comment">// lost match</span></span><br><span class="line">            h.casNext(m, mn);       <span class="comment">// help unlink</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>个人理解是这样的，我们上面也分析到了如果模式是相同模式情况和如果是不同模式且模式不为匹配模式的情况，但是还会有另外一种情况就是如果是不同模式并且头结点是匹配模式的就会进入到帮助去fullfill的情况，我来画图说明一下该情况：</p>
 <p><img src="/2019/05/18/synchronousqueue-principle-unfair-pattern/10.png" alt="10"></p>
 <p>如上图所示，上一个匹配操作没有进行完然后又来了一个请求操作，他就会帮助head进行匹配操作，也就是运行上面的代码逻辑，逻辑和匹配内容是一样的。</p>
 <p>接下来让我们看一下取消的clean方法内容:</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">clean</span><span class="params">(SNode s)</span> </span>&#123;</span><br><span class="line">    s.item = <span class="keyword">null</span>;   <span class="comment">// 将item值设置为null</span></span><br><span class="line">    s.waiter = <span class="keyword">null</span>; <span class="comment">// 将线程设置为null</span></span><br><span class="line"></span><br><span class="line">    SNode past = s.next;   <span class="comment">// s节点下一个节点如果不为空，并且节点是取消节点则指向下下个节点，这里是结束的标识，代表没有了。</span></span><br><span class="line">    <span class="keyword">if</span> (past != <span class="keyword">null</span> &amp;&amp; past.isCancelled())</span><br><span class="line">        past = past.next;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 如果取消的是头节点则运行下面的清理操作，操作逻辑很简单就是判断头结点是不是取消节点，如果是则将节点一定到下一个节点</span></span><br><span class="line">    SNode p;</span><br><span class="line">    <span class="keyword">while</span> ((p = head) != <span class="keyword">null</span> &amp;&amp; p != past &amp;&amp; p.isCancelled())</span><br><span class="line">        casHead(p, p.next);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 取消不是头结点的嵌套节点。</span></span><br><span class="line">    <span class="keyword">while</span> (p != <span class="keyword">null</span> &amp;&amp; p != past) &#123;</span><br><span class="line">        SNode n = p.next;</span><br><span class="line">        <span class="keyword">if</span> (n != <span class="keyword">null</span> &amp;&amp; n.isCancelled())</span><br><span class="line">            p.casNext(n, n.next);</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            p = n;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>通过源码可以看到首先是先找到一个可以结束的标识past，也就说到这里就结束了，判断是否不是头节点被取消了，如果是头节点被取消了则进行第一个while语句，操作也很简单就是将头节点替换头结点的下一个节点，如果不是头节点被取消了则进行下面的while语句操作，其实就是将取消的上一个节点的下一个节点指定为被取消节点的下一个节点，到此分析完毕了。</p>
 <h1 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h1><p>如果有分析不正确的请各位指正，我这边改正~</p>
 
@@ -467,7 +538,10 @@
         <p><span>本文标题:</span><a href="/2019/05/18/synchronousqueue-principle-unfair-pattern/">SynchronousQueue原理详解-非公平模式</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">BattleHeart</a></p>
         <p><span>发布时间:</span>2019-05-18, 21:35:05</p>
-        <p><span>最后更新:</span>2019-05-28, 09:03:52</p>
+        
+            <p><span class="post-meta-item-text">字数统计:</span> <span class="post-count">4.7k字</span></p>
+            <p><span class="post-meta-item-text">  阅读时长:</span><span class="post-count">19分</span></p>
+        
         <p>
             <span>原始链接:</span><a class="post-url" href="/2019/05/18/synchronousqueue-principle-unfair-pattern/" title="SynchronousQueue原理详解-非公平模式">https://www.battleheart.cn/2019/05/18/synchronousqueue-principle-unfair-pattern/</a>
             <span class="copy-path" data-clipboard-text="原文: https://www.battleheart.cn/2019/05/18/synchronousqueue-principle-unfair-pattern/　　作者: BattleHeart" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -541,6 +615,25 @@
 
 
     
+        <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC80OTM1NC8yNTg0Ng==">
+	<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+	</script>
+<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
+    
 
 
 
@@ -600,8 +693,27 @@
                 
             </div>
         
+        <div>
+            <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+        </div>
     </div>
 </footer>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("08/10/2018 17:38:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+setInterval("createtime()",250);
+</script>
     </div>
     
 <script data-main="/js/main.js" src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.min.js"></script>
@@ -678,4 +790,17 @@ MathJax.Hub.Queue(function() {
 </script>
   </div>
 </body>
+
+
+
 </html>
+<!-- 雪花特效 -->
+<script type="text/javascript" src="\js\snow.js"></script>
+<!-- 代码雨 -->
+<canvas id="canvas" width="1440" height="900" ></canvas>
+<script type="text/javascript" src="/js/DigitalRain.js"></script>
+<!--动态线条背景-->
+<script type="text/javascript" color="220,220,220" opacity='0.7' zIndex="-2" count="200"
+  src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+  </script>
+<script src="https://g.joyinshare.com/hc/ribbon.min.js" type="text/javascript"></script>

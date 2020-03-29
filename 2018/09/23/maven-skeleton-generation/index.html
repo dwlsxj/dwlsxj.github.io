@@ -106,56 +106,100 @@
 
 
 </head></html>
+
 <body>
   <div id="container">
     <div class="left-col">
-    <div class="overlay"></div>
+      <div class="overlay"></div>
 <div class="intrude-less">
     <header id="header" class="inner">
         <a href="/" class="profilepic">
             <img src="/img/avatar.png" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/">BattleHeart</a></h1>
+            <h1 class="header-author"><a href="/">BattleHeart</a></h1>
         </hgroup>
 
         
-        <p class="header-subtitle">个人博客</p>
+        <!-- <p class="header-subtitle">个人博客</p> -->
+        <div id="binft"></div>
+        <script>
+            var binft = function (r) {
+                function t() {
+                    return b[Math.floor(Math.random() * b.length)]
+                }
+                function e() {
+                    return String.fromCharCode(94 * Math.random() + 33)
+                }
+                function n(r) {
+                    for (var n = document.createDocumentFragment(), i = 0; r > i; i++) {
+                        var l = document.createElement("span");
+                        l.textContent = e(), l.style.color = t(), n.appendChild(l)
+                    }
+                    return n
+                }
+                function i() {
+                    var t = o[c.skillI];
+                    c.step ? c.step-- : (c.step = g, c.prefixP < l.length ? (c.prefixP >= 0 && (c.text += l[c.prefixP]), c.prefixP++) : "forward" === c.direction ? c.skillP < t.length ? (c.text += t[c.skillP], c.skillP++) : c.delay ? c.delay-- : (c.direction = "backward", c.delay = a) : c.skillP > 0 ? (c.text = c.text.slice(0, -1), c.skillP--) : (c.skillI = (c.skillI + 1) % o.length, c.direction = "forward")), r.textContent = c.text, r.appendChild(n(c.prefixP < l.length ? Math.min(s, s + c.prefixP) : Math.min(s, t.length - c.skillP))), setTimeout(i, d)
+                }
+                var l = "",
+                    o = ["物来顺应,未来不迎", "当时不杂,既过不恋", "欢迎访问个人博客"].map(function (r) {
+                        return r + ""
+                    }),
+                    a = 2,
+                    g = 1,
+                    s = 5,
+                    d = 75,
+                    b = ["rgb(110,64,170)", "rgb(150,61,179)", "rgb(191,60,175)", "rgb(228,65,157)", "rgb(254,75,131)", "rgb(255,94,99)", "rgb(255,120,71)", "rgb(251,150,51)", "rgb(226,183,47)", "rgb(198,214,60)", "rgb(175,240,91)", "rgb(127,246,88)", "rgb(82,246,103)", "rgb(48,239,130)", "rgb(29,223,163)", "rgb(26,199,194)", "rgb(35,171,216)", "rgb(54,140,225)", "rgb(76,110,219)", "rgb(96,84,200)"],
+                    c = {
+                        text: "",
+                        prefixP: -s,
+                        skillI: 0,
+                        skillP: 0,
+                        direction: "forward",
+                        delay: a,
+                        step: g
+                    };
+                i()
+            };
+            binft(document.getElementById('binft'));
+        </script>
         
 
         
-            <form id="search-form">
-            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false" />
+        <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control"
+                autocomplete="off" autocorrect="off" searchonload="false" />
             <i class="fa fa-times" onclick="resetSearch()"></i>
-            </form>
-            <div id="local-search-result"></div>
-            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        </form>
+        <div id="local-search-result"></div>
+        <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
         
 
 
         
-            <div id="switch-btn" class="switch-btn">
-                <div class="icon">
-                    <div class="icon-ctn">
-                        <div class="icon-wrap icon-house" data-idx="0">
-                            <div class="birdhouse"></div>
-                            <div class="birdhouse_holes"></div>
-                        </div>
-                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
-                            <div class="ribbon"></div>
-                        </div>
+        <div id="switch-btn" class="switch-btn">
+            <div class="icon">
+                <div class="icon-ctn">
+                    <div class="icon-wrap icon-house" data-idx="0">
+                        <div class="birdhouse"></div>
+                        <div class="birdhouse_holes"></div>
+                    </div>
+                    <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                        <div class="ribbon"></div>
+                    </div>
+                    
+                    <div class="icon-wrap icon-link hide" data-idx="2">
+                        <div class="loopback_l"></div>
+                        <div class="loopback_r"></div>
+                    </div>
+                    
                         
-                        <div class="icon-wrap icon-link hide" data-idx="2">
-                            <div class="loopback_l"></div>
-                            <div class="loopback_r"></div>
-                        </div>
-                        
-                        
-                        <div class="icon-wrap icon-me hide" data-idx="3">
-                            <div class="user"></div>
-                            <div class="shoulder"></div>
-                        </div>
-                        
+                    <div class="icon-wrap icon-me hide" data-idx="3">
+                        <div class="user"></div>
+                        <div class="shoulder"></div>
+                    </div>
+                    
                     </div>
                     
                 </div>
@@ -163,78 +207,93 @@
                     <div class="tips-arrow"></div>
                     <ul class="tips-inner">
                         <li>菜单</li>
-                        <li>标签</li>
+                    <li>标签</li>
+                    
+                    <li>友情链接</li>
+                    
                         
-                        <li>友情链接</li>
-                        
-                        
-                        <li>关于我</li>
-                        
+                    <li>关于我</li>
+                    
                     </ul>
                 </div>
             </div>
         
 
-        <div id="switch-area" class="switch-area">
-            <div class="switch-wrap">
-                <section class="switch-part switch-part1">
-                    <nav class="header-menu">
-                        <ul>
-                        
-                            <li><a href="/">主页</a></li>
-                        
-                            <li><a href="/archives/">所有文章</a></li>
-                        
-                            <li><a href="/tags/">标签云</a></li>
-                        
-                            <li><a href="/about/">关于我</a></li>
-                        
+                    <div id="switch-area" class="switch-area">
+                        <div class="switch-wrap">
+                            <section class="switch-part switch-part1">
+                                <nav class="header-menu">
+                                    <ul>
+                                        
+                                        <li><a href="/">主页</a>
+                                        </li>
+                                        
+                                        <li><a href="/archives/">所有文章</a>
+                                        </li>
+                                        
+                                        <li><a href="/tags/">标签云</a>
+                                        </li>
+                                        
+                                        <li><a href="/about/">关于我</a>
+                                        </li>
+                                        
                         </ul>
                     </nav>
                     <nav class="header-nav">
                         <ul class="social">
                             
-                                <a class="fa Email" href="dwlsxj:@126.com" title="Email"></a>
-                            
-                                <a class="fa GitHub" href="https://github.com/dwlsxj" title="GitHub"></a>
-                            
-                                <a class="fa 博客园" href="https://www.cnblogs.com/dwlsxj/" title="博客园"></a>
-                            
-                                <a class="fa 网易云音乐" href="https://music.163.com/#/user/home?id=31908845" title="网易云音乐"></a>
-                            
+                                        <a class="fa Email" href="dwlsxj:@126.com"
+                                            title="Email"></a>
+                                        
+                                        <a class="fa GitHub" href="https://github.com/dwlsxj"
+                                            title="GitHub"></a>
+                                        
+                                        <a class="fa 博客园" href="https://www.cnblogs.com/dwlsxj/"
+                                            title="博客园"></a>
+                                        
+                                        <a class="fa 网易云音乐" href="https://music.163.com/#/user/home?id=31908845"
+                                            title="网易云音乐"></a>
+                                        
                         </ul>
                     </nav>
                 </section>
                 
                 
-                <section class="switch-part switch-part2">
-                    <div class="widget tagcloud" id="js-tagcloud">
-                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/">Assembly</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ELK/">ELK</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Life/">Life</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Maven/">Maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shiro/">Shiro</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringCloud/">SpringCloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dubbo/">dubbo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多线程/">多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/并发编程/">并发编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/栈/">栈</a></li></ul>
-                    </div>
-                </section>
+                                        <section class="switch-part switch-part2">
+                                            <div class="widget tagcloud" id="js-tagcloud">
+                                                <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/">Assembly</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ELK/">ELK</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Life/">Life</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Maven/">Maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shiro/">Shiro</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringCloud/">SpringCloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dubbo/">dubbo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多线程/">多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/并发编程/">并发编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/栈/">栈</a></li></ul>
+                                            </div>
+                                        </section>
+                                        
                 
                 
-                
-                <section class="switch-part switch-part3">
-                    <div id="js-friends">
-                    
-                      <a class="main-nav-link switch-friends-link" href="https://www.cnblogs.com/dwlsxj/">BalleHeart</a>
-                    
-                    </div>
-                </section>
-                
+                                        <section class="switch-part switch-part3">
+                                            <div id="js-friends">
+                                                
+                                                <a class="main-nav-link switch-friends-link"
+                                                    href="https://www.cnblogs.com/dwlsxj/">BalleHeart</a>
+                                                
+                                            </div>
+                                        </section>
+                                        
 
                 
-                
-                <section class="switch-part switch-part4">
-                
-                    <div id="js-aboutme">专注于后端开发</div>
-                </section>
-                
+                                        
+                                            <section class="switch-part switch-part4">
+                                                
+                    <div id="js-aboutme">专注于后端开发
+                        </div>
+                        </section>
+                        
             </div>
         </div>
-    </header>                
+    </header>             
 </div>
+
+<!-- 背景音乐 -->
+<div style="position:absolute;bottom:100px;left:0px;width:50px">
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=289 height=86 src="//music.163.com/outchain/player?type=2&id=304991&auto=1&height=66"></iframe>
+</div>   
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
@@ -288,9 +347,8 @@
   
     <div class="article-meta">
       <a href="/2018/09/23/maven-skeleton-generation/" class="article-date">
-      <time datetime="2018-09-22T16:00:00.000Z" itemprop="datePublished">2018-09-23</time>
+    <time datetime="2018-09-22T16:00:00.000Z" itemprop="datePublished">2018-09-23</time>
 </a>
-
 
     </div>
   
@@ -307,14 +365,14 @@
     </h1>
   
 
+        
       </header>
       
       <div class="article-info article-info-post">
         
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/个人技术/">个人技术</a>
-    </div>
-
+<div class="article-category tagcloud">
+  <a class="article-category-link" href="/categories/个人技术/">个人技术</a>
+</div>
 
         
     <div class="article-tag tagcloud">
@@ -341,19 +399,26 @@
 </ul>
 <h1 id="Maven骨架介绍"><a href="#Maven骨架介绍" class="headerlink" title="Maven骨架介绍"></a>Maven骨架介绍</h1><h2 id="Maven-archetype"><a href="#Maven-archetype" class="headerlink" title="Maven archetype"></a>Maven archetype</h2><p>Archetype是一个Maven项目模板工具包，通过Archetype我们可以快速搭建Maven项目，通俗理解就是项目的基础架构，项目初始化的过程。我们在使用Idea开发工具的时候会有如下图操作：<br><img src="/2018/09/23/maven-skeleton-generation/./pic.png" alt="IDEA" title="IDEA"><br>在这里选择的Maven进行生成的项目都是利用Maven骨架来进行生成的，通过选择骨架生成项目结构的方式方便了我们手动去搭建相关项目内容。可以直接通过自带骨架或自己构建的骨架进行项目的快速搭建，节约成本。<br>我们构建一个完整的骨架整体的操作逻辑如下图所示：<br><img src="/2018/09/23/maven-skeleton-generation/./pic1.png" alt="Maven archetype" title="Maven archetype"><br>接下来将详细剖析每一步内容。  </p>
 <h1 id="Maven骨架创建过程"><a href="#Maven骨架创建过程" class="headerlink" title="Maven骨架创建过程"></a>Maven骨架创建过程</h1><h2 id="使用archetype创建项目"><a href="#使用archetype创建项目" class="headerlink" title="使用archetype创建项目"></a>使用archetype创建项目</h2><ol>
-<li>第一步建立Maven的项目，其实就是我们想要生成骨架的项目结构。  </li>
+<li><p>第一步建立Maven的项目，其实就是我们想要生成骨架的项目结构。  </p>
+</li>
 <li><p>在pom.xml中添加插件maven-archetype-plugin。  </p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;plugins&gt;</span><br><span class="line">    &lt;plugin&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;</span><br><span class="line">    &lt;/plugin&gt;</span><br><span class="line">    &lt;plugin&gt;</span><br><span class="line">        &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;maven-archetype-plugin&lt;/artifactId&gt;</span><br><span class="line">        &lt;version&gt;2.2&lt;/version&gt;</span><br><span class="line">    &lt;/plugin&gt;</span><br><span class="line">&lt;/plugins&gt;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>打开命令行进入到项目主目录中，运行如下命令：<font style="color:red"><code>mvn archetype:create-from-project</code></font><br>此时会在该项目的target目录下发现如下文件：<br><img src="/2018/09/23/maven-skeleton-generation/./pic2.png" alt="maven骨架目录" title="maven骨架目录"><br>我们可以清晰的发现archetype目录下是我们的项目结构，项目结构下面src/main/resources/META-INF/包含archetype-metadata.xml，这个文件是用来自定义骨架内容的，接下内容中会对信息进行详细的说明。</p>
 </li>
-<li>进入到target/generated-sources/archetype目录下，使用mvn clean install进行打包到本地文件中。<br>这时候你会在maven的本地仓库中多出一个文件archetype-catalog.xml<br><img src="/2018/09/23/maven-skeleton-generation/./pic3.png" alt="archetype-catalog.xml" title="archetype-catalog.xml"><br>打开文件发现这里面有我们添加的Maven骨架信息。<br><img src="/2018/09/23/maven-skeleton-generation/./pic4.png" alt="maven骨架目录" title="maven骨架目录"><br><em><code>注意：如果想要删除本地的内容就直接删除archetype节点即可。</code></em><h1 id="使用本地Maven骨架"><a href="#使用本地Maven骨架" class="headerlink" title="使用本地Maven骨架"></a>使用本地Maven骨架</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mvn archetype:generate  </span><br><span class="line">-DinteractiveMode=<span class="keyword">false</span>          禁止询问，如果不加命令行会询问你填写版本号等信息是否正确。  </span><br><span class="line">-DarchetypeCatalog=local         生成项目解析方式，local=本地骨架 internal=内部的  remote=这是Maven中央存储库或其镜像的捷径  </span><br><span class="line">-DgroupId=com.jtech.wpark.test   生成项目的groupId  </span><br><span class="line">-DartifactId=tetetetetet         生成项目的artifactId  </span><br><span class="line">-DarchetypeGroupId=com.jtech     骨架的groupId  </span><br><span class="line">-DarchetypeVersion=<span class="number">0.0</span>.1-SNAPSHOT 骨架版本号  </span><br><span class="line">-DarchetypeArtifactId=yaoyuan-archetype   骨架的artifactId</span><br></pre></td></tr></table></figure>
+<li><p>进入到target/generated-sources/archetype目录下，使用mvn clean install进行打包到本地文件中。<br>这时候你会在maven的本地仓库中多出一个文件archetype-catalog.xml<br><img src="/2018/09/23/maven-skeleton-generation/./pic3.png" alt="archetype-catalog.xml" title="archetype-catalog.xml"><br>打开文件发现这里面有我们添加的Maven骨架信息。<br><img src="/2018/09/23/maven-skeleton-generation/./pic4.png" alt="maven骨架目录" title="maven骨架目录">  </p>
 </li>
 </ol>
-<p><code>archetypeCatalog</code>如果想要来自不同仓库的骨架信息，可以在maven的Setting.xml中设置如下内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;repository&gt;</span><br><span class="line">  &lt;id&gt;archetype&lt;/id&gt;</span><br><span class="line">  &lt;url&gt;https://repository.domain.com/path/to/repo/&lt;/url&gt;</span><br><span class="line">&lt;/repository&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- in case of a repository with authentication --&gt;</span><br><span class="line">&lt;server&gt;</span><br><span class="line">  &lt;id&gt;archetype&lt;/id&gt;          // 私服的Id</span><br><span class="line">  &lt;username&gt;xxxx&lt;/username&gt;</span><br><span class="line">  &lt;password&gt;xxxx&lt;/password&gt;</span><br><span class="line">&lt;/server&gt;</span><br></pre></td></tr></table></figure></p>
+<p><em><code>注意：如果想要删除本地的内容就直接删除archetype节点即可。</code></em></p>
+<h1 id="使用本地Maven骨架"><a href="#使用本地Maven骨架" class="headerlink" title="使用本地Maven骨架"></a>使用本地Maven骨架</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mvn archetype:generate  </span><br><span class="line">-DinteractiveMode=<span class="keyword">false</span>          禁止询问，如果不加命令行会询问你填写版本号等信息是否正确。  </span><br><span class="line">-DarchetypeCatalog=local         生成项目解析方式，local=本地骨架 internal=内部的  remote=这是Maven中央存储库或其镜像的捷径  </span><br><span class="line">-DgroupId=com.jtech.wpark.test   生成项目的groupId  </span><br><span class="line">-DartifactId=tetetetetet         生成项目的artifactId  </span><br><span class="line">-DarchetypeGroupId=com.jtech     骨架的groupId  </span><br><span class="line">-DarchetypeVersion=<span class="number">0.0</span>.1-SNAPSHOT 骨架版本号  </span><br><span class="line">-DarchetypeArtifactId=yaoyuan-archetype   骨架的artifactId</span><br></pre></td></tr></table></figure>
+
+<p><code>archetypeCatalog</code>如果想要来自不同仓库的骨架信息，可以在maven的Setting.xml中设置如下内容：  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;repository&gt;</span><br><span class="line">  &lt;id&gt;archetype&lt;/id&gt;</span><br><span class="line">  &lt;url&gt;https://repository.domain.com/path/to/repo/&lt;/url&gt;</span><br><span class="line">&lt;/repository&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- in case of a repository with authentication --&gt;</span><br><span class="line">&lt;server&gt;</span><br><span class="line">  &lt;id&gt;archetype&lt;/id&gt;          // 私服的Id</span><br><span class="line">  &lt;username&gt;xxxx&lt;/username&gt;</span><br><span class="line">  &lt;password&gt;xxxx&lt;/password&gt;</span><br><span class="line">&lt;/server&gt;</span><br></pre></td></tr></table></figure>
+
 <p>如果Maven中央存储库目录文件是空的，则使用内部目录。  </p>
 <h1 id="Maven私服上传"><a href="#Maven私服上传" class="headerlink" title="Maven私服上传"></a>Maven私服上传</h1><p>使用mvn clean deploy对骨架上传到私服中，这里会存在一个问题，也就是上传的地址需要在pom.xml配置下，pom.xml文件路径为<code>target/generated-sources/archetype/pom.xml</code>文件。<br><img src="/2018/09/23/maven-skeleton-generation/./pic5.png" alt="配置上传路径" title="配置上传路径"><br>需要对该pomw文件添加distributionManagement节点，节点内容主要是私服地址信息，配置之后使用mvn clean deplod会将骨架上传到私服中去。</p>
 <h1 id="使用私服服务器骨架"><a href="#使用私服服务器骨架" class="headerlink" title="使用私服服务器骨架"></a>使用私服服务器骨架</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mvn archetype:generate  </span><br><span class="line">-DinteractiveMode=<span class="keyword">false</span>  </span><br><span class="line">-DarchetypeCatalog=internal,remote            类型改变  </span><br><span class="line">-DarchetypeRepository=http:<span class="comment">//xxxxxx:8181/nexus/content/groups/public 私服地址  </span></span><br><span class="line">-DarchetypeGroupId=com.jtech  </span><br><span class="line">-DarchetypeArtifactId=yaoyuan-archetype  </span><br><span class="line">-DarchetypeVersion=<span class="number">0.0</span>.1-SNAPSHOT  </span><br><span class="line">-DgroupId=com.jtech.wpark.test  </span><br><span class="line">-DartifactId=tetetetetet  </span><br><span class="line">-Dversion=<span class="number">0.1</span>-SNAPSHOT</span><br></pre></td></tr></table></figure>
+
 <p>这里需要注意一下,我们发现修改了远程私服进行构建项目时，指定了Repository为什么没有下载下来反而会出现如下错误信息：<br><img src="/2018/09/23/maven-skeleton-generation/./pic6.png" alt="错误信息" title="错误信息"><br>解决方案是：<br>修改maven的setting.xml文件，将文件修改为如下：  </p>
 <ol>
 <li><p>添加repository</p>
@@ -361,6 +426,7 @@
 </li>
 <li><p>添加server</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;server&gt;   </span><br><span class="line">    &lt;id&gt;my-snapshot&lt;/id&gt;</span><br><span class="line">    &lt;username&gt;admin&lt;/username&gt;</span><br><span class="line">    &lt;password&gt;admin&lt;/password&gt;</span><br><span class="line">&lt;/server&gt;</span><br></pre></td></tr></table></figure>
+
 </li>
 </ol>
 <p>需要添加对私服的repository，以及Server，这里的Server ID和对应的archetype repository的Id是一致的。这样才会在私服中下载下来相应的archetype文件。 </p>
@@ -377,7 +443,10 @@
         <p><span>本文标题:</span><a href="/2018/09/23/maven-skeleton-generation/">一文搭建Maven骨架</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">BattleHeart</a></p>
         <p><span>发布时间:</span>2018-09-23, 00:00:00</p>
-        <p><span>最后更新:</span>2018-10-01, 21:22:45</p>
+        
+            <p><span class="post-meta-item-text">字数统计:</span> <span class="post-count">1.4k字</span></p>
+            <p><span class="post-meta-item-text">  阅读时长:</span><span class="post-count">5分</span></p>
+        
         <p>
             <span>原始链接:</span><a class="post-url" href="/2018/09/23/maven-skeleton-generation/" title="一文搭建Maven骨架">https://www.battleheart.cn/2018/09/23/maven-skeleton-generation/</a>
             <span class="copy-path" data-clipboard-text="原文: https://www.battleheart.cn/2018/09/23/maven-skeleton-generation/　　作者: BattleHeart" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -451,6 +520,25 @@
 
 
     
+        <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC80OTM1NC8yNTg0Ng==">
+	<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+	</script>
+<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
+    
 
 
 
@@ -510,8 +598,27 @@
                 
             </div>
         
+        <div>
+            <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+        </div>
     </div>
 </footer>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("08/10/2018 17:38:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+setInterval("createtime()",250);
+</script>
     </div>
     
 <script data-main="/js/main.js" src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.min.js"></script>
@@ -588,4 +695,17 @@ MathJax.Hub.Queue(function() {
 </script>
   </div>
 </body>
+
+
+
 </html>
+<!-- 雪花特效 -->
+<script type="text/javascript" src="\js\snow.js"></script>
+<!-- 代码雨 -->
+<canvas id="canvas" width="1440" height="900" ></canvas>
+<script type="text/javascript" src="/js/DigitalRain.js"></script>
+<!--动态线条背景-->
+<script type="text/javascript" color="220,220,220" opacity='0.7' zIndex="-2" count="200"
+  src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+  </script>
+<script src="https://g.joyinshare.com/hc/ribbon.min.js" type="text/javascript"></script>

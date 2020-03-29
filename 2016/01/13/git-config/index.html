@@ -99,56 +99,100 @@
 
 
 </head></html>
+
 <body>
   <div id="container">
     <div class="left-col">
-    <div class="overlay"></div>
+      <div class="overlay"></div>
 <div class="intrude-less">
     <header id="header" class="inner">
         <a href="/" class="profilepic">
             <img src="/img/avatar.png" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/">BattleHeart</a></h1>
+            <h1 class="header-author"><a href="/">BattleHeart</a></h1>
         </hgroup>
 
         
-        <p class="header-subtitle">个人博客</p>
+        <!-- <p class="header-subtitle">个人博客</p> -->
+        <div id="binft"></div>
+        <script>
+            var binft = function (r) {
+                function t() {
+                    return b[Math.floor(Math.random() * b.length)]
+                }
+                function e() {
+                    return String.fromCharCode(94 * Math.random() + 33)
+                }
+                function n(r) {
+                    for (var n = document.createDocumentFragment(), i = 0; r > i; i++) {
+                        var l = document.createElement("span");
+                        l.textContent = e(), l.style.color = t(), n.appendChild(l)
+                    }
+                    return n
+                }
+                function i() {
+                    var t = o[c.skillI];
+                    c.step ? c.step-- : (c.step = g, c.prefixP < l.length ? (c.prefixP >= 0 && (c.text += l[c.prefixP]), c.prefixP++) : "forward" === c.direction ? c.skillP < t.length ? (c.text += t[c.skillP], c.skillP++) : c.delay ? c.delay-- : (c.direction = "backward", c.delay = a) : c.skillP > 0 ? (c.text = c.text.slice(0, -1), c.skillP--) : (c.skillI = (c.skillI + 1) % o.length, c.direction = "forward")), r.textContent = c.text, r.appendChild(n(c.prefixP < l.length ? Math.min(s, s + c.prefixP) : Math.min(s, t.length - c.skillP))), setTimeout(i, d)
+                }
+                var l = "",
+                    o = ["物来顺应,未来不迎", "当时不杂,既过不恋", "欢迎访问个人博客"].map(function (r) {
+                        return r + ""
+                    }),
+                    a = 2,
+                    g = 1,
+                    s = 5,
+                    d = 75,
+                    b = ["rgb(110,64,170)", "rgb(150,61,179)", "rgb(191,60,175)", "rgb(228,65,157)", "rgb(254,75,131)", "rgb(255,94,99)", "rgb(255,120,71)", "rgb(251,150,51)", "rgb(226,183,47)", "rgb(198,214,60)", "rgb(175,240,91)", "rgb(127,246,88)", "rgb(82,246,103)", "rgb(48,239,130)", "rgb(29,223,163)", "rgb(26,199,194)", "rgb(35,171,216)", "rgb(54,140,225)", "rgb(76,110,219)", "rgb(96,84,200)"],
+                    c = {
+                        text: "",
+                        prefixP: -s,
+                        skillI: 0,
+                        skillP: 0,
+                        direction: "forward",
+                        delay: a,
+                        step: g
+                    };
+                i()
+            };
+            binft(document.getElementById('binft'));
+        </script>
         
 
         
-            <form id="search-form">
-            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false" />
+        <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control"
+                autocomplete="off" autocorrect="off" searchonload="false" />
             <i class="fa fa-times" onclick="resetSearch()"></i>
-            </form>
-            <div id="local-search-result"></div>
-            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        </form>
+        <div id="local-search-result"></div>
+        <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
         
 
 
         
-            <div id="switch-btn" class="switch-btn">
-                <div class="icon">
-                    <div class="icon-ctn">
-                        <div class="icon-wrap icon-house" data-idx="0">
-                            <div class="birdhouse"></div>
-                            <div class="birdhouse_holes"></div>
-                        </div>
-                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
-                            <div class="ribbon"></div>
-                        </div>
+        <div id="switch-btn" class="switch-btn">
+            <div class="icon">
+                <div class="icon-ctn">
+                    <div class="icon-wrap icon-house" data-idx="0">
+                        <div class="birdhouse"></div>
+                        <div class="birdhouse_holes"></div>
+                    </div>
+                    <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                        <div class="ribbon"></div>
+                    </div>
+                    
+                    <div class="icon-wrap icon-link hide" data-idx="2">
+                        <div class="loopback_l"></div>
+                        <div class="loopback_r"></div>
+                    </div>
+                    
                         
-                        <div class="icon-wrap icon-link hide" data-idx="2">
-                            <div class="loopback_l"></div>
-                            <div class="loopback_r"></div>
-                        </div>
-                        
-                        
-                        <div class="icon-wrap icon-me hide" data-idx="3">
-                            <div class="user"></div>
-                            <div class="shoulder"></div>
-                        </div>
-                        
+                    <div class="icon-wrap icon-me hide" data-idx="3">
+                        <div class="user"></div>
+                        <div class="shoulder"></div>
+                    </div>
+                    
                     </div>
                     
                 </div>
@@ -156,78 +200,93 @@
                     <div class="tips-arrow"></div>
                     <ul class="tips-inner">
                         <li>菜单</li>
-                        <li>标签</li>
+                    <li>标签</li>
+                    
+                    <li>友情链接</li>
+                    
                         
-                        <li>友情链接</li>
-                        
-                        
-                        <li>关于我</li>
-                        
+                    <li>关于我</li>
+                    
                     </ul>
                 </div>
             </div>
         
 
-        <div id="switch-area" class="switch-area">
-            <div class="switch-wrap">
-                <section class="switch-part switch-part1">
-                    <nav class="header-menu">
-                        <ul>
-                        
-                            <li><a href="/">主页</a></li>
-                        
-                            <li><a href="/archives/">所有文章</a></li>
-                        
-                            <li><a href="/tags/">标签云</a></li>
-                        
-                            <li><a href="/about/">关于我</a></li>
-                        
+                    <div id="switch-area" class="switch-area">
+                        <div class="switch-wrap">
+                            <section class="switch-part switch-part1">
+                                <nav class="header-menu">
+                                    <ul>
+                                        
+                                        <li><a href="/">主页</a>
+                                        </li>
+                                        
+                                        <li><a href="/archives/">所有文章</a>
+                                        </li>
+                                        
+                                        <li><a href="/tags/">标签云</a>
+                                        </li>
+                                        
+                                        <li><a href="/about/">关于我</a>
+                                        </li>
+                                        
                         </ul>
                     </nav>
                     <nav class="header-nav">
                         <ul class="social">
                             
-                                <a class="fa Email" href="dwlsxj:@126.com" title="Email"></a>
-                            
-                                <a class="fa GitHub" href="https://github.com/dwlsxj" title="GitHub"></a>
-                            
-                                <a class="fa 博客园" href="https://www.cnblogs.com/dwlsxj/" title="博客园"></a>
-                            
-                                <a class="fa 网易云音乐" href="https://music.163.com/#/user/home?id=31908845" title="网易云音乐"></a>
-                            
+                                        <a class="fa Email" href="dwlsxj:@126.com"
+                                            title="Email"></a>
+                                        
+                                        <a class="fa GitHub" href="https://github.com/dwlsxj"
+                                            title="GitHub"></a>
+                                        
+                                        <a class="fa 博客园" href="https://www.cnblogs.com/dwlsxj/"
+                                            title="博客园"></a>
+                                        
+                                        <a class="fa 网易云音乐" href="https://music.163.com/#/user/home?id=31908845"
+                                            title="网易云音乐"></a>
+                                        
                         </ul>
                     </nav>
                 </section>
                 
                 
-                <section class="switch-part switch-part2">
-                    <div class="widget tagcloud" id="js-tagcloud">
-                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/">Assembly</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ELK/">ELK</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Life/">Life</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Maven/">Maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shiro/">Shiro</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringCloud/">SpringCloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dubbo/">dubbo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多线程/">多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/并发编程/">并发编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/栈/">栈</a></li></ul>
-                    </div>
-                </section>
+                                        <section class="switch-part switch-part2">
+                                            <div class="widget tagcloud" id="js-tagcloud">
+                                                <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/">Assembly</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ELK/">ELK</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Life/">Life</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Maven/">Maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shiro/">Shiro</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringCloud/">SpringCloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dubbo/">dubbo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多线程/">多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/并发编程/">并发编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/栈/">栈</a></li></ul>
+                                            </div>
+                                        </section>
+                                        
                 
                 
-                
-                <section class="switch-part switch-part3">
-                    <div id="js-friends">
-                    
-                      <a class="main-nav-link switch-friends-link" href="https://www.cnblogs.com/dwlsxj/">BalleHeart</a>
-                    
-                    </div>
-                </section>
-                
+                                        <section class="switch-part switch-part3">
+                                            <div id="js-friends">
+                                                
+                                                <a class="main-nav-link switch-friends-link"
+                                                    href="https://www.cnblogs.com/dwlsxj/">BalleHeart</a>
+                                                
+                                            </div>
+                                        </section>
+                                        
 
                 
-                
-                <section class="switch-part switch-part4">
-                
-                    <div id="js-aboutme">专注于后端开发</div>
-                </section>
-                
+                                        
+                                            <section class="switch-part switch-part4">
+                                                
+                    <div id="js-aboutme">专注于后端开发
+                        </div>
+                        </section>
+                        
             </div>
         </div>
-    </header>                
+    </header>             
 </div>
+
+<!-- 背景音乐 -->
+<div style="position:absolute;bottom:100px;left:0px;width:50px">
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=289 height=86 src="//music.163.com/outchain/player?type=2&id=304991&auto=1&height=66"></iframe>
+</div>   
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
@@ -281,9 +340,8 @@
   
     <div class="article-meta">
       <a href="/2016/01/13/git-config/" class="article-date">
-      <time datetime="2016-01-13T05:00:37.000Z" itemprop="datePublished">2016-01-13</time>
+    <time datetime="2016-01-13T05:00:37.000Z" itemprop="datePublished">2016-01-13</time>
 </a>
-
 
     </div>
   
@@ -300,14 +358,14 @@
     </h1>
   
 
+        
       </header>
       
       <div class="article-info article-info-post">
         
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/个人技术/">个人技术</a>
-    </div>
-
+<div class="article-category tagcloud">
+  <a class="article-category-link" href="/categories/个人技术/">个人技术</a>
+</div>
 
         
     <div class="article-tag tagcloud">
@@ -321,18 +379,38 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <h1 id="git的简单配置"><a href="#git的简单配置" class="headerlink" title="git的简单配置"></a>git的简单配置</h1><p>配置提交代码的信息，例如是谁提交的代码之类的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config  –global user.name BattleHeaert 这里是设置提交代码的人的名称</span><br><span class="line">git config  –global user.email github@126.com 这里是设置提交代码的人的邮箱</span><br></pre></td></tr></table></figure></p>
-<p>查看当前的用户名<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  config  user.name</span><br></pre></td></tr></table></figure></p>
-<p>或者<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  config   –get  user.name</span><br></pre></td></tr></table></figure></p>
-<p>这时候会显示BattleHeart这个用户名，但是如果我们再添加一个用户的名称的时候这时候就会显示最后一个添加的用户名<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  config  –global  –add  user.name  BH</span><br></pre></td></tr></table></figure></p>
-<p>当我们再次使用git  config  user.name时这时候显得是就是BH如下图所示<br><img src="/2016/01/13/git-config/1.png" alt="图片1" title="图片1"><br>我们可以使用如下指令来列出基本的信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  config  –global  –list</span><br></pre></td></tr></table></figure></p>
-<p>基本信息如下图所示（这里其实是有两个user.name的结果，只不过使用的是最后一个值）<br><img src="/2016/01/13/git-config/2.png" alt="图片2" title="图片1"><br>那么我们来取消一个user.name使用以下指令来进行操作<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  config  –global  –unset  user.name  BH</span><br></pre></td></tr></table></figure></p>
+        <h1 id="git的简单配置"><a href="#git的简单配置" class="headerlink" title="git的简单配置"></a>git的简单配置</h1><p>配置提交代码的信息，例如是谁提交的代码之类的。  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config  –global user.name BattleHeaert 这里是设置提交代码的人的名称</span><br><span class="line">git config  –global user.email github@126.com 这里是设置提交代码的人的邮箱</span><br></pre></td></tr></table></figure>
+
+<p>查看当前的用户名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  config  user.name</span><br></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  config   –get  user.name</span><br></pre></td></tr></table></figure>
+
+<p>这时候会显示BattleHeart这个用户名，但是如果我们再添加一个用户的名称的时候这时候就会显示最后一个添加的用户名  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  config  –global  –add  user.name  BH</span><br></pre></td></tr></table></figure>
+
+<p>当我们再次使用git  config  user.name时这时候显得是就是BH如下图所示<br><img src="/2016/01/13/git-config/1.png" alt="图片1" title="图片1"><br>我们可以使用如下指令来列出基本的信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  config  –global  –list</span><br></pre></td></tr></table></figure>
+
+<p>基本信息如下图所示（这里其实是有两个user.name的结果，只不过使用的是最后一个值）<br><img src="/2016/01/13/git-config/2.png" alt="图片2" title="图片1"><br>那么我们来取消一个user.name使用以下指令来进行操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  config  –global  –unset  user.name  BH</span><br></pre></td></tr></table></figure>
+
 <p>这里user.name后面必须添加上取消的name的名称否则它是找不到你要取消那个名称的，会提示警告user.name有多个值。</p>
-<p>如果只有一个键值对的时候就可以不用带后面name的名称直接使用如下方式即可<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  config  –global  –unset  user.name</span><br></pre></td></tr></table></figure></p>
-<p>修改一个键值对的内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  config  –global  user.name  BH</span><br></pre></td></tr></table></figure></p>
+<p>如果只有一个键值对的时候就可以不用带后面name的名称直接使用如下方式即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  config  –global  –unset  user.name</span><br></pre></td></tr></table></figure>
+
+<p>修改一个键值对的内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  config  –global  user.name  BH</span><br></pre></td></tr></table></figure>
+
 <p>修改后的结果如下图<br><img src="/2016/01/13/git-config/3.png" alt="图片3" title="图片3">  </p>
-<h1 id="给git子命令的参数起别名"><a href="#给git子命令的参数起别名" class="headerlink" title="给git子命令的参数起别名"></a>给git子命令的参数起别名</h1><p>例如给checkout起别名叫co<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  config  –global  alias.co  checkout</span><br></pre></td></tr></table></figure></p>
-<p>设置带参数的命令别名给log  –online起别名如下所示<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  config  –global  alias.lol  “log  –online”</span><br></pre></td></tr></table></figure></p>
+<h1 id="给git子命令的参数起别名"><a href="#给git子命令的参数起别名" class="headerlink" title="给git子命令的参数起别名"></a>给git子命令的参数起别名</h1><p>例如给checkout起别名叫co</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  config  –global  alias.co  checkout</span><br></pre></td></tr></table></figure>
+
+<p>设置带参数的命令别名给log  –online起别名如下所示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  config  –global  alias.lol  “log  –online”</span><br></pre></td></tr></table></figure>
+
 <h1 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h1><p>献给所有新学Git的系列，这是文章的开篇，后续会陆陆续续将文章发布出来。如果文章用有不正确的地方请给我大神指点，小丁在此谢过了。</p>
 
       
@@ -345,7 +423,10 @@
         <p><span>本文标题:</span><a href="/2016/01/13/git-config/">带你走进git-基础配置</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">BattleHeart</a></p>
         <p><span>发布时间:</span>2016-01-13, 13:00:37</p>
-        <p><span>最后更新:</span>2018-10-26, 14:00:34</p>
+        
+            <p><span class="post-meta-item-text">字数统计:</span> <span class="post-count">473字</span></p>
+            <p><span class="post-meta-item-text">  阅读时长:</span><span class="post-count">1分</span></p>
+        
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/01/13/git-config/" title="带你走进git-基础配置">https://www.battleheart.cn/2016/01/13/git-config/</a>
             <span class="copy-path" data-clipboard-text="原文: https://www.battleheart.cn/2016/01/13/git-config/　　作者: BattleHeart" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -413,6 +494,25 @@
 
 
     
+        <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC80OTM1NC8yNTg0Ng==">
+	<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+	</script>
+<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
+    
 
 
 
@@ -470,8 +570,27 @@
                 
             </div>
         
+        <div>
+            <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+        </div>
     </div>
 </footer>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("08/10/2018 17:38:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+setInterval("createtime()",250);
+</script>
     </div>
     
 <script data-main="/js/main.js" src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.min.js"></script>
@@ -548,4 +667,17 @@ MathJax.Hub.Queue(function() {
 </script>
   </div>
 </body>
+
+
+
 </html>
+<!-- 雪花特效 -->
+<script type="text/javascript" src="\js\snow.js"></script>
+<!-- 代码雨 -->
+<canvas id="canvas" width="1440" height="900" ></canvas>
+<script type="text/javascript" src="/js/DigitalRain.js"></script>
+<!--动态线条背景-->
+<script type="text/javascript" color="220,220,220" opacity='0.7' zIndex="-2" count="200"
+  src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+  </script>
+<script src="https://g.joyinshare.com/hc/ribbon.min.js" type="text/javascript"></script>

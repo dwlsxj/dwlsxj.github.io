@@ -136,56 +136,100 @@
 
 
 </head></html>
+
 <body>
   <div id="container">
     <div class="left-col">
-    <div class="overlay"></div>
+      <div class="overlay"></div>
 <div class="intrude-less">
     <header id="header" class="inner">
         <a href="/" class="profilepic">
             <img src="/img/avatar.png" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/">BattleHeart</a></h1>
+            <h1 class="header-author"><a href="/">BattleHeart</a></h1>
         </hgroup>
 
         
-        <p class="header-subtitle">个人博客</p>
+        <!-- <p class="header-subtitle">个人博客</p> -->
+        <div id="binft"></div>
+        <script>
+            var binft = function (r) {
+                function t() {
+                    return b[Math.floor(Math.random() * b.length)]
+                }
+                function e() {
+                    return String.fromCharCode(94 * Math.random() + 33)
+                }
+                function n(r) {
+                    for (var n = document.createDocumentFragment(), i = 0; r > i; i++) {
+                        var l = document.createElement("span");
+                        l.textContent = e(), l.style.color = t(), n.appendChild(l)
+                    }
+                    return n
+                }
+                function i() {
+                    var t = o[c.skillI];
+                    c.step ? c.step-- : (c.step = g, c.prefixP < l.length ? (c.prefixP >= 0 && (c.text += l[c.prefixP]), c.prefixP++) : "forward" === c.direction ? c.skillP < t.length ? (c.text += t[c.skillP], c.skillP++) : c.delay ? c.delay-- : (c.direction = "backward", c.delay = a) : c.skillP > 0 ? (c.text = c.text.slice(0, -1), c.skillP--) : (c.skillI = (c.skillI + 1) % o.length, c.direction = "forward")), r.textContent = c.text, r.appendChild(n(c.prefixP < l.length ? Math.min(s, s + c.prefixP) : Math.min(s, t.length - c.skillP))), setTimeout(i, d)
+                }
+                var l = "",
+                    o = ["物来顺应,未来不迎", "当时不杂,既过不恋", "欢迎访问个人博客"].map(function (r) {
+                        return r + ""
+                    }),
+                    a = 2,
+                    g = 1,
+                    s = 5,
+                    d = 75,
+                    b = ["rgb(110,64,170)", "rgb(150,61,179)", "rgb(191,60,175)", "rgb(228,65,157)", "rgb(254,75,131)", "rgb(255,94,99)", "rgb(255,120,71)", "rgb(251,150,51)", "rgb(226,183,47)", "rgb(198,214,60)", "rgb(175,240,91)", "rgb(127,246,88)", "rgb(82,246,103)", "rgb(48,239,130)", "rgb(29,223,163)", "rgb(26,199,194)", "rgb(35,171,216)", "rgb(54,140,225)", "rgb(76,110,219)", "rgb(96,84,200)"],
+                    c = {
+                        text: "",
+                        prefixP: -s,
+                        skillI: 0,
+                        skillP: 0,
+                        direction: "forward",
+                        delay: a,
+                        step: g
+                    };
+                i()
+            };
+            binft(document.getElementById('binft'));
+        </script>
         
 
         
-            <form id="search-form">
-            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false" />
+        <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control"
+                autocomplete="off" autocorrect="off" searchonload="false" />
             <i class="fa fa-times" onclick="resetSearch()"></i>
-            </form>
-            <div id="local-search-result"></div>
-            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        </form>
+        <div id="local-search-result"></div>
+        <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
         
 
 
         
-            <div id="switch-btn" class="switch-btn">
-                <div class="icon">
-                    <div class="icon-ctn">
-                        <div class="icon-wrap icon-house" data-idx="0">
-                            <div class="birdhouse"></div>
-                            <div class="birdhouse_holes"></div>
-                        </div>
-                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
-                            <div class="ribbon"></div>
-                        </div>
+        <div id="switch-btn" class="switch-btn">
+            <div class="icon">
+                <div class="icon-ctn">
+                    <div class="icon-wrap icon-house" data-idx="0">
+                        <div class="birdhouse"></div>
+                        <div class="birdhouse_holes"></div>
+                    </div>
+                    <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                        <div class="ribbon"></div>
+                    </div>
+                    
+                    <div class="icon-wrap icon-link hide" data-idx="2">
+                        <div class="loopback_l"></div>
+                        <div class="loopback_r"></div>
+                    </div>
+                    
                         
-                        <div class="icon-wrap icon-link hide" data-idx="2">
-                            <div class="loopback_l"></div>
-                            <div class="loopback_r"></div>
-                        </div>
-                        
-                        
-                        <div class="icon-wrap icon-me hide" data-idx="3">
-                            <div class="user"></div>
-                            <div class="shoulder"></div>
-                        </div>
-                        
+                    <div class="icon-wrap icon-me hide" data-idx="3">
+                        <div class="user"></div>
+                        <div class="shoulder"></div>
+                    </div>
+                    
                     </div>
                     
                 </div>
@@ -193,78 +237,93 @@
                     <div class="tips-arrow"></div>
                     <ul class="tips-inner">
                         <li>菜单</li>
-                        <li>标签</li>
+                    <li>标签</li>
+                    
+                    <li>友情链接</li>
+                    
                         
-                        <li>友情链接</li>
-                        
-                        
-                        <li>关于我</li>
-                        
+                    <li>关于我</li>
+                    
                     </ul>
                 </div>
             </div>
         
 
-        <div id="switch-area" class="switch-area">
-            <div class="switch-wrap">
-                <section class="switch-part switch-part1">
-                    <nav class="header-menu">
-                        <ul>
-                        
-                            <li><a href="/">主页</a></li>
-                        
-                            <li><a href="/archives/">所有文章</a></li>
-                        
-                            <li><a href="/tags/">标签云</a></li>
-                        
-                            <li><a href="/about/">关于我</a></li>
-                        
+                    <div id="switch-area" class="switch-area">
+                        <div class="switch-wrap">
+                            <section class="switch-part switch-part1">
+                                <nav class="header-menu">
+                                    <ul>
+                                        
+                                        <li><a href="/">主页</a>
+                                        </li>
+                                        
+                                        <li><a href="/archives/">所有文章</a>
+                                        </li>
+                                        
+                                        <li><a href="/tags/">标签云</a>
+                                        </li>
+                                        
+                                        <li><a href="/about/">关于我</a>
+                                        </li>
+                                        
                         </ul>
                     </nav>
                     <nav class="header-nav">
                         <ul class="social">
                             
-                                <a class="fa Email" href="dwlsxj:@126.com" title="Email"></a>
-                            
-                                <a class="fa GitHub" href="https://github.com/dwlsxj" title="GitHub"></a>
-                            
-                                <a class="fa 博客园" href="https://www.cnblogs.com/dwlsxj/" title="博客园"></a>
-                            
-                                <a class="fa 网易云音乐" href="https://music.163.com/#/user/home?id=31908845" title="网易云音乐"></a>
-                            
+                                        <a class="fa Email" href="dwlsxj:@126.com"
+                                            title="Email"></a>
+                                        
+                                        <a class="fa GitHub" href="https://github.com/dwlsxj"
+                                            title="GitHub"></a>
+                                        
+                                        <a class="fa 博客园" href="https://www.cnblogs.com/dwlsxj/"
+                                            title="博客园"></a>
+                                        
+                                        <a class="fa 网易云音乐" href="https://music.163.com/#/user/home?id=31908845"
+                                            title="网易云音乐"></a>
+                                        
                         </ul>
                     </nav>
                 </section>
                 
                 
-                <section class="switch-part switch-part2">
-                    <div class="widget tagcloud" id="js-tagcloud">
-                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/">Assembly</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ELK/">ELK</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Life/">Life</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Maven/">Maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shiro/">Shiro</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringCloud/">SpringCloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dubbo/">dubbo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多线程/">多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/并发编程/">并发编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/栈/">栈</a></li></ul>
-                    </div>
-                </section>
+                                        <section class="switch-part switch-part2">
+                                            <div class="widget tagcloud" id="js-tagcloud">
+                                                <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/">Assembly</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ELK/">ELK</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Life/">Life</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Maven/">Maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shiro/">Shiro</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringCloud/">SpringCloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dubbo/">dubbo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多线程/">多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/并发编程/">并发编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/栈/">栈</a></li></ul>
+                                            </div>
+                                        </section>
+                                        
                 
                 
-                
-                <section class="switch-part switch-part3">
-                    <div id="js-friends">
-                    
-                      <a class="main-nav-link switch-friends-link" href="https://www.cnblogs.com/dwlsxj/">BalleHeart</a>
-                    
-                    </div>
-                </section>
-                
+                                        <section class="switch-part switch-part3">
+                                            <div id="js-friends">
+                                                
+                                                <a class="main-nav-link switch-friends-link"
+                                                    href="https://www.cnblogs.com/dwlsxj/">BalleHeart</a>
+                                                
+                                            </div>
+                                        </section>
+                                        
 
                 
-                
-                <section class="switch-part switch-part4">
-                
-                    <div id="js-aboutme">专注于后端开发</div>
-                </section>
-                
+                                        
+                                            <section class="switch-part switch-part4">
+                                                
+                    <div id="js-aboutme">专注于后端开发
+                        </div>
+                        </section>
+                        
             </div>
         </div>
-    </header>                
+    </header>             
 </div>
+
+<!-- 背景音乐 -->
+<div style="position:absolute;bottom:100px;left:0px;width:50px">
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=289 height=86 src="//music.163.com/outchain/player?type=2&id=304991&auto=1&height=66"></iframe>
+</div>   
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
@@ -318,9 +377,8 @@
   
     <div class="article-meta">
       <a href="/2016/01/13/git-study-2/" class="article-date">
-      <time datetime="2016-01-13T11:37:07.000Z" itemprop="datePublished">2016-01-13</time>
+    <time datetime="2016-01-13T11:37:07.000Z" itemprop="datePublished">2016-01-13</time>
 </a>
-
 
     </div>
   
@@ -337,14 +395,14 @@
     </h1>
   
 
+        
       </header>
       
       <div class="article-info article-info-post">
         
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/个人技术/">个人技术</a>
-    </div>
-
+<div class="article-category tagcloud">
+  <a class="article-category-link" href="/categories/个人技术/">个人技术</a>
+</div>
 
         
     <div class="article-tag tagcloud">
@@ -360,9 +418,12 @@
           
         <h1 id="Git基本工作流程"><a href="#Git基本工作流程" class="headerlink" title="Git基本工作流程"></a>Git基本工作流程</h1><ol>
 <li>初始化一个仓库<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git  init</span><br><span class="line">git  clone</span><br></pre></td></tr></table></figure>
+
 </li>
 </ol>
-<p>git仓库分为两种情况：<br>第一种是在现有项目或目录下导入所有文件到 Git 中； 第二种是从一个服务器克隆一个现有的 Git 仓库<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  init  –bare  git 创建一个裸仓库</span><br></pre></td></tr></table></figure></p>
+<p>git仓库分为两种情况：<br>第一种是在现有项目或目录下导入所有文件到 Git 中； 第二种是从一个服务器克隆一个现有的 Git 仓库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  init  –bare  git 创建一个裸仓库</span><br></pre></td></tr></table></figure>
+
 <ol start="2">
 <li>git仓库有三个区域</li>
 </ol>
@@ -374,31 +435,57 @@
 <p>讲述完了git的区域，接下来讲解下git文件的状态，其实git的状态无外乎两种：已跟踪和未跟踪，已跟踪的文件说明的是被纳入版本控制的文件，在上一次快照中有它们的记录，在工作一段时间后，它们的状态可能处于未修改，已修改或已放入暂存区。 工作目录中除已跟踪文件以外的所有其它文件都属于未跟踪文件，它们既不存在于上次快照的记录中，也没有放入暂存区。 初次克隆某个仓库的时候，工作目录中的所有文件都属于已跟踪文件，并处于未修改状态。</p>
 <p><img src="/2016/01/13/git-study-2/2.png" alt="图片2" title="图片2"></p>
 <p>讲解下文件变化周期，比如我们在项目中添加了一个文件a,这时候文件a处于的状态则是Untracked未跟踪状态，当我们git add的时候这时候就会将文件放到暂存区中这时候状态变为Stage，当我们commit这个暂存区的文件后这个文件就变成未修改状态，因为没有进行修改过了相对于版本控制中的文件，当我们修改了a文件后这时候从unmodified变成modified（修改状态），这是再git add的时候就会将修改的文件变成stage，放入暂存区用于等待commit。</p>
-<p>接下来就详细讲解下这些命令：<br>往暂存区里面添加东西使用如下git指令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  add</span><br></pre></td></tr></table></figure></p>
-<p>从暂存区提交到历史记录使用如下指令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  commit</span><br></pre></td></tr></table></figure></p>
-<p>查看工作区和暂存区之间的区别，来确保提交时我们所需要的呢？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  status</span><br></pre></td></tr></table></figure></p>
-<p>从暂存区里面删除内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  rm</span><br></pre></td></tr></table></figure></p>
-<p>工作区内重命名文件或者移动文件，然后再把他们添加到暂存区<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  mv</span><br></pre></td></tr></table></figure></p>
-<p>确保工作区内里面不需要的文件不被添加进去添加到暂存区和历史。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.gitignore</span><br></pre></td></tr></table></figure></p>
+<p>接下来就详细讲解下这些命令：<br>往暂存区里面添加东西使用如下git指令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  add</span><br></pre></td></tr></table></figure>
+
+<p>从暂存区提交到历史记录使用如下指令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  commit</span><br></pre></td></tr></table></figure>
+
+<p>查看工作区和暂存区之间的区别，来确保提交时我们所需要的呢？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  status</span><br></pre></td></tr></table></figure>
+
+<p>从暂存区里面删除内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  rm</span><br></pre></td></tr></table></figure>
+
+<p>工作区内重命名文件或者移动文件，然后再把他们添加到暂存区</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  mv</span><br></pre></td></tr></table></figure>
+
+<p>确保工作区内里面不需要的文件不被添加进去添加到暂存区和历史。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.gitignore</span><br></pre></td></tr></table></figure>
+
 <h1 id="实例讲解"><a href="#实例讲解" class="headerlink" title="实例讲解"></a>实例讲解</h1><ol>
 <li>新建一个仓库，并且新建一个文件a，将其添加到暂存区。</li>
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git  init  git_init</span><br><span class="line">cd  git_init</span><br><span class="line">touch a             //新建a文件</span><br><span class="line">git  add  a         //将a添加到暂存区</span><br></pre></td></tr></table></figure>
-<p>git status会显示我们要提交的内容a文件，这时候a两个文件都是Changes to be committed也就是待commit的状态。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ git status</span><br><span class="line">On branch master</span><br><span class="line">Changes to be committed:</span><br><span class="line">(use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)</span><br><span class="line">      new file:   a</span><br><span class="line">git  commit  -m  “initial commit”//提交a文件到版本控制中。</span><br></pre></td></tr></table></figure></p>
+
+<p>git status会显示我们要提交的内容a文件，这时候a两个文件都是Changes to be committed也就是待commit的状态。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ git status</span><br><span class="line">On branch master</span><br><span class="line">Changes to be committed:</span><br><span class="line">(use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)</span><br><span class="line">      new file:   a</span><br><span class="line">git  commit  -m  “initial commit”//提交a文件到版本控制中。</span><br></pre></td></tr></table></figure>
+
 <ol start="2">
 <li>touch b新建文件b，将其放入暂存区，观察git status返回的状态信息。</li>
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">touch b     //新建文件b</span><br><span class="line">git add b   //将b放入暂存区中</span><br></pre></td></tr></table></figure>
+
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ git status</span><br><span class="line">On branch master</span><br><span class="line">Changes to be committed:</span><br><span class="line">(use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)</span><br><span class="line">      new file:   b</span><br></pre></td></tr></table></figure>
+
 <ol start="3">
 <li>编辑一下a文件，这时候在调用git status</li>
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ git status</span><br><span class="line">On branch master</span><br><span class="line">Changes to be committed:</span><br><span class="line">(use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)</span><br><span class="line">      modified:   a</span><br><span class="line">      new file:   bb</span><br></pre></td></tr></table></figure>
-<p>这时候a文件是出于修改状态，那么如果我们在进行修改a文件时候，在调用下git status会发生什么奇怪的事呢？let’s  go。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ git status</span><br><span class="line">On branch master</span><br><span class="line">Changes to be committed:</span><br><span class="line">(use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)</span><br><span class="line">      modified:   a</span><br><span class="line">      new file:   bb</span><br><span class="line">Changes not staged for commit:</span><br><span class="line">(use &quot;git add &lt;file&gt;...&quot; to update what will be committed)</span><br><span class="line">(use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory) </span><br><span class="line">      modified:   a</span><br></pre></td></tr></table></figure></p>
+
+<p>这时候a文件是出于修改状态，那么如果我们在进行修改a文件时候，在调用下git status会发生什么奇怪的事呢？let’s  go。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ git status</span><br><span class="line">On branch master</span><br><span class="line">Changes to be committed:</span><br><span class="line">(use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)</span><br><span class="line">      modified:   a</span><br><span class="line">      new file:   bb</span><br><span class="line">Changes not staged for commit:</span><br><span class="line">(use &quot;git add &lt;file&gt;...&quot; to update what will be committed)</span><br><span class="line">(use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory) </span><br><span class="line">      modified:   a</span><br></pre></td></tr></table></figure>
+
 <p>这时候我们会发现两个modified a，这是为什么呢？但是两个文件分别存在暂存区和非暂存区，实际上暂存区内只保存了git add的版本，而最新修改的一份没有提交到暂存区内还在工作区域中，所以我们会看到两个，如果这时候调用git commit的话就只会讲已经在暂存区的文件存入到版本控制中，而最新修改的那一次记录没有被提交。<br>当然这里还提供了跳过暂存区的方法就是git commit –a –m“注释内容”可以直接跳过暂存区直接提交到记录里面去。 </p>
-<p>将a移除整个项目<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  rm  a</span><br></pre></td></tr></table></figure></p>
-<p>清楚缓存中的内容，也就是已经暂存的文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  rm  a  –cached</span><br></pre></td></tr></table></figure></p>
-<p>给文件重命名将a文件名换成c<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  mv  a  c</span><br></pre></td></tr></table></figure></p>
+<p>将a移除整个项目</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  rm  a</span><br></pre></td></tr></table></figure>
+
+<p>清楚缓存中的内容，也就是已经暂存的文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  rm  a  –cached</span><br></pre></td></tr></table></figure>
+
+<p>给文件重命名将a文件名换成c</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  mv  a  c</span><br></pre></td></tr></table></figure>
+
 <h1 id="Git暂存区"><a href="#Git暂存区" class="headerlink" title="Git暂存区"></a>Git暂存区</h1><p>假设工作区里面有这么一些文件如下图所示：</p>
 <p><img src="/2016/01/13/git-study-2/3.png" alt="图片3" title="图片3"></p>
 <p>在第一次add都还没有进行的时候，暂存区还没有被创建出来，当我们add的时候会创建一个暂存区出来（文件分开add产生两个数据对象），如下图所示：</p>
@@ -426,10 +513,14 @@
 <p><img src="/2016/01/13/git-study-2/8.png" alt="图片8" title="图片8"></p>
 <p>切换到master分支上面我们看一下a的内容</p>
 <p><img src="/2016/01/13/git-study-2/9.png" alt="图片9" title="图片9"></p>
-<p>并没有test分支在a中添加的内容这时候我们切换分支时会使用我们分支上最新的一个提交来还原我们的暂存区和工作区内容，那么可以让我们在不同的分支之间独立的做自己的工作。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  log  –oneline  –decorate  –graph  –all</span><br></pre></td></tr></table></figure></p>
+<p>并没有test分支在a中添加的内容这时候我们切换分支时会使用我们分支上最新的一个提交来还原我们的暂存区和工作区内容，那么可以让我们在不同的分支之间独立的做自己的工作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  log  –oneline  –decorate  –graph  –all</span><br></pre></td></tr></table></figure>
+
 <p>我们可以看到提交的记录或提交这些提交的引用</p>
 <p><img src="/2016/01/13/git-study-2/10.png" alt="图片10" title="图片10"></p>
-<p>给第一个提交加一个名称tag<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  tag  “v0”  f6699b3</span><br></pre></td></tr></table></figure></p>
+<p>给第一个提交加一个名称tag</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  tag  “v0”  f6699b3</span><br></pre></td></tr></table></figure>
+
 <p><img src="/2016/01/13/git-study-2/11.png" alt="图片11" title="图片11"></p>
 <p>在查看下git  log  –oneline  –decorate  –graph  –all</p>
 <p><img src="/2016/01/13/git-study-2/12.png" alt="图片12" title="图片12"></p>
@@ -441,11 +532,15 @@
 <p>Tag指向了一个提交commit</p>
 <p>Tag也可以使用checkout进行操作</p>
 <p><img src="/2016/01/13/git-study-2/16.png" alt="图片16" title="图片16"></p>
-<p>但是它当前的没有指向一个分支而是指向了一个commit，这时候就会出现一个问题就是我们切换分支的时候这一部分内容就有可能被遗弃掉，也就是说head引用直接指向了一个commit而不是一个分支名，checkout提供了针对当前commit新建一个分支的方法并切换到当前分支。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  checkout  -b  “ttt_v0”</span><br></pre></td></tr></table></figure></p>
+<p>但是它当前的没有指向一个分支而是指向了一个commit，这时候就会出现一个问题就是我们切换分支的时候这一部分内容就有可能被遗弃掉，也就是说head引用直接指向了一个commit而不是一个分支名，checkout提供了针对当前commit新建一个分支的方法并切换到当前分支。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git  checkout  -b  “ttt_v0”</span><br></pre></td></tr></table></figure>
+
 <p><img src="/2016/01/13/git-study-2/17.png" alt="图片17" title="图片17"></p>
 <p>接下来切换master分支</p>
 <p><img src="/2016/01/13/git-study-2/18.png" alt="图片18" title="图片18"></p>
-<p>这时候会用的git  stash进行保存工作区，因为我们切换checkout的时候会覆盖掉当前的内容所以我们先将其保存起来。如果想要保存暂存区就可以使用-a来保存。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Git  stash  save  -a   “stash1”</span><br></pre></td></tr></table></figure></p>
+<p>这时候会用的git  stash进行保存工作区，因为我们切换checkout的时候会覆盖掉当前的内容所以我们先将其保存起来。如果想要保存暂存区就可以使用-a来保存。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Git  stash  save  -a   “stash1”</span><br></pre></td></tr></table></figure>
+
 <p><img src="/2016/01/13/git-study-2/19.png" alt="图片19" title="图片19"></p>
 <p>这时候我们来查看下缓存区状态git  status的时候是很干净的如下图：</p>
 <p><img src="/2016/01/13/git-study-2/20.png" alt="图片20" title="图片20"></p>
@@ -519,7 +614,10 @@
         <p><span>本文标题:</span><a href="/2016/01/13/git-study-2/">带你走进git-工作区、暂存区、分支</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">BattleHeart</a></p>
         <p><span>发布时间:</span>2016-01-13, 19:37:07</p>
-        <p><span>最后更新:</span>2018-10-26, 14:43:56</p>
+        
+            <p><span class="post-meta-item-text">字数统计:</span> <span class="post-count">3.6k字</span></p>
+            <p><span class="post-meta-item-text">  阅读时长:</span><span class="post-count">13分</span></p>
+        
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/01/13/git-study-2/" title="带你走进git-工作区、暂存区、分支">https://www.battleheart.cn/2016/01/13/git-study-2/</a>
             <span class="copy-path" data-clipboard-text="原文: https://www.battleheart.cn/2016/01/13/git-study-2/　　作者: BattleHeart" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -593,6 +691,25 @@
 
 
     
+        <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC80OTM1NC8yNTg0Ng==">
+	<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+	</script>
+<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
+    
 
 
 
@@ -652,8 +769,27 @@
                 
             </div>
         
+        <div>
+            <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+        </div>
     </div>
 </footer>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("08/10/2018 17:38:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+setInterval("createtime()",250);
+</script>
     </div>
     
 <script data-main="/js/main.js" src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.min.js"></script>
@@ -730,4 +866,17 @@ MathJax.Hub.Queue(function() {
 </script>
   </div>
 </body>
+
+
+
 </html>
+<!-- 雪花特效 -->
+<script type="text/javascript" src="\js\snow.js"></script>
+<!-- 代码雨 -->
+<canvas id="canvas" width="1440" height="900" ></canvas>
+<script type="text/javascript" src="/js/DigitalRain.js"></script>
+<!--动态线条背景-->
+<script type="text/javascript" color="220,220,220" opacity='0.7' zIndex="-2" count="200"
+  src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+  </script>
+<script src="https://g.joyinshare.com/hc/ribbon.min.js" type="text/javascript"></script>

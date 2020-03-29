@@ -100,56 +100,100 @@
 
 
 </head></html>
+
 <body>
   <div id="container">
     <div class="left-col">
-    <div class="overlay"></div>
+      <div class="overlay"></div>
 <div class="intrude-less">
     <header id="header" class="inner">
         <a href="/" class="profilepic">
             <img src="/img/avatar.png" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/">BattleHeart</a></h1>
+            <h1 class="header-author"><a href="/">BattleHeart</a></h1>
         </hgroup>
 
         
-        <p class="header-subtitle">个人博客</p>
+        <!-- <p class="header-subtitle">个人博客</p> -->
+        <div id="binft"></div>
+        <script>
+            var binft = function (r) {
+                function t() {
+                    return b[Math.floor(Math.random() * b.length)]
+                }
+                function e() {
+                    return String.fromCharCode(94 * Math.random() + 33)
+                }
+                function n(r) {
+                    for (var n = document.createDocumentFragment(), i = 0; r > i; i++) {
+                        var l = document.createElement("span");
+                        l.textContent = e(), l.style.color = t(), n.appendChild(l)
+                    }
+                    return n
+                }
+                function i() {
+                    var t = o[c.skillI];
+                    c.step ? c.step-- : (c.step = g, c.prefixP < l.length ? (c.prefixP >= 0 && (c.text += l[c.prefixP]), c.prefixP++) : "forward" === c.direction ? c.skillP < t.length ? (c.text += t[c.skillP], c.skillP++) : c.delay ? c.delay-- : (c.direction = "backward", c.delay = a) : c.skillP > 0 ? (c.text = c.text.slice(0, -1), c.skillP--) : (c.skillI = (c.skillI + 1) % o.length, c.direction = "forward")), r.textContent = c.text, r.appendChild(n(c.prefixP < l.length ? Math.min(s, s + c.prefixP) : Math.min(s, t.length - c.skillP))), setTimeout(i, d)
+                }
+                var l = "",
+                    o = ["物来顺应,未来不迎", "当时不杂,既过不恋", "欢迎访问个人博客"].map(function (r) {
+                        return r + ""
+                    }),
+                    a = 2,
+                    g = 1,
+                    s = 5,
+                    d = 75,
+                    b = ["rgb(110,64,170)", "rgb(150,61,179)", "rgb(191,60,175)", "rgb(228,65,157)", "rgb(254,75,131)", "rgb(255,94,99)", "rgb(255,120,71)", "rgb(251,150,51)", "rgb(226,183,47)", "rgb(198,214,60)", "rgb(175,240,91)", "rgb(127,246,88)", "rgb(82,246,103)", "rgb(48,239,130)", "rgb(29,223,163)", "rgb(26,199,194)", "rgb(35,171,216)", "rgb(54,140,225)", "rgb(76,110,219)", "rgb(96,84,200)"],
+                    c = {
+                        text: "",
+                        prefixP: -s,
+                        skillI: 0,
+                        skillP: 0,
+                        direction: "forward",
+                        delay: a,
+                        step: g
+                    };
+                i()
+            };
+            binft(document.getElementById('binft'));
+        </script>
         
 
         
-            <form id="search-form">
-            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control" autocomplete="off" autocorrect="off" searchonload="false" />
+        <form id="search-form">
+            <input type="text" id="local-search-input" name="q" placeholder="search..." class="search form-control"
+                autocomplete="off" autocorrect="off" searchonload="false" />
             <i class="fa fa-times" onclick="resetSearch()"></i>
-            </form>
-            <div id="local-search-result"></div>
-            <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
+        </form>
+        <div id="local-search-result"></div>
+        <p class='no-result'>No results found <i class='fa fa-spinner fa-pulse'></i></p>
         
 
 
         
-            <div id="switch-btn" class="switch-btn">
-                <div class="icon">
-                    <div class="icon-ctn">
-                        <div class="icon-wrap icon-house" data-idx="0">
-                            <div class="birdhouse"></div>
-                            <div class="birdhouse_holes"></div>
-                        </div>
-                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
-                            <div class="ribbon"></div>
-                        </div>
+        <div id="switch-btn" class="switch-btn">
+            <div class="icon">
+                <div class="icon-ctn">
+                    <div class="icon-wrap icon-house" data-idx="0">
+                        <div class="birdhouse"></div>
+                        <div class="birdhouse_holes"></div>
+                    </div>
+                    <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                        <div class="ribbon"></div>
+                    </div>
+                    
+                    <div class="icon-wrap icon-link hide" data-idx="2">
+                        <div class="loopback_l"></div>
+                        <div class="loopback_r"></div>
+                    </div>
+                    
                         
-                        <div class="icon-wrap icon-link hide" data-idx="2">
-                            <div class="loopback_l"></div>
-                            <div class="loopback_r"></div>
-                        </div>
-                        
-                        
-                        <div class="icon-wrap icon-me hide" data-idx="3">
-                            <div class="user"></div>
-                            <div class="shoulder"></div>
-                        </div>
-                        
+                    <div class="icon-wrap icon-me hide" data-idx="3">
+                        <div class="user"></div>
+                        <div class="shoulder"></div>
+                    </div>
+                    
                     </div>
                     
                 </div>
@@ -157,78 +201,93 @@
                     <div class="tips-arrow"></div>
                     <ul class="tips-inner">
                         <li>菜单</li>
-                        <li>标签</li>
+                    <li>标签</li>
+                    
+                    <li>友情链接</li>
+                    
                         
-                        <li>友情链接</li>
-                        
-                        
-                        <li>关于我</li>
-                        
+                    <li>关于我</li>
+                    
                     </ul>
                 </div>
             </div>
         
 
-        <div id="switch-area" class="switch-area">
-            <div class="switch-wrap">
-                <section class="switch-part switch-part1">
-                    <nav class="header-menu">
-                        <ul>
-                        
-                            <li><a href="/">主页</a></li>
-                        
-                            <li><a href="/archives/">所有文章</a></li>
-                        
-                            <li><a href="/tags/">标签云</a></li>
-                        
-                            <li><a href="/about/">关于我</a></li>
-                        
+                    <div id="switch-area" class="switch-area">
+                        <div class="switch-wrap">
+                            <section class="switch-part switch-part1">
+                                <nav class="header-menu">
+                                    <ul>
+                                        
+                                        <li><a href="/">主页</a>
+                                        </li>
+                                        
+                                        <li><a href="/archives/">所有文章</a>
+                                        </li>
+                                        
+                                        <li><a href="/tags/">标签云</a>
+                                        </li>
+                                        
+                                        <li><a href="/about/">关于我</a>
+                                        </li>
+                                        
                         </ul>
                     </nav>
                     <nav class="header-nav">
                         <ul class="social">
                             
-                                <a class="fa Email" href="dwlsxj:@126.com" title="Email"></a>
-                            
-                                <a class="fa GitHub" href="https://github.com/dwlsxj" title="GitHub"></a>
-                            
-                                <a class="fa 博客园" href="https://www.cnblogs.com/dwlsxj/" title="博客园"></a>
-                            
-                                <a class="fa 网易云音乐" href="https://music.163.com/#/user/home?id=31908845" title="网易云音乐"></a>
-                            
+                                        <a class="fa Email" href="dwlsxj:@126.com"
+                                            title="Email"></a>
+                                        
+                                        <a class="fa GitHub" href="https://github.com/dwlsxj"
+                                            title="GitHub"></a>
+                                        
+                                        <a class="fa 博客园" href="https://www.cnblogs.com/dwlsxj/"
+                                            title="博客园"></a>
+                                        
+                                        <a class="fa 网易云音乐" href="https://music.163.com/#/user/home?id=31908845"
+                                            title="网易云音乐"></a>
+                                        
                         </ul>
                     </nav>
                 </section>
                 
                 
-                <section class="switch-part switch-part2">
-                    <div class="widget tagcloud" id="js-tagcloud">
-                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/">Assembly</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ELK/">ELK</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Life/">Life</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Maven/">Maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shiro/">Shiro</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringCloud/">SpringCloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dubbo/">dubbo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多线程/">多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/并发编程/">并发编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/栈/">栈</a></li></ul>
-                    </div>
-                </section>
+                                        <section class="switch-part switch-part2">
+                                            <div class="widget tagcloud" id="js-tagcloud">
+                                                <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Assembly/">Assembly</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/C/">C++</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ELK/">ELK</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Git/">Git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Life/">Life</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Maven/">Maven</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shiro/">Shiro</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringCloud/">SpringCloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dubbo/">dubbo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/多线程/">多线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/并发编程/">并发编程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/栈/">栈</a></li></ul>
+                                            </div>
+                                        </section>
+                                        
                 
                 
-                
-                <section class="switch-part switch-part3">
-                    <div id="js-friends">
-                    
-                      <a class="main-nav-link switch-friends-link" href="https://www.cnblogs.com/dwlsxj/">BalleHeart</a>
-                    
-                    </div>
-                </section>
-                
+                                        <section class="switch-part switch-part3">
+                                            <div id="js-friends">
+                                                
+                                                <a class="main-nav-link switch-friends-link"
+                                                    href="https://www.cnblogs.com/dwlsxj/">BalleHeart</a>
+                                                
+                                            </div>
+                                        </section>
+                                        
 
                 
-                
-                <section class="switch-part switch-part4">
-                
-                    <div id="js-aboutme">专注于后端开发</div>
-                </section>
-                
+                                        
+                                            <section class="switch-part switch-part4">
+                                                
+                    <div id="js-aboutme">专注于后端开发
+                        </div>
+                        </section>
+                        
             </div>
         </div>
-    </header>                
+    </header>             
 </div>
+
+<!-- 背景音乐 -->
+<div style="position:absolute;bottom:100px;left:0px;width:50px">
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=289 height=86 src="//music.163.com/outchain/player?type=2&id=304991&auto=1&height=66"></iframe>
+</div>   
     </div>
     <div class="mid-col">
       <nav id="mobile-nav">
@@ -282,9 +341,8 @@
   
     <div class="article-meta">
       <a href="/2018/10/01/spring-boot-admin-monitor/" class="article-date">
-      <time datetime="2018-10-01T09:41:23.000Z" itemprop="datePublished">2018-10-01</time>
+    <time datetime="2018-10-01T09:41:23.000Z" itemprop="datePublished">2018-10-01</time>
 </a>
-
 
     </div>
   
@@ -301,14 +359,14 @@
     </h1>
   
 
+        
       </header>
       
       <div class="article-info article-info-post">
         
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/个人技术/">个人技术</a>
-    </div>
-
+<div class="article-category tagcloud">
+  <a class="article-category-link" href="/categories/个人技术/">个人技术</a>
+</div>
 
         
     <div class="article-tag tagcloud">
@@ -329,15 +387,18 @@
 </li>
 <li><p>在Spring Boot主类上添加对Spring Boot Admin Server启动的注解@EnableAdminServer</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line">@EnableDiscoveryClient # 开启服务注册。</span><br><span class="line">@EnableTurbineStream # 开启Turbine服务监控。</span><br><span class="line">@EnableAdminServer # 开启Spring Boot Admin Server功能。</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpringCloudMonitorApplication</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(SpringCloudMonitorApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Configuration</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">SecurityConfig</span> <span class="keyword">extends</span> <span class="title">WebSecurityConfigurerAdapter</span> </span>&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">configure</span><span class="params">(HttpSecurity http)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">            <span class="comment">// 具有登录表单的页面作为/login.html提供，并在/ login上执行POST。</span></span><br><span class="line">            http.formLogin().loginPage(<span class="string">"/login.html"</span>).loginProcessingUrl(<span class="string">"/login"</span>).permitAll();</span><br><span class="line">            <span class="comment">// 设置登出页面地址。</span> http.logout().logoutUrl(<span class="string">"/logout"</span>);</span><br><span class="line">            <span class="comment">// 设置目前不支持csrf。</span> http.csrf().disable();</span><br><span class="line">            <span class="comment">// 允许静态页面，静态数据的访问。</span></span><br><span class="line">            http.authorizeRequests().antMatchers(<span class="string">"/login.html"</span>, <span class="string">"/**/*.css"</span>, <span class="string">"/img/**"</span>, <span class="string">"/third-party/**"</span>).permitAll();</span><br><span class="line">            <span class="comment">// 除了授权的页面所有内容都要进行授权访问。</span></span><br><span class="line">            http.authorizeRequests().antMatchers(<span class="string">"/**"</span>).authenticated();</span><br><span class="line">            <span class="comment">// 启用安全认证，以便客户端可以通过HTTP basic进行身份验证以进行注册。</span></span><br><span class="line">            http.httpBasic();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 </li>
 </ol>
-<p>我们看到上面其实还添加对Eureka的注解以及对Turbine Stream的注解功能，需要添加Turbine Stream注解相关与Spring boot Admin Server ui相关依赖项，为了安全起见导入了安全相关依赖项。依赖项内容如下：<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">&lt;!—spring boot admin server ui支持登录页面依赖--&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;de.codecentric&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-admin-server-ui-login&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;!--Spring Boot 后台管理系统集成Hystrix监控--&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;de.codecentric&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-admin-server-ui-hystrix&lt;/artifactId&gt;</span><br><span class="line">    &lt;/dependency&gt;  </span><br><span class="line">&lt;!--Spring Boot 后台管理系统集成turbine--&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;de.codecentric&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-admin-server-ui-turbine&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;!--对Turbine Stream支持，使用RabbitMQ的方式对Hystrix数据进行收集分析。--&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-cloud-starter-turbine-stream&lt;/artifactId&gt;</span><br><span class="line">    &lt;exclusions&gt;</span><br><span class="line">        &lt;exclusion&gt;</span><br><span class="line">            &lt;artifactId&gt;netty-transport-native-epoll&lt;/artifactId&gt;</span><br><span class="line">            &lt;groupId&gt;io.netty&lt;/groupId&gt;</span><br><span class="line">        &lt;/exclusion&gt;</span><br><span class="line">        &lt;exclusion&gt;</span><br><span class="line">            &lt;artifactId&gt;netty-codec-http&lt;/artifactId&gt;</span><br><span class="line">            &lt;groupId&gt;io.netty&lt;/groupId&gt;</span><br><span class="line">        &lt;/exclusion&gt;</span><br><span class="line">    &lt;/exclusions&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-cloud-starter-stream-rabbit&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;!-- Eureka支持--&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-cloud-starter-eureka&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;!—安全支持--&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">   &lt;artifactId&gt;spring-boot-starter-security&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
-<p>其实Spring Boot Admin Server依赖中包含对Zuul和Hystrix以及Eureka核心包的依赖整合，所以我们看到上面只是整合了UI相关的依赖项。而针对Eureka和Turbine Stream以及安全方面的依赖需要额外导入进去，依赖项也导入进去后需要对端点进行权限安全控制，我们可以看到上面内部类中对安全进行控制，通过继承WebSecurityConfigurerAdapter对安全进行配置。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 具有登录表单的页面作为/login.html提供，并在/ login上执行POST。</span></span><br><span class="line">http.formLogin().loginPage(<span class="string">"/login.html"</span>).loginProcessingUrl(<span class="string">"/login"</span>).permitAll();</span><br><span class="line"><span class="comment">// 设置登出页面地址。</span></span><br><span class="line">http.logout().logoutUrl(<span class="string">"/logout"</span>);</span><br><span class="line"><span class="comment">// 设置目前不支持csrf。</span></span><br><span class="line">http.csrf().disable();</span><br><span class="line"><span class="comment">// 允许静态页面，静态数据的访问。</span></span><br><span class="line">http.authorizeRequests()</span><br><span class="line">    .antMatchers(<span class="string">"/login.html"</span>, <span class="string">"/**/*.css"</span>, <span class="string">"/img/**"</span>, <span class="string">"/third-party/**"</span>)</span><br><span class="line">    .permitAll();</span><br><span class="line"><span class="comment">// 除了授权的页面所有内容都要进行授权访问。</span></span><br><span class="line">http.authorizeRequests().antMatchers(<span class="string">"/**"</span>).authenticated();</span><br><span class="line"><span class="comment">// 启用安全认证，以便客户端可以通过HTTP basic进行身份验证以进行注册。</span></span><br><span class="line">http.httpBasic();</span><br></pre></td></tr></table></figure></p>
-<p>也就是说对那些内容页面进行授权访问，那些页面是可以直接访问，对安全的开启等等一系列操作。</p>
-<ol start="3">
-<li>修改配置文件信息，配置文件信息如下所示：  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">logging:</span><br><span class="line">    level:</span><br><span class="line">        org.springframework.cloud.netflix.zuul.filters.post.SendErrorFilter: error</span><br><span class="line">server: </span><br><span class="line">    port: <span class="number">8040</span></span><br><span class="line">turbine:</span><br><span class="line">    stream:</span><br><span class="line">        port: 8041    # 收集地址。</span><br><span class="line">eureka: # 注册为eureka服务。</span><br><span class="line">    instance:</span><br><span class="line">        prefer-ip-address: <span class="keyword">true</span></span><br><span class="line">        metadata-map:</span><br><span class="line">            user.name: $&#123;security.user.name&#125;</span><br><span class="line">            user.password: $&#123;security.user.password&#125;</span><br><span class="line">    client:</span><br><span class="line">        service-url:</span><br><span class="line">            defaultZone: http:<span class="comment">//admin:$&#123;REGISTRY_SERVER_PASSWORD:password&#125;@localhost:8761/eureka/</span></span><br><span class="line">spring:</span><br><span class="line">    rabbitmq:</span><br><span class="line">        host: localhost</span><br><span class="line">        username: guest</span><br><span class="line">        password: guest</span><br><span class="line">        port: <span class="number">5672</span></span><br><span class="line">boot:</span><br><span class="line">    admin:</span><br><span class="line">        routes:</span><br><span class="line">            endpoints: env,metrics,trace,dump,jolokia,info,configprops,trace,logfile,refresh,flyway,liquibase,heapdump,loggers,auditevents,hystrix.stream</span><br><span class="line">        turbine:</span><br><span class="line">            clusters: <span class="keyword">default</span></span><br><span class="line">            location: http:<span class="comment">//localhost:$&#123;turbine.stream.port&#125;</span></span><br><span class="line">security:</span><br><span class="line">    user:</span><br><span class="line">        name: admin</span><br><span class="line">        password: $&#123;MONITOR_SERVER_PASSWORD:admin&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
+<p>我们看到上面其实还添加对Eureka的注解以及对Turbine Stream的注解功能，需要添加Turbine Stream注解相关与Spring boot Admin Server ui相关依赖项，为了安全起见导入了安全相关依赖项。依赖项内容如下：  </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">&lt;!—spring boot admin server ui支持登录页面依赖--&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;de.codecentric&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-admin-server-ui-login&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;!--Spring Boot 后台管理系统集成Hystrix监控--&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;de.codecentric&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-admin-server-ui-hystrix&lt;/artifactId&gt;</span><br><span class="line">    &lt;/dependency&gt;  </span><br><span class="line">&lt;!--Spring Boot 后台管理系统集成turbine--&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;de.codecentric&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-admin-server-ui-turbine&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;!--对Turbine Stream支持，使用RabbitMQ的方式对Hystrix数据进行收集分析。--&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-cloud-starter-turbine-stream&lt;/artifactId&gt;</span><br><span class="line">    &lt;exclusions&gt;</span><br><span class="line">        &lt;exclusion&gt;</span><br><span class="line">            &lt;artifactId&gt;netty-transport-native-epoll&lt;/artifactId&gt;</span><br><span class="line">            &lt;groupId&gt;io.netty&lt;/groupId&gt;</span><br><span class="line">        &lt;/exclusion&gt;</span><br><span class="line">        &lt;exclusion&gt;</span><br><span class="line">            &lt;artifactId&gt;netty-codec-http&lt;/artifactId&gt;</span><br><span class="line">            &lt;groupId&gt;io.netty&lt;/groupId&gt;</span><br><span class="line">        &lt;/exclusion&gt;</span><br><span class="line">    &lt;/exclusions&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-cloud-starter-stream-rabbit&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;!-- Eureka支持--&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-cloud-starter-eureka&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;!—安全支持--&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">   &lt;artifactId&gt;spring-boot-starter-security&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<p>其实Spring Boot Admin Server依赖中包含对Zuul和Hystrix以及Eureka核心包的依赖整合，所以我们看到上面只是整合了UI相关的依赖项。而针对Eureka和Turbine Stream以及安全方面的依赖需要额外导入进去，依赖项也导入进去后需要对端点进行权限安全控制，我们可以看到上面内部类中对安全进行控制，通过继承WebSecurityConfigurerAdapter对安全进行配置。  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 具有登录表单的页面作为/login.html提供，并在/ login上执行POST。</span></span><br><span class="line">http.formLogin().loginPage(<span class="string">"/login.html"</span>).loginProcessingUrl(<span class="string">"/login"</span>).permitAll();</span><br><span class="line"><span class="comment">// 设置登出页面地址。</span></span><br><span class="line">http.logout().logoutUrl(<span class="string">"/logout"</span>);</span><br><span class="line"><span class="comment">// 设置目前不支持csrf。</span></span><br><span class="line">http.csrf().disable();</span><br><span class="line"><span class="comment">// 允许静态页面，静态数据的访问。</span></span><br><span class="line">http.authorizeRequests()</span><br><span class="line">    .antMatchers(<span class="string">"/login.html"</span>, <span class="string">"/**/*.css"</span>, <span class="string">"/img/**"</span>, <span class="string">"/third-party/**"</span>)</span><br><span class="line">    .permitAll();</span><br><span class="line"><span class="comment">// 除了授权的页面所有内容都要进行授权访问。</span></span><br><span class="line">http.authorizeRequests().antMatchers(<span class="string">"/**"</span>).authenticated();</span><br><span class="line"><span class="comment">// 启用安全认证，以便客户端可以通过HTTP basic进行身份验证以进行注册。</span></span><br><span class="line">http.httpBasic();</span><br></pre></td></tr></table></figure>
+
+<p>也就是说对那些内容页面进行授权访问，那些页面是可以直接访问，对安全的开启等等一系列操作。<br>3. 修改配置文件信息，配置文件信息如下所示：  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">logging:</span><br><span class="line">    level:</span><br><span class="line">        org.springframework.cloud.netflix.zuul.filters.post.SendErrorFilter: error</span><br><span class="line">server: </span><br><span class="line">    port: <span class="number">8040</span></span><br><span class="line">turbine:</span><br><span class="line">    stream:</span><br><span class="line">        port: 8041    # 收集地址。</span><br><span class="line">eureka: # 注册为eureka服务。</span><br><span class="line">    instance:</span><br><span class="line">        prefer-ip-address: <span class="keyword">true</span></span><br><span class="line">        metadata-map:</span><br><span class="line">            user.name: $&#123;security.user.name&#125;</span><br><span class="line">            user.password: $&#123;security.user.password&#125;</span><br><span class="line">    client:</span><br><span class="line">        service-url:</span><br><span class="line">            defaultZone: http:<span class="comment">//admin:$&#123;REGISTRY_SERVER_PASSWORD:password&#125;@localhost:8761/eureka/</span></span><br><span class="line">spring:</span><br><span class="line">    rabbitmq:</span><br><span class="line">        host: localhost</span><br><span class="line">        username: guest</span><br><span class="line">        password: guest</span><br><span class="line">        port: <span class="number">5672</span></span><br><span class="line">boot:</span><br><span class="line">    admin:</span><br><span class="line">        routes:</span><br><span class="line">            endpoints: env,metrics,trace,dump,jolokia,info,configprops,trace,logfile,refresh,flyway,liquibase,heapdump,loggers,auditevents,hystrix.stream</span><br><span class="line">        turbine:</span><br><span class="line">            clusters: <span class="keyword">default</span></span><br><span class="line">            location: http:<span class="comment">//localhost:$&#123;turbine.stream.port&#125;</span></span><br><span class="line">security:</span><br><span class="line">    user:</span><br><span class="line">        name: admin</span><br><span class="line">        password: $&#123;MONITOR_SERVER_PASSWORD:admin&#125;</span><br></pre></td></tr></table></figure>
+
 <p>主要配置信息讲解：</p>
 <ul>
 <li>turbine.stream.port: 对Turbine支持，turbine服务端口号。</li>
@@ -348,14 +409,15 @@
 <p>这里的地址就是为了收集是需要访问地址，我们之前在Turbine章节中说过这里不在多阐述。<br>Eureka中的metadataMap是专门用来存放一些自定义的数据，当注册中心或者其他服务需要此服务的某些配置时可以在metadataMap里取。实际上，每个instance都有各自的metadataMap，map中存放着需要用到的属性。例如，上面配置中的eureka.instance.metadata-map.user.name，当这个服务成功注册到Eureka上，SpringBootAdmin就会取拿到这个instance，进而拿到metadataMap里的属性，然后放入请求头，向此服务发送请求，访问此服务的actuator开放的端点。  </p>
 <h2 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h2><ol>
 <li>需要添加对安全保护的依赖项，以及对Turbine Stream注解。<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-security&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-cloud-netflix-hystrix-amqp&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
 </li>
 </ol>
-<p>或者添加如下依赖：<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">   &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">   &lt;artifactId&gt;spring-cloud-netflix-hystrix-stream&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">   &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">   &lt;artifactId&gt;spring-cloud-starter-stream-rabbit&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
-<p>以上对Turbine Stream的支持请参考Spring Cloud Turbine相关文章内容。  </p>
-<ol start="2">
-<li>修改配置文件信息，添加对Turbine Stream 消息队列的支持。<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">server:</span><br><span class="line">    port: <span class="number">8889</span> </span><br><span class="line">eureka:</span><br><span class="line">    instance:</span><br><span class="line">        hostname: localhost</span><br><span class="line">        prefer-ip-address: <span class="keyword">true</span></span><br><span class="line">        metadata-map:</span><br><span class="line">            user.name: $&#123;security.user.name&#125;</span><br><span class="line">            user.password: $&#123;security.user.password&#125;</span><br><span class="line">    client:</span><br><span class="line">        service-url:</span><br><span class="line">            defaultZone: http:<span class="comment">//admin:$&#123;REGISTRY_SERVER_PASSWORD:password&#125;@$&#123;eureka.instance.hostname&#125;:8761/eureka/</span></span><br><span class="line">        healthcheck:</span><br><span class="line">            enabled: <span class="keyword">true</span></span><br><span class="line"># Hystrix超时时间。</span><br><span class="line">hystrix:</span><br><span class="line">    command:</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            execution:</span><br><span class="line">                isolation:</span><br><span class="line">                    thread:</span><br><span class="line">                        timeoutInMilliseconds: <span class="number">5000</span></span><br><span class="line">spring:</span><br><span class="line">    abbitmq:</span><br><span class="line">        port: <span class="number">5672</span></span><br><span class="line">        username: guest</span><br><span class="line">        password: guest</span><br><span class="line">        host: localhost</span><br><span class="line"></span><br><span class="line"># Spring Boot Admin配置相关 # SpringBoot 1.5以后的版本都默认开启端点保护</span><br><span class="line">management:</span><br><span class="line">    security:</span><br><span class="line">        enabled: <span class="keyword">false</span></span><br></pre></td></tr></table></figure>
-</li>
-</ol>
+<p>或者添加如下依赖：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">   &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">   &lt;artifactId&gt;spring-cloud-netflix-hystrix-stream&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">   &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">   &lt;artifactId&gt;spring-cloud-starter-stream-rabbit&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<p>以上对Turbine Stream的支持请参考Spring Cloud Turbine相关文章内容。<br>2. 修改配置文件信息，添加对Turbine Stream 消息队列的支持。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">server:</span><br><span class="line">    port: <span class="number">8889</span> </span><br><span class="line">eureka:</span><br><span class="line">    instance:</span><br><span class="line">        hostname: localhost</span><br><span class="line">        prefer-ip-address: <span class="keyword">true</span></span><br><span class="line">        metadata-map:</span><br><span class="line">            user.name: $&#123;security.user.name&#125;</span><br><span class="line">            user.password: $&#123;security.user.password&#125;</span><br><span class="line">    client:</span><br><span class="line">        service-url:</span><br><span class="line">            defaultZone: http:<span class="comment">//admin:$&#123;REGISTRY_SERVER_PASSWORD:password&#125;@$&#123;eureka.instance.hostname&#125;:8761/eureka/</span></span><br><span class="line">        healthcheck:</span><br><span class="line">            enabled: <span class="keyword">true</span></span><br><span class="line"># Hystrix超时时间。</span><br><span class="line">hystrix:</span><br><span class="line">    command:</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            execution:</span><br><span class="line">                isolation:</span><br><span class="line">                    thread:</span><br><span class="line">                        timeoutInMilliseconds: <span class="number">5000</span></span><br><span class="line">spring:</span><br><span class="line">    abbitmq:</span><br><span class="line">        port: <span class="number">5672</span></span><br><span class="line">        username: guest</span><br><span class="line">        password: guest</span><br><span class="line">        host: localhost</span><br><span class="line"></span><br><span class="line"># Spring Boot Admin配置相关 # SpringBoot 1.5以后的版本都默认开启端点保护</span><br><span class="line">management:</span><br><span class="line">    security:</span><br><span class="line">        enabled: <span class="keyword">false</span></span><br></pre></td></tr></table></figure>
+
 <p>最主要的是management.security.enabled：关闭管理安全。<br>下面是Spring Boot Admin相关监控信息。</p>
 <p><img src="/2018/10/01/spring-boot-admin-monitor/pic1.png" alt="图片1" title="图片1"><br><img src="/2018/10/01/spring-boot-admin-monitor/pic1.png" alt="图片2" title="图片2"><br><img src="/2018/10/01/spring-boot-admin-monitor/pic1.png" alt="图片3" title="图片3"><br><img src="/2018/10/01/spring-boot-admin-monitor/pic1.png" alt="图片4" title="图片4">  </p>
 
@@ -369,7 +431,10 @@
         <p><span>本文标题:</span><a href="/2018/10/01/spring-boot-admin-monitor/">Spring Boot Admin监控系统搭建</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">BattleHeart</a></p>
         <p><span>发布时间:</span>2018-10-01, 17:41:23</p>
-        <p><span>最后更新:</span>2018-10-01, 21:23:15</p>
+        
+            <p><span class="post-meta-item-text">字数统计:</span> <span class="post-count">1.7k字</span></p>
+            <p><span class="post-meta-item-text">  阅读时长:</span><span class="post-count">8分</span></p>
+        
         <p>
             <span>原始链接:</span><a class="post-url" href="/2018/10/01/spring-boot-admin-monitor/" title="Spring Boot Admin监控系统搭建">https://www.battleheart.cn/2018/10/01/spring-boot-admin-monitor/</a>
             <span class="copy-path" data-clipboard-text="原文: https://www.battleheart.cn/2018/10/01/spring-boot-admin-monitor/　　作者: BattleHeart" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
@@ -443,6 +508,25 @@
 
 
     
+        <!-- 来必力City版安装代码 -->
+<div id="lv-container" data-id="city" data-uid="MTAyMC80OTM1NC8yNTg0Ng==">
+	<script type="text/javascript">
+   (function(d, s) {
+       var j, e = d.getElementsByTagName(s)[0];
+
+       if (typeof LivereTower === 'function') { return; }
+
+       j = d.createElement(s);
+       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+       j.async = true;
+
+       e.parentNode.insertBefore(j, e);
+   })(document, 'script');
+	</script>
+<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+</div>
+<!-- City版安装代码已完成 -->
+    
 
 
 
@@ -502,8 +586,27 @@
                 
             </div>
         
+        <div>
+            <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+        </div>
     </div>
 </footer>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("08/10/2018 17:38:00");//在此处修改你的建站时间，格式：月/日/年 时:分:秒
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+setInterval("createtime()",250);
+</script>
     </div>
     
 <script data-main="/js/main.js" src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.min.js"></script>
@@ -580,4 +683,17 @@ MathJax.Hub.Queue(function() {
 </script>
   </div>
 </body>
+
+
+
 </html>
+<!-- 雪花特效 -->
+<script type="text/javascript" src="\js\snow.js"></script>
+<!-- 代码雨 -->
+<canvas id="canvas" width="1440" height="900" ></canvas>
+<script type="text/javascript" src="/js/DigitalRain.js"></script>
+<!--动态线条背景-->
+<script type="text/javascript" color="220,220,220" opacity='0.7' zIndex="-2" count="200"
+  src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+  </script>
+<script src="https://g.joyinshare.com/hc/ribbon.min.js" type="text/javascript"></script>
